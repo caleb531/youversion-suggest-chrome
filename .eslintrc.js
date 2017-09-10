@@ -10,6 +10,8 @@ module.exports = {
 
   env: {
 
+    // browser global variables
+    'browser': true,
     // Node.js global variables and Node.js scoping
     'node': true,
     // enable all ECMAScript 6 features except for modules (this automatically
