@@ -63,7 +63,7 @@ module.exports = function (grunt) {
               '*.html',
               'manifest.json',
               'icon.png',
-              'bible/*.json'
+              'data/**/*.json'
             ],
             dest: 'dist'
         }]
