@@ -1,1 +1,9 @@
 .DS_Store
+dist/
+.sass-cache
+
+# Node
+node_modules/
+logs
+*.log
+npm-debug.log*
