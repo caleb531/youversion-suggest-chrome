@@ -62,6 +62,7 @@ class ReferenceSearch {
       result.uid += `-${query.endverse}`;
       result.title += `-${query.endverse}`;
     }
+    result.title += ` (${version.name})`;
     result.uid = `${version.id}/${result.uid}`;
 
     return result;
