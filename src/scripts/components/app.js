@@ -31,7 +31,7 @@ class AppComponent {
       ]),
       m('div.search-results-container', [
         m('div.search-results-background', {
-          class: classNames({'visible': this.refSearchResults.length === 0})
+          class: classNames({'visible': this.queryStr === ''})
         }),
         m('ol.search-results-list', [
           this.queryStr !== '' && this.refSearchResults.length === 0 ?
