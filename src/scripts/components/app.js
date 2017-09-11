@@ -12,7 +12,10 @@ class AppComponent {
 
   triggerSearch(inputEvent) {
     const queryStr = inputEvent.target.value;
-    this.referenceSearch.search(queryStr);
+    this.referenceSearch.search(queryStr).then((results) => {
+      this.referenceSearchResults = results;
+      m.redraw();
+    });
   }
 
   view() {
@@ -24,10 +27,10 @@ class AppComponent {
           oninput: this.triggerSearch.bind(this)
         })
       ]),
-      m('div.search-results', [
+      m('div.search-results-container', [
         // Search results from the reference filter (e.g. 1co13.3-7)
         this.referenceSearchResults.length > 0 ?
-        m('ul.reference-search-results', [
+        m('ol.reference-search-results', [
           this.referenceSearchResults.map((result) => {
             return m('li.search-result.reference-search-result', [
               m('div.search-result-title', result.title),
