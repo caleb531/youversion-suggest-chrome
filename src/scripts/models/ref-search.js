@@ -23,7 +23,7 @@ class RefSearch {
         query.chapter = 1;
       }
       // Temporarily make the version always the same
-      const chosenVersion = bible.versions[0];
+      const chosenVersion = this.chooseBestVersion(bible.versions, bible.default_version, query);
       matchingBooks.forEach((book) => {
         // Ensure that chapter numbers are not out of range
         if (query.chapter <= chapters[book.id]) {
@@ -44,6 +44,32 @@ class RefSearch {
       return bookName.startsWith(query.book);
     });
     return matchingBooks;
+  }
+
+  // Choose the most appropriate version based on the given parameters
+  chooseBestVersion(versions, defaultVersionId, query) {
+
+    let chosenVersion = null;
+
+    if (query.version) {
+      chosenVersion = this.guessVersion(versions, query);
+    }
+    // If no version could be guessed, use the default version
+    if (!chosenVersion) {
+      chosenVersion = versions.find(
+        (version) => (version.id === defaultVersionId));
+    }
+
+    return chosenVersion;
+
+  }
+
+  // Find a version which best matches the version of the given query
+  guessVersion(versions, query) {
+    return versions.find((version) => {
+      const versionName = Core.normalizeQueryStr(version.name);
+      return versionName.startsWith(query.version);
+    });
   }
 
   // Build the JSON for a search result
