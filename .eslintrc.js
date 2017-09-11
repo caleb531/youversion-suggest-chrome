@@ -231,7 +231,7 @@ module.exports = {
     // enforce consistent spacing inside braces
     'object-curly-spacing': ['error', 'never'],
     // enforce the consistent use of either backticks, double, or single quotes
-    'quotes': ['error', 'single'],
+    'quotes': ['error', 'single', {'allowTemplateLiterals': true}],
     // require or disallow semicolons instead of ASI
     'semi': ['error', 'always'],
     // enforce consistent spacing before blocks
