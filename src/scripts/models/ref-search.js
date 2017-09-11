@@ -51,7 +51,7 @@ class RefSearch {
 
     const result = {};
 
-    result.uid = `${book.name}.${query.chapter}`;
+    result.uid = `${version.id}/${book.name}.${query.chapter}`;
     result.title = `${book.name} ${query.chapter}`;
     result.subtitle = 'View on YouVersion';
     if (query.verse) {
@@ -63,7 +63,6 @@ class RefSearch {
       result.title += `-${query.endverse}`;
     }
     result.title += ` (${version.name})`;
-    result.uid = `${version.id}/${result.uid}`;
 
     return result;
 
