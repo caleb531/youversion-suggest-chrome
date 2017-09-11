@@ -4,6 +4,15 @@
 
 $app-base-padding: 20px;
 
+// Search field
+
+$search-field-focus-color: #36c;
+$search-field-focus-glow-color: #9cf;
+$search-field-unfocus-color: rgba(#000, 0.5);
+$search-field-icon-size: 16px;
+$search-field-icon-padding-left: 8px;
+$search-field-icon-padding-right: 4px;
+
 // Search results
 
 // The maximum number of search results to show at one time

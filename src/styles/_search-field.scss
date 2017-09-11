@@ -1,15 +1,33 @@
 // Search field, consisting of input and other field-related elements
 
-.search-input {
+.search-field-container {
+  position: relative;
+}
+
+.search-field {
   width: 100%;
   border-style: solid;
   border-width: 1px;
-  border-color: rgba(#000, 0.3);
+  border-color: $search-field-unfocus-color;
   padding: 6px 12px;
+  padding-left: $search-field-icon-size + $search-field-icon-padding-left + $search-field-icon-padding-right;
   font-size: 16px;
   &:focus {
     outline-width: 0;
-    border-color: #36c;
-    box-shadow: 0 0 5px 1px #9cf;
+    border-color: $search-field-focus-color;
+    box-shadow: 0 0 5px 1px $search-field-focus-glow-color;
+  }
+}
+
+.search-field-icon {
+  position: absolute;
+  top: 50%;
+  left: $search-field-icon-padding-left;
+  transform: translateY(-$search-field-icon-size / 2);
+  width: $search-field-icon-size;
+  height: $search-field-icon-size;
+  fill: $search-field-unfocus-color;
+  .search-field:focus + & {
+    fill: $search-field-focus-color;
   }
 }
