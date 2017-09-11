@@ -30,7 +30,7 @@ class AppComponent {
         })
       ]),
       m('div.search-results-container', [
-        m('div.search-results-background', {
+        m('div.search-results-watermark', {
           class: classNames({'visible': this.queryStr === ''})
         }),
         m('ol.search-results-list', [
