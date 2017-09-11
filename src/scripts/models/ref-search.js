@@ -39,11 +39,10 @@ class RefSearch {
 
   // Filter a list of Bible books to only those matching the given query book
   getBooksMatchingQuery(books, query) {
-    const matchingBooks = books.filter((book) => {
+    return books.filter((book) => {
       const bookName = Core.normalizeQueryStr(book.name);
       return bookName.startsWith(query.book);
     });
-    return matchingBooks;
   }
 
   // Choose the most appropriate version based on the given parameters
