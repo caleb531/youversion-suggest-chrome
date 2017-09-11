@@ -1,7 +1,7 @@
 import Core from './core';
-import ReferenceSearchQuery from './reference-search-query.js';
+import RefSearchQuery from './ref-search-query.js';
 
-class ReferenceSearch {
+class RefSearch {
 
   constructor() {
     this.bible = Core.getBibleData();
@@ -14,7 +14,7 @@ class ReferenceSearch {
 
     const results = [];
     // Build a query object containing the individual parts of the query string
-    const query = new ReferenceSearchQuery(queryStr);
+    const query = new RefSearchQuery(queryStr);
     // Ensure that bible/chapter data has loaded, then proceed to search for
     // Bible references matching the given query
     return Promise.all([this.bible, this.chapters]).then(([bible, chapters]) => {
@@ -71,4 +71,4 @@ class ReferenceSearch {
 
 }
 
-export default ReferenceSearch;
+export default RefSearch;

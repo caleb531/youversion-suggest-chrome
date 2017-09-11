@@ -1,11 +1,11 @@
 import Core from './core';
 
-class ReferenceSearchQuery {
+class RefSearchQuery {
 
   constructor(queryStr) {
 
     this.queryStr = Core.normalizeQueryStr(queryStr);
-    let queryMatches = this.queryStr.match(this.constructor.referencePattern);
+    let queryMatches = this.queryStr.match(this.constructor.refPattern);
     if (!queryMatches) {
       return;
     }
@@ -47,11 +47,11 @@ class ReferenceSearchQuery {
     const endverse = /(\d+)?\s?/.source;
     const version = /([^\W\d_](?:[^\W\d_]\d*|\s)*)?.*?/.source;
     const pattern = `^${book}(?:${chapter}(?:${verse}${endverse})?${version})?$`;
-    this.referencePattern = new RegExp(pattern);
+    this.refPattern = new RegExp(pattern);
   }
 
 }
 
-ReferenceSearchQuery.initSearchPattern();
+RefSearchQuery.initSearchPattern();
 
-export default ReferenceSearchQuery;
+export default RefSearchQuery;
