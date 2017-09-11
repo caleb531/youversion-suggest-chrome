@@ -5,7 +5,26 @@ class RefSearchQuery {
   constructor(queryStr) {
 
     this.queryStr = Core.normalizeQueryStr(queryStr);
-    let queryMatches = this.queryStr.match(this.constructor.refPattern);
+    this.parseQueryStr();
+
+  }
+
+  // The regex for parsing a Bible reference is long and complicated, so split
+  // them up into several regexes and combine them
+  static initSearchPattern() {
+    const book = /(\d?(?:[^\W\d_]|\s)+|\d)\s?/.source;
+    const chapter = /(\d+)\s?/.source;
+    const verse = /(\d+)\s?/.source;
+    const endverse = /(\d+)?\s?/.source;
+    const version = /([^\W\d_](?:[^\W\d_]\d*|\s)*)?.*?/.source;
+    const pattern = `^${book}(?:${chapter}(?:${verse}${endverse})?${version})?$`;
+    this.refPattern = new RegExp(pattern);
+  }
+
+  // Parse the query string into its individual parts
+  parseQueryStr() {
+
+    const queryMatches = this.queryStr.match(this.constructor.refPattern);
     if (!queryMatches) {
       return;
     }
@@ -36,18 +55,6 @@ class RefSearchQuery {
 
     }
 
-  }
-
-  // The regex for parsing a Bible reference is long and complicated, so split
-  // them up into several regexes and combine them
-  static initSearchPattern() {
-    const book = /(\d?(?:[^\W\d_]|\s)+|\d)\s?/.source;
-    const chapter = /(\d+)\s?/.source;
-    const verse = /(\d+)\s?/.source;
-    const endverse = /(\d+)?\s?/.source;
-    const version = /([^\W\d_](?:[^\W\d_]\d*|\s)*)?.*?/.source;
-    const pattern = `^${book}(?:${chapter}(?:${verse}${endverse})?${version})?$`;
-    this.refPattern = new RegExp(pattern);
   }
 
 }
