@@ -1,0 +1,16 @@
+// Variables and constants for use throughout styles
+
+// App
+
+$app-base-padding: 20px;
+
+// Search results
+
+// The maximum number of search results to show at one time
+$max-visible-search-results: 6;
+$search-result-padding-x: $app-base-padding;
+$search-result-padding-y: $app-base-padding / 2;
+$search-result-border-width: 1px;
+$search-result-line-height: 1.25;
+$search-result-title-font-size: 16px;
+$search-result-subtitle-font-size: 12px;
