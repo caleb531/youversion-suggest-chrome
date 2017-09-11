@@ -83,9 +83,9 @@ class RefSearch {
       result.uid += `.${query.verse}`;
       result.title += `:${query.verse}`;
     }
-    if (query.endverse && query.endverse > query.verse) {
-      result.uid += `-${query.endverse}`;
-      result.title += `-${query.endverse}`;
+    if (query.endVerse && query.endVerse > query.verse) {
+      result.uid += `-${query.endVerse}`;
+      result.title += `-${query.endVerse}`;
     }
     result.title += ` (${version.name})`;
 

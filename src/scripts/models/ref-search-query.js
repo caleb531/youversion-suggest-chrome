@@ -15,9 +15,9 @@ class RefSearchQuery {
     let book = /(\d?(?:[^\W\d_]|\s)+|\d)\s?/.source;
     let chapter = /(\d+)\s?/.source;
     let verse = /(\d+)\s?/.source;
-    let endverse = /(\d+)?\s?/.source;
+    let endVerse = /(\d+)?\s?/.source;
     let version = /([^\W\d_](?:[^\W\d_]\d*|\s)*)?.*?/.source;
-    let pattern = `^${book}(?:${chapter}(?:${verse}${endverse})?${version})?$`;
+    let pattern = `^${book}(?:${chapter}(?:${verse}${endVerse})?${version})?$`;
     this.refPattern = new RegExp(pattern);
   }
 
@@ -43,7 +43,7 @@ class RefSearchQuery {
         let endVerseMatch = queryMatches[4];
 
         if (endVerseMatch) {
-          this.endverse = Number(endVerseMatch);
+          this.endVerse = Number(endVerseMatch);
         }
 
       }
