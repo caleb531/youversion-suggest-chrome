@@ -4,6 +4,7 @@
   "description": "Search the YouVersion Bible, quickly and easily",
   "main": "dist/scripts/main.js",
   "dependencies": {
+    "classnames": "^2.2.5",
     "mithril": "^1.1.3"
   },
   "devDependencies": {

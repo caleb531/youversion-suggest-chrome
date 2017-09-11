@@ -1,4 +1,5 @@
 import m from 'mithril';
+import classNames from 'classnames';
 import RefSearch from '../models/ref-search';
 
 // The front-end application UI
@@ -28,21 +29,26 @@ class AppComponent {
           oninput: this.triggerSearch.bind(this)
         })
       ]),
-      m('ol.search-results', [
-        this.queryStr !== '' && this.refSearchResults.length === 0 ?
-        m('li.search-result.null-result', [
-            m('div.search-result-title', 'No Results'),
-            m('div.search-result-subtitle', `No references matching \'${this.queryStr}\'`)
-        ]) : null,
-        // Search results from the reference filter (e.g. 1co13.3-7)
-        this.refSearchResults.length > 0 ? [
-          this.refSearchResults.map((result) => {
-            return m('li.search-result.ref-search-result', [
-              m('div.search-result-title', result.title),
-              m('div.search-result-subtitle', result.subtitle)
-            ]);
-          })
-        ] : null
+      m('div.search-results-container', [
+        m('div.search-results-background', {
+          class: classNames({'visible': this.refSearchResults.length === 0})
+        }),
+        m('ol.search-results-list', [
+          this.queryStr !== '' && this.refSearchResults.length === 0 ?
+          m('li.search-result.null-result', [
+              m('div.search-result-title', 'No Results'),
+              m('div.search-result-subtitle', `No references matching \'${this.queryStr}\'`)
+          ]) : null,
+          // Search results from the reference filter (e.g. 1co13.3-7)
+          this.refSearchResults.length > 0 ? [
+            this.refSearchResults.map((result) => {
+              return m('li.search-result.ref-search-result', [
+                m('div.search-result-title', result.title),
+                m('div.search-result-subtitle', result.subtitle)
+              ]);
+            })
+          ] : null
+        ])
       ])
     ]);
   }

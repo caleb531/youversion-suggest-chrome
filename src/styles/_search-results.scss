@@ -1,13 +1,35 @@
 // Search results containers and items
 
-.search-results {
+.search-results-container {
+  position: relative;
   height: (($search-result-line-height * ($search-result-title-font-size + $search-result-subtitle-font-size)) + ($search-result-padding-y * 2) + $search-result-border-width) * $max-visible-search-results;
-  list-style-type: none;
+  overflow-y: scroll;
+}
+
+.search-results-background {
+  display: none;
+  opacity: 0.25;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../icon.png');
+  background-size: 128px;
+  background-repeat: no-repeat;
+  background-position: center;
+  &.visible {
+    display: block;
+  }
+}
+
+.search-results-list {
   margin: 0;
   padding: 0;
-  overflow-y: scroll;
+  list-style-type: none;
   line-height: $search-result-line-height;
 }
+
 .search-result {
   padding: $search-result-padding-y $search-result-padding-x;
   border-bottom: solid 1px rgba(#000, 0.25);
