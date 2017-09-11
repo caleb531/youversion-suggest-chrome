@@ -12,18 +12,18 @@ class RefSearch {
   // list of search results as JSON
   search(queryStr) {
 
-    const results = [];
+    let results = [];
     // Build a query object containing the individual parts of the query string
-    const query = new RefSearchQuery(queryStr);
+    let query = new RefSearchQuery(queryStr);
     // Ensure that bible/chapter data has loaded, then proceed to search for
     // Bible references matching the given query
     return Promise.all([this.bible, this.chapters]).then(([bible, chapters]) => {
-      const matchingBooks = this.getBooksMatchingQuery(bible.books, query);
+      let matchingBooks = this.getBooksMatchingQuery(bible.books, query);
       if (!query.chapter) {
         query.chapter = 1;
       }
       // Temporarily make the version always the same
-      const chosenVersion = this.chooseBestVersion(bible.versions, bible.default_version, query);
+      let chosenVersion = this.chooseBestVersion(bible.versions, bible.default_version, query);
       matchingBooks.forEach((book) => {
         // Ensure that chapter numbers are not out of range
         if (query.chapter <= chapters[book.id]) {
@@ -40,7 +40,7 @@ class RefSearch {
   // Filter a list of Bible books to only those matching the given query book
   getBooksMatchingQuery(books, query) {
     return books.filter((book) => {
-      const bookName = Core.normalizeQueryStr(book.name);
+      let bookName = Core.normalizeQueryStr(book.name);
       return bookName.startsWith(query.book);
     });
   }
@@ -66,7 +66,7 @@ class RefSearch {
   // Find a version which best matches the version of the given query
   guessVersion(versions, query) {
     return versions.find((version) => {
-      const versionName = Core.normalizeQueryStr(version.name);
+      let versionName = Core.normalizeQueryStr(version.name);
       return versionName.startsWith(query.version);
     });
   }
@@ -74,7 +74,7 @@ class RefSearch {
   // Build the JSON for a search result
   getSearchResult(book, query, version) {
 
-    const result = {};
+    let result = {};
 
     result.uid = `${version.id}/${book.name}.${query.chapter}`;
     result.title = `${book.name} ${query.chapter}`;

@@ -1,5 +1,5 @@
-const commonjs = require('rollup-plugin-commonjs');
-const resolve = require('rollup-plugin-node-resolve');
+let commonjs = require('rollup-plugin-commonjs');
+let resolve = require('rollup-plugin-node-resolve');
 
 module.exports = function (grunt) {
 
