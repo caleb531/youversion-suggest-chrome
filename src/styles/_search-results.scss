@@ -1,0 +1,21 @@
+// Search results containers and items
+
+.search-results {
+  height: (($search-result-line-height * ($search-result-title-font-size + $search-result-subtitle-font-size)) + ($search-result-padding-y * 2) + $search-result-border-width) * $max-visible-search-results;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll;
+  line-height: $search-result-line-height;
+}
+.search-result {
+  padding: $search-result-padding-y $search-result-padding-x;
+  border-bottom: solid 1px rgba(#000, 0.25);
+}
+.search-result-title {
+  font-size: $search-result-title-font-size;
+}
+.search-result-subtitle {
+  font-size: $search-result-subtitle-font-size;
+  color: rgba(#000, 0.5);
+}

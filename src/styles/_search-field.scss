@@ -1,0 +1,15 @@
+// Search field, consisting of input and other field-related elements
+
+.search-input {
+  width: 100%;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(#000, 0.3);
+  padding: 6px 12px;
+  font-size: 16px;
+  &:focus {
+    outline-width: 0;
+    border-color: #36c;
+    box-shadow: 0 0 5px 2px #9cf;
+  }
+}

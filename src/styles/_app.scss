@@ -1,0 +1,15 @@
+// App header where search field resides
+
+.app-header {
+  border-bottom: solid 1px rgba(#000, 0.3);
+  padding: $app-base-padding;
+  padding-top: 15px;
+  background-color: #f3f3f3;
+}
+.app-title {
+  margin: 0;
+  margin-bottom: 5px;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(#000, 0.5);
+}

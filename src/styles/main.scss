@@ -1,60 +1,7 @@
+// Main stylesheet
+
 @import 'variables';
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  width: 372px;
-  margin: 0;
-  padding: 0;
-  font-size: 0;
-}
-
-.app-header {
-  border-bottom: solid 1px rgba(#000, 0.3);
-  padding: $app-base-padding;
-  padding-top: 15px;
-  background-color: #f3f3f3;
-}
-.app-title {
-  margin: 0;
-  margin-bottom: 5px;
-  font-size: 12px;
-  font-weight: 400;
-  color: rgba(#000, 0.5);
-}
-
-.search-input {
-  width: 100%;
-  border-style: solid;
-  border-width: 1px;
-  border-color: rgba(#000, 0.3);
-  padding: 6px 12px;
-  font-size: 16px;
-  &:focus {
-    outline-width: 0;
-    border-color: #36c;
-    box-shadow: 0 0 5px 2px #9cf;
-  }
-}
-
-.search-results {
-  height: (($search-result-line-height * ($search-result-title-font-size + $search-result-subtitle-font-size)) + ($search-result-padding-y * 2) + $search-result-border-width) * $max-visible-search-results;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow-y: scroll;
-  line-height: $search-result-line-height;
-}
-.search-result {
-  padding: $search-result-padding-y $search-result-padding-x;
-  border-bottom: solid 1px rgba(#000, 0.25);
-}
-.search-result-title {
-  font-size: $search-result-title-font-size;
-}
-.search-result-subtitle {
-  font-size: $search-result-subtitle-font-size;
-  color: rgba(#000, 0.5);
-}
+@import 'containers';
+@import 'app';
+@import 'search-field';
+@import 'search-results';
