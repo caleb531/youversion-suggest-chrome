@@ -21,7 +21,7 @@ class Core {
 
   // Change the query string to be in a consistent format
   static normalizeQueryStr(queryStr) {
-    queryStr - queryStr.toLowerCase();
+    queryStr = queryStr.toLowerCase();
     // Remove all non-alphanumeric characters
     queryStr = queryStr.replace(/[\W_]/gi, ' ', queryStr);
     // Remove extra whitespace
