@@ -1,25 +1,37 @@
 import m from 'mithril';
+import ReferenceSearch from '../models/reference-search';
 
 // The front-end application UI
 class AppComponent {
 
-  view(vnode) {
-    const state = vnode.state;
+  constructor() {
+    // Results for a "Filter by Reference" search
+    this.referenceSearchResults = [];
+    this.referenceSearch = new ReferenceSearch();
+  }
+
+  triggerSearch(inputEvent) {
+    const queryStr = inputEvent.target.value;
+    this.referenceSearch.search(queryStr);
+  }
+
+  view() {
     return m('div.app', [
       m('header.app-header', [
         m('h1.app-title', 'YouVersion Suggest'),
-        m('input[type=text].search-input', {
-          placeholder: 'Type a book, chapter, verse, or keyword'
+        m('input[type=text][autofocus].search-input', {
+          placeholder: 'Type a book, chapter, verse, or keyword',
+          oninput: this.triggerSearch.bind(this)
         })
       ]),
       m('div.search-results', [
         // Search results from the reference filter (e.g. 1co13.3-7)
-        state.filterResults ?
-        m('ul.filter-results', [
-          state.filterResults.map((result) => {
-            return m('li.result.filter-result', [
-              m('div.result-title', result.title),
-              m('div.result-subtitle', result.subtitle)
+        this.referenceSearchResults.length > 0 ?
+        m('ul.reference-search-results', [
+          this.referenceSearchResults.map((result) => {
+            return m('li.search-result.reference-search-result', [
+              m('div.search-result-title', result.title),
+              m('div.search-result-subtitle', result.subtitle)
             ]);
           })
         ]) : null
