@@ -39,12 +39,10 @@ $side-padding: 20px;
   }
 }
 
-.search-results-container {
-  ol {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
+.search-results {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 .search-result {
   padding: ($side-padding / 2) $side-padding;
