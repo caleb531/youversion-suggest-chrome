@@ -2,6 +2,7 @@ import Core from './core';
 import RefSearchQuery from './ref-search-query.js';
 import RefResult from './ref-result.js';
 
+// Functions for searching the Bible by reference
 class RefSearch {
 
   constructor() {

@@ -1,5 +1,6 @@
 import Core from './core';
 
+// A parsed search query for a Bible reference search
 class RefSearchQuery {
 
   constructor(queryStr) {
