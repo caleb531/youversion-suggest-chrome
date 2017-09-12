@@ -87,12 +87,7 @@ class AppComponent {
             this.searchResults.map((result, r) => {
               return m('li.search-result', {
                 class: classNames({
-                  'selected': r === this.currentResultIndex,
-                  // This is to enable styling of the bottom border for the
-                  // previous result (so to achieve two blue borders on the
-                  // selected result, without putting a blue border next to a
-                  // gray one)
-                  'before-selected': r === (this.currentResultIndex - 1)
+                  'selected': r === this.currentResultIndex
                 })
               }, [
                 m('div.search-result-title', result.title),
