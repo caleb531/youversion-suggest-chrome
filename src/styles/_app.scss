@@ -5,6 +5,9 @@
   padding: $app-base-padding;
   padding-top: 15px;
   background-color: #f3f3f3;
+  &.first-result-selected {
+    border-bottom-color: $search-result-selected-border-color;
+  }
 }
 .app-title {
   margin: 0;

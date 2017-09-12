@@ -16,6 +16,11 @@ $search-field-icon-padding-right: 4px;
 // Search results
 
 // The maximum number of search results to show at one time
+
+$search-result-selected-color: $search-field-focus-color;
+$search-result-selected-border-color: darken($search-result-selected-color, 10%);
+$search-result-unselected-border-color: rgba(#000, 0.25);
+
 $max-visible-search-results: 6;
 $search-result-padding-x: $app-base-padding;
 $search-result-padding-y: $app-base-padding / 2;

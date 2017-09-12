@@ -32,12 +32,22 @@
 
 .search-result {
   padding: $search-result-padding-y $search-result-padding-x;
-  border-bottom: solid 1px rgba(#000, 0.25);
+  border-bottom: solid 1px $search-result-unselected-border-color;
+  cursor: default;
+  user-select: none;
+  &.selected {
+    border-bottom-color: $search-result-selected-border-color;
+    background-color: $search-result-selected-color;
+    color: #fff;
+  }
+  &.before-selected {
+    border-bottom-color: $search-result-selected-border-color;
+  }
 }
 .search-result-title {
   font-size: $search-result-title-font-size;
 }
 .search-result-subtitle {
+  opacity: 0.5;
   font-size: $search-result-subtitle-font-size;
-  color: rgba(#000, 0.5);
 }

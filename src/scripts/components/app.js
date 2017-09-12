@@ -7,26 +7,64 @@ class AppComponent {
 
   constructor() {
     // Results for a "Filter by Reference" search
-    this.refSearchResults = [];
+    this.searchResults = [];
     this.refSearch = new RefSearch();
     this.queryStr = '';
+    this.currentResultIndex = 0;
   }
 
   triggerSearch(inputEvent) {
     this.queryStr = inputEvent.target.value;
+    this.searchResults.length = 0;
     this.refSearch.search(this.queryStr).then((results) => {
-      this.refSearchResults = results;
+      this.searchResults.push.apply(this.searchResults, results);
       m.redraw();
     });
   }
 
+  // Handle keyboard shortcuts for navigating results
+  handleKeyboardNav(keydownEvent) {
+    let keyCode = keydownEvent.keyCode;
+    // Do not proceed if no results are selected
+    if (this.searchResults.length === 0) {
+      return;
+    }
+    if (keyCode === 13) {
+      // On enter key, view reference
+      // TODO: make result a model with methods like view(), copy(), etc.
+      keydownEvent.preventDefault();
+    } else if (keyCode === 40) {
+      // On down arrow, select next result
+      this.currentResultIndex += 1;
+      // Wrap around as needed
+      if (this.currentResultIndex === this.searchResults.length) {
+        this.currentResultIndex = 0;
+      }
+      keydownEvent.preventDefault();
+    } else if (keyCode === 38) {
+      // On up arrow, select previous result
+      this.currentResultIndex -= 1;
+      // Wrap around
+      if (this.currentResultIndex < 0) {
+        this.currentResultIndex = this.searchResults.length - 1;
+      }
+    }
+  }
+
   view() {
     return m('div.app', [
-      m('header.app-header', [
+      m('header.app-header', {
+        class: classNames({
+          // Use this class to style the bottom border color of the header when
+          // the top result is selected
+          'first-result-selected': (this.searchResults.length !== 0 && this.currentResultIndex === 0)
+        })
+      }, [
         m('h1.app-title', 'YouVersion Suggest'),
         m('div.search-field-container', [
           m('input[type=text][autofocus].search-field', {
             placeholder: 'Type a book, chapter, verse, or keyword',
+            onkeydown: this.handleKeyboardNav.bind(this),
             oninput: this.triggerSearch.bind(this)
           }),
           m('svg[viewBox="0 0 1792 1792"].search-field-icon', [
@@ -39,15 +77,24 @@ class AppComponent {
           class: classNames({'visible': this.queryStr === ''})
         }),
         m('ol.search-results-list', [
-          this.queryStr !== '' && this.refSearchResults.length === 0 ?
+          this.queryStr !== '' && this.searchResults.length === 0 ?
           m('li.search-result.null-result', [
               m('div.search-result-title', 'No Results'),
               m('div.search-result-subtitle', `No references matching \'${this.queryStr}\'`)
           ]) : null,
           // Search results from the reference filter (e.g. 1co13.3-7)
-          this.refSearchResults.length > 0 ? [
-            this.refSearchResults.map((result) => {
-              return m('li.search-result.ref-search-result', [
+          this.searchResults.length > 0 ? [
+            this.searchResults.map((result, r) => {
+              return m('li.search-result', {
+                class: classNames({
+                  'selected': r === this.currentResultIndex,
+                  // This is to enable styling of the bottom border for the
+                  // previous result (so to achieve two blue borders on the
+                  // selected result, without putting a blue border next to a
+                  // gray one)
+                  'before-selected': r === (this.currentResultIndex - 1)
+                })
+              }, [
                 m('div.search-result-title', result.title),
                 m('div.search-result-subtitle', result.subtitle)
               ]);
