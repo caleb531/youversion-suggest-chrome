@@ -76,7 +76,7 @@ class RefSearch {
 
     let result = {};
 
-    result.uid = `${version.id}/${book.name}.${query.chapter}`;
+    result.uid = `${version.id}/${book.id}.${query.chapter}`;
     result.title = `${book.name} ${query.chapter}`;
     result.subtitle = 'View on YouVersion';
     if (query.verse) {
