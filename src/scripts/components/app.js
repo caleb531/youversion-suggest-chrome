@@ -8,13 +8,25 @@ class AppComponent {
   constructor() {
     // Results for a "Filter by Reference" search
     this.searchResults = [];
+    this.currentResultIndex = 0;
     this.refSearch = new RefSearch();
     this.queryStr = '';
-    this.currentResultIndex = 0;
+    chrome.storage.local.get(['queryStr', 'lastSearchTime'], (items) => {
+      // Clear the query if it's been more than 5 minutes since last search
+      if ((Date.now() - items.lastSearchTime) <= this.constructor.queryMaxAge) {
+        this.queryStr = items.queryStr;
+        chrome.storage.local.set({lastSearchTime: Date.now()});
+      }
+      m.redraw();
+    });
   }
 
   triggerSearch(inputEvent) {
     this.queryStr = inputEvent.target.value;
+    chrome.storage.local.set({
+      queryStr: this.queryStr,
+      lastSearchTime: Date.now()
+    });
     this.searchResults.length = 0;
     this.refSearch.search(this.queryStr).then((results) => {
       this.searchResults.push.apply(this.searchResults, results);
@@ -64,6 +76,7 @@ class AppComponent {
         m('div.search-field-container', [
           m('input[type=text][autofocus].search-field', {
             placeholder: 'Type a book, chapter, verse, or keyword',
+            value: this.queryStr,
             onkeydown: this.handleKeyboardNav.bind(this),
             oninput: this.triggerSearch.bind(this)
           }),
@@ -101,5 +114,9 @@ class AppComponent {
   }
 
 }
+
+// The time since the last search (in milliseconds) to wait before clearing the
+// query
+AppComponent.queryMaxAge = 300e3;
 
 export default AppComponent;
