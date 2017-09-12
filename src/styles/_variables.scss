@@ -3,6 +3,7 @@
 // App
 
 $app-base-padding: 20px;
+$app-border-width: 1px;
 
 // Search field
 
@@ -24,7 +25,7 @@ $search-result-unselected-border-color: rgba(#000, 0.25);
 $max-visible-search-results: 6;
 $search-result-padding-x: $app-base-padding;
 $search-result-padding-y: $app-base-padding / 2;
-$search-result-border-width: 1px;
+$search-result-border-width: $app-border-width;
 $search-result-line-height: 1.25;
 $search-result-title-font-size: 16px;
 $search-result-subtitle-font-size: 12px;

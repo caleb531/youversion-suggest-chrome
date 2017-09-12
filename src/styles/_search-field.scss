@@ -6,9 +6,7 @@
 
 .search-field {
   width: 100%;
-  border-style: solid;
-  border-width: 1px;
-  border-color: $search-field-unfocus-color;
+  border: solid $app-border-width $search-field-unfocus-color;
   padding: 6px 12px;
   padding-left: $search-field-icon-size + $search-field-icon-padding-left + $search-field-icon-padding-right;
   font-size: 16px;
