@@ -34,4 +34,7 @@ class Core {
 
 }
 
+// The base URL for Bible references on the YouVersion website
+Core.baseURL = 'https://www.bible.com/bible';
+
 export default Core;

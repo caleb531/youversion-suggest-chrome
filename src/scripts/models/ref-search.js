@@ -1,5 +1,6 @@
 import Core from './core';
 import RefSearchQuery from './ref-search-query.js';
+import RefResult from './ref-result.js';
 
 class RefSearch {
 
@@ -27,7 +28,7 @@ class RefSearch {
       matchingBooks.forEach((book) => {
         // Ensure that chapter numbers are not out of range
         if (query.chapter <= chapters[book.id]) {
-          results.push(this.getSearchResult(book, query, chosenVersion));
+          results.push(new RefResult(book, query, chosenVersion));
         }
       });
       return new Promise((resolve) => {
@@ -69,28 +70,6 @@ class RefSearch {
       let versionName = Core.normalizeQueryStr(version.name);
       return versionName.startsWith(query.version);
     });
-  }
-
-  // Build the JSON for a search result
-  getSearchResult(book, query, version) {
-
-    let result = {};
-
-    result.uid = `${version.id}/${book.id}.${query.chapter}`;
-    result.title = `${book.name} ${query.chapter}`;
-    result.subtitle = 'View on YouVersion';
-    if (query.verse) {
-      result.uid += `.${query.verse}`;
-      result.title += `:${query.verse}`;
-    }
-    if (query.endVerse && query.endVerse > query.verse) {
-      result.uid += `-${query.endVerse}`;
-      result.title += `-${query.endVerse}`;
-    }
-    result.title += ` (${version.name})`;
-
-    return result;
-
   }
 
 }

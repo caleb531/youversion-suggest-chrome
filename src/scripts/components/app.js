@@ -31,7 +31,7 @@ class AppComponent {
     }
     if (keyCode === 13) {
       // On enter key, view reference
-      // TODO: make result a model with methods like view(), copy(), etc.
+      this.searchResults[this.currentResultIndex].view();
       keydownEvent.preventDefault();
     } else if (keyCode === 40) {
       // On down arrow, select next result
