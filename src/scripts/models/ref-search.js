@@ -17,6 +17,9 @@ class RefSearch {
     let results = [];
     // Build a query object containing the individual parts of the query string
     let query = new RefSearchQuery(queryStr);
+    if (query.isEmpty()) {
+      return Promise.resolve([]);
+    }
     // Ensure that bible/chapter data has loaded, then proceed to search for
     // Bible references matching the given query
     return Promise.all([this.bible, this.chapters]).then(([bible, chapters]) => {

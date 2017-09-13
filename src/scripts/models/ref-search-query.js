@@ -58,6 +58,11 @@ class RefSearchQuery {
 
   }
 
+  // Check if already normalized-query is empty
+  isEmpty() {
+    return (this.queryStr === '');
+  }
+
 }
 
 RefSearchQuery.initSearchPattern();
