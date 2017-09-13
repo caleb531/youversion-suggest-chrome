@@ -2,7 +2,7 @@
 
 .search-results-container {
   position: relative;
-  height: (($search-result-line-height * ($search-result-title-font-size + $search-result-subtitle-font-size)) + ($search-result-padding-y * 2) + $search-result-border-width) * $max-visible-search-results;
+  height: $search-result-border-width + (($search-result-line-height * ($search-result-title-font-size + $search-result-subtitle-font-size)) + ($search-result-padding-y * 2) + $search-result-border-width) * $max-visible-search-results;
   overflow-y: scroll;
 }
 
@@ -17,7 +17,18 @@
   background-image: url('../icon.png');
   background-size: 128px;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: 50% 20px;
+  &.visible {
+    display: block;
+  }
+}
+
+.no-search-results-message {
+  display: none;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 32px;
+  color: rgba(#000, 0.3);
   &.visible {
     display: block;
   }
@@ -36,12 +47,11 @@
   border-left-width: 0;
   border-right-width: 0;
   border-bottom-width: 0;
-  &:first-child {
-    border-top-width: 0;
+  &:last-child {
+    border-bottom-width: $search-result-border-width;
   }
   &.selected {
-    border-top-color: $search-result-selected-border-color;
-    border-bottom-color: $search-result-selected-border-color;
+    border-color: $search-result-selected-border-color;
     border-bottom-width: $search-result-border-width;
     background-color: $search-result-selected-color;
     color: #fff;

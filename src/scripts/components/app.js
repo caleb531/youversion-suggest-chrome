@@ -75,9 +75,7 @@ class AppComponent {
     return m('div.app', [
       m('header.app-header', {
         class: classNames({
-          // Use this class to style the bottom border color of the header when
-          // the top result is selected
-          'first-result-selected': (this.searchResults.length !== 0 && this.currentResultIndex === 0)
+          'no-search-results': (this.searchResults.length === 0)
         })
       }, [
         m('h1.app-title', 'YouVersion Suggest'),
@@ -97,12 +95,12 @@ class AppComponent {
         m('div.search-results-watermark', {
           class: classNames({'visible': this.queryStr === ''})
         }),
+        m('div.no-search-results-message', {
+          class: classNames({
+            visible: (this.queryStr !== '' && this.searchResults.length === 0)
+          })
+        }, 'No Results'),
         m('ol.search-results-list', [
-          this.queryStr !== '' && this.searchResults.length === 0 ?
-          m('li.search-result.null-result', [
-              m('div.search-result-title', 'No Results'),
-              m('div.search-result-subtitle', `No references matching \'${this.queryStr}\'`)
-          ]) : null,
           // Search results from the reference filter (e.g. 1co13.3-7)
           this.searchResults.length > 0 ? [
             this.searchResults.map((result, r) => {
