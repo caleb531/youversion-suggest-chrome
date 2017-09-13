@@ -14,15 +14,15 @@ class AppComponent {
     chrome.storage.local.get(['queryStr', 'lastSearchTime'], (items) => {
       // Clear the query if it's been more than 5 minutes since last search
       if ((Date.now() - items.lastSearchTime) <= this.constructor.queryMaxAge) {
-        this.queryStr = items.queryStr;
+        this.triggerSearch(items.queryStr);
         chrome.storage.local.set({lastSearchTime: Date.now()});
       }
       m.redraw();
     });
   }
 
-  triggerSearch(inputEvent) {
-    this.queryStr = inputEvent.target.value;
+  triggerSearch(queryStr) {
+    this.queryStr = queryStr;
     chrome.storage.local.set({
       queryStr: this.queryStr,
       lastSearchTime: Date.now()
