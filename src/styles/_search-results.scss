@@ -32,17 +32,22 @@
 
 .search-result {
   padding: $search-result-padding-y $search-result-padding-x;
-  border-top: solid $app-border-width $search-result-unselected-border-color;
+  border: solid $app-border-width $search-result-unselected-border-color;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-bottom-width: 0;
   &:first-child {
     border-top-width: 0;
   }
   &.selected {
     border-top-color: $search-result-selected-border-color;
+    border-bottom-color: $search-result-selected-border-color;
+    border-bottom-width: $search-result-border-width;
     background-color: $search-result-selected-color;
     color: #fff;
     // Ensure that selected search results have a blue border on both sides
     & + .search-result {
-      border-top-color: $search-result-selected-border-color;
+      border-top-width: 0;
     }
   }
 }

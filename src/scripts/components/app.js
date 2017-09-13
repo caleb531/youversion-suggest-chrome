@@ -63,6 +63,14 @@ class AppComponent {
     }
   }
 
+  // Scroll the search result into view when the search result is outside the
+  // visible area (such as when scrolling)
+  scrollSelectedResultIntoView(vnode, resultIndex) {
+    if (resultIndex === this.currentResultIndex) {
+      vnode.dom.scrollIntoView({block: 'nearest'});
+    }
+  }
+
   view() {
     return m('div.app', [
       m('header.app-header', {
@@ -101,7 +109,9 @@ class AppComponent {
               return m('li.search-result', {
                 class: classNames({
                   'selected': r === this.currentResultIndex
-                })
+                }),
+                // Scroll selected result into view as needed
+                onupdate: (vnode) => this.scrollSelectedResultIntoView(vnode, r)
               }, [
                 m('div.search-result-title', result.title),
                 m('div.search-result-subtitle', result.subtitle)
