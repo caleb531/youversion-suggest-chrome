@@ -8,7 +8,7 @@ class AppComponent {
   constructor() {
     // Results for a "Filter by Reference" search
     this.searchResults = [];
-    this.currentResultIndex = 0;
+    this.selectedResultIndex = 0;
     this.refSearch = new RefSearch();
     this.queryStr = '';
     chrome.storage.local.get(['queryStr', 'lastSearchTime'], (items) => {
@@ -43,22 +43,22 @@ class AppComponent {
     }
     if (keyCode === 13) {
       // On enter key, view reference
-      this.searchResults[this.currentResultIndex].view();
+      this.searchResults[this.selectedResultIndex].view();
       keydownEvent.preventDefault();
     } else if (keyCode === 40) {
       // On down arrow, select next result
-      this.currentResultIndex += 1;
+      this.selectedResultIndex += 1;
       // Wrap around as needed
-      if (this.currentResultIndex === this.searchResults.length) {
-        this.currentResultIndex = 0;
+      if (this.selectedResultIndex === this.searchResults.length) {
+        this.selectedResultIndex = 0;
       }
       keydownEvent.preventDefault();
     } else if (keyCode === 38) {
       // On up arrow, select previous result
-      this.currentResultIndex -= 1;
+      this.selectedResultIndex -= 1;
       // Wrap around
-      if (this.currentResultIndex < 0) {
-        this.currentResultIndex = this.searchResults.length - 1;
+      if (this.selectedResultIndex < 0) {
+        this.selectedResultIndex = this.searchResults.length - 1;
       }
     }
   }
@@ -66,7 +66,7 @@ class AppComponent {
   // Scroll the search result into view when the search result is outside the
   // visible area (such as when scrolling)
   scrollSelectedResultIntoView(vnode, resultIndex) {
-    if (resultIndex === this.currentResultIndex) {
+    if (resultIndex === this.selectedResultIndex) {
       vnode.dom.scrollIntoView({block: 'nearest'});
     }
   }
@@ -106,7 +106,7 @@ class AppComponent {
             this.searchResults.map((result, r) => {
               return m('li.search-result', {
                 class: classNames({
-                  'selected': r === this.currentResultIndex
+                  'selected': r === this.selectedResultIndex
                 }),
                 // Scroll selected result into view as needed
                 onupdate: (vnode) => this.scrollSelectedResultIntoView(vnode, r)
