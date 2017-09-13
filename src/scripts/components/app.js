@@ -73,25 +73,25 @@ class AppComponent {
 
   view() {
     return m('div.app', [
-      m('header.app-header', {
-        class: classNames({
-          'no-search-results': (this.searchResults.length === 0)
-        })
-      }, [
+      m('header.app-header', [
         m('h1.app-title', 'YouVersion Suggest'),
         m('div.search-field-container', [
           m('input[type=text][autofocus].search-field', {
             placeholder: 'Type a book, chapter, verse, or keyword',
             value: this.queryStr,
             onkeydown: this.handleKeyboardNav.bind(this),
-            oninput: this.triggerSearch.bind(this)
+            oninput: (inputEvent) => this.triggerSearch(inputEvent.target.value)
           }),
           m('svg[viewBox="0 0 1792 1792"].search-field-icon', [
             m('path[d="M1216 832q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z"]')
           ])
         ])
       ]),
-      m('div.search-results-container', [
+      m('div.search-results-container', {
+        class: classNames({
+          'no-search-results': (this.searchResults.length === 0)
+        })
+      }, [
         m('div.search-results-watermark', {
           class: classNames({'visible': this.queryStr === ''})
         }),

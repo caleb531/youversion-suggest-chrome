@@ -1,13 +1,9 @@
 // App header where search field resides
 
 .app-header {
-  border-bottom: solid $app-border-width rgba(#000, 0.3);
   padding: $app-base-padding;
   padding-top: 15px;
   background-color: #f3f3f3;
-  &:not(.no-search-results) {
-    border-bottom-width: 0;
-  }
 }
 .app-title {
   margin: 0;
