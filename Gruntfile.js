@@ -41,7 +41,7 @@ module.exports = function (grunt) {
 
     watch: {
       pages: {
-        files: ['src/*.html', 'src/manifest.json'],
+        files: ['src/*.*', 'src/icons/*.*', 'src/data/**/*.json'],
         tasks: ['copy']
       },
       scripts: {
@@ -59,12 +59,7 @@ module.exports = function (grunt) {
         files: [{
             expand: true,
             cwd: 'src',
-            src: [
-              '*.html',
-              'manifest.json',
-              'icon.png',
-              'data/**/*.json'
-            ],
+            src: ['*.*', 'icons/*.*', 'data/**/*.json'],
             dest: 'dist'
         }]
       }
