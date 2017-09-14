@@ -41,7 +41,7 @@ module.exports = function (grunt) {
 
     watch: {
       pages: {
-        files: ['src/*.html'],
+        files: ['src/*.html', 'src/manifest.json'],
         tasks: ['copy']
       },
       scripts: {
