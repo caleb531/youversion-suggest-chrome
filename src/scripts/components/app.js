@@ -91,14 +91,10 @@ class AppComponent {
           'no-search-results': (this.searchResults.length === 0)
         })
       }, [
-        m('div.search-results-watermark', {
-          class: classNames({'visible': this.queryStr === ''})
-        }),
-        m('div.no-search-results-message', {
-          class: classNames({
-            visible: (this.queryStr !== '' && this.searchResults.length === 0)
-          })
-        }, 'No Results'),
+        this.queryStr === '' ?
+        m('div.search-results-watermark') : null,
+        this.queryStr !== '' && this.searchResults.length === 0 ?
+        m('div.no-search-results-message', 'No Results') : null,
         m('ol.search-results-list', [
           // Search results from the reference filter (e.g. 1co13.3-7)
           this.searchResults.length > 0 ? [
