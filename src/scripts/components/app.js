@@ -29,6 +29,8 @@ class AppComponent {
       lastSearchTime: Date.now()
     });
     this.searchResults.length = 0;
+    // Always select the first result when the search query changes
+    this.selectedResultIndex = 0;
     this.refSearch.search(this.queryStr).then((results) => {
       this.searchResults.push.apply(this.searchResults, results);
       m.redraw();
