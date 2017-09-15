@@ -61,6 +61,9 @@ class AppComponent {
       if (this.selectedResultIndex < 0) {
         this.selectedResultIndex = this.searchResults.length - 1;
       }
+      keydownEvent.preventDefault();
+    } else {
+      keydownEvent.redraw = false;
     }
   }
 
