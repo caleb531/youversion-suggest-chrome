@@ -63,6 +63,7 @@ class AppComponent {
       }
       keydownEvent.preventDefault();
     } else {
+      // Prevent Mithril from redrawing for irrelevant keydown events
       keydownEvent.redraw = false;
     }
   }
