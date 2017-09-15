@@ -75,6 +75,19 @@ class AppComponent {
     }
   }
 
+  // Select whichever result the user is currently mousing over
+  selectByMouse(mouseoverEvent) {
+    let resultElem = mouseoverEvent.target.closest('.search-result');
+    let newSelectedIndex = Number(resultElem.getAttribute('data-index'));
+    if (newSelectedIndex !== this.selectedResultIndex) {
+      this.selectedResultIndex = newSelectedIndex;
+    } else {
+      // Prevent Mithril from redrawing if the selected result hasn't changed
+      // when hovering
+      mouseoverEvent.redraw = false;
+    }
+  }
+
   view() {
     return m('div.app', [
       m('header.app-header', [
@@ -98,11 +111,18 @@ class AppComponent {
         m('div.search-results-watermark') : null,
         this.queryStr !== '' && this.searchResults.length === 0 ?
         m('div.no-search-results-message', 'No Results') : null,
-        m('ol.search-results-list', [
+        m('ol.search-results-list', {
+          // Bind a mouseover event to the results list and listen for events on
+          // the individual result items
+          onmouseover: this.selectByMouse.bind(this)
+        }, [
           // Search results from the reference filter (e.g. 1co13.3-7)
           this.searchResults.length > 0 ? [
             this.searchResults.map((result, r) => {
               return m('li.search-result', {
+                // Store the index on each result element for easy referencing
+                // within event callbacks later
+                'data-index': r,
                 class: classNames({
                   'selected': r === this.selectedResultIndex
                 }),
