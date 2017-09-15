@@ -2,7 +2,7 @@
 
 .search-results-container {
   position: relative;
-  height: $search-result-border-width + (($search-result-line-height * ($search-result-title-font-size + $search-result-subtitle-font-size)) + ($search-result-padding-y * 2) + $search-result-border-width) * $max-visible-search-results;
+  height: (($search-result-line-height * ($search-result-title-font-size + $search-result-subtitle-font-size)) + ($search-result-padding-y * 2) + $search-result-border-width) * $max-visible-search-results;
   overflow-y: scroll;
   &.no-search-results {
     border-top: solid $app-border-width rgba(#000, 0.3);
@@ -38,22 +38,10 @@
 
 .search-result {
   padding: $search-result-padding-y $search-result-padding-x;
-  border: solid $app-border-width $search-result-unselected-border-color;
-  border-left-width: 0;
-  border-right-width: 0;
-  border-bottom-width: 0;
-  &:last-child {
-    border-bottom-width: $search-result-border-width;
-  }
+  border-bottom: solid $app-border-width $search-result-unselected-border-color;
   &.selected {
-    border-color: $search-result-selected-border-color;
-    border-bottom-width: $search-result-border-width;
     background-color: $search-result-selected-color;
     color: #fff;
-    // Ensure that selected search results have a blue border on both sides
-    & + .search-result {
-      border-top-width: 0;
-    }
   }
 }
 .search-result-title {

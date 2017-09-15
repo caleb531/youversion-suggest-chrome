@@ -9,7 +9,7 @@ $app-border-width: 1px;
 
 $search-field-focus-color: #36c;
 $search-field-focus-glow-color: #9cf;
-$search-field-unfocus-color: rgba(#000, 0.5);
+$search-field-unfocus-color: #888;
 $search-field-icon-size: 16px;
 $search-field-icon-padding-left: 8px;
 $search-field-icon-padding-right: 4px;
@@ -20,7 +20,7 @@ $search-field-icon-padding-right: 4px;
 
 $search-result-selected-color: $search-field-focus-color;
 $search-result-selected-border-color: darken($search-result-selected-color, 10%);
-$search-result-unselected-border-color: rgba(#000, 0.25);
+$search-result-unselected-border-color: #bbb;
 
 $max-visible-search-results: 6;
 $search-result-padding-x: $app-base-padding;
