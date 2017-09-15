@@ -67,9 +67,15 @@ class AppComponent {
     }
   }
 
+  // Get the index of a search result DOM element via its data-index attribute
+  getResultElemIndex(resultElem) {
+    return Number(resultElem.getAttribute('data-index'));
+  }
+
   // Scroll the search result into view when the search result is outside the
   // visible area (such as when scrolling)
-  scrollSelectedResultIntoView(vnode, resultIndex) {
+  scrollSelectedResultIntoView(vnode) {
+    let resultIndex = this.getResultElemIndex(vnode.dom);
     if (resultIndex === this.selectedResultIndex) {
       vnode.dom.scrollIntoView({block: 'nearest'});
     }
@@ -78,7 +84,7 @@ class AppComponent {
   // Select whichever result the user is currently mousing over
   selectByMouse(mouseoverEvent) {
     let resultElem = mouseoverEvent.target.closest('.search-result');
-    let newSelectedIndex = Number(resultElem.getAttribute('data-index'));
+    let newSelectedIndex = this.getResultElemIndex(resultElem);
     if (newSelectedIndex !== this.selectedResultIndex) {
       this.selectedResultIndex = newSelectedIndex;
     } else {
@@ -127,7 +133,7 @@ class AppComponent {
                   'selected': r === this.selectedResultIndex
                 }),
                 // Scroll selected result into view as needed
-                onupdate: (vnode) => this.scrollSelectedResultIntoView(vnode, r)
+                onupdate: (vnode) => this.scrollSelectedResultIntoView(vnode)
               }, [
                 m('div.search-result-title', result.title),
                 m('div.search-result-subtitle', result.subtitle)
