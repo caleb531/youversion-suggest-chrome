@@ -136,7 +136,7 @@ class AppComponent {
                   'selected': r === this.selectedResultIndex
                 }),
                 // Scroll selected result into view as needed
-                onupdate: (vnode) => this.scrollSelectedResultIntoView(vnode)
+                onupdate: this.scrollSelectedResultIntoView.bind(this)
               }, [
                 m('div.search-result-title', result.title),
                 m('div.search-result-subtitle', result.subtitle)
