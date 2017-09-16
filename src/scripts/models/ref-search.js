@@ -35,9 +35,7 @@ class RefSearch {
           results.push(new RefResult(book, query, chosenVersion));
         }
       });
-      return new Promise((resolve) => {
-        resolve(results);
-      });
+      return Promise.resolve(results);
     });
 
   }
