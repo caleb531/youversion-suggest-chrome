@@ -1,6 +1,7 @@
 import m from 'mithril';
 import classNames from 'classnames';
 import RefSearch from '../models/ref-search';
+import ContentSearch from '../models/content-search';
 import SearchIconComponent from './search-icon';
 
 // The front-end application UI
@@ -11,6 +12,7 @@ class AppComponent {
     this.searchResults = [];
     this.selectedResultIndex = 0;
     this.refSearch = new RefSearch();
+    this.contentSearch = new ContentSearch();
     this.queryStr = '';
     chrome.storage.local.get(['queryStr', 'lastSearchTime'], (items) => {
       // Clear the query if it's been more than 5 minutes since last search
@@ -43,6 +45,7 @@ class AppComponent {
     }, () => {
       // Do nothing if no results are returned
     });
+
   }
 
   // Handle keyboard shortcuts for navigating results

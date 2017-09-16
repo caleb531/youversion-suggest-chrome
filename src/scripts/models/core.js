@@ -3,6 +3,17 @@ import m from 'mithril';
 // The core back-end model consisting of shared functions and data
 class Core {
 
+  // Fetch the HTML contents at the given URL (with the given GET parameters)
+  static getHTML(baseURL, getParams) {
+      return m.request({
+        url: baseURL,
+        data: getParams,
+        headers: {
+          'User-Agent': Core.userAgent
+        }
+      });
+  }
+
   // Fetch any arbitrary JSON data via the given data file path
   static getJSON(dataFilePath) {
       return m.request({url: dataFilePath});
@@ -36,5 +47,7 @@ class Core {
 
 // The base URL for Bible references on the YouVersion website
 Core.baseURL = 'https://www.bible.com/bible';
+// The user agent to use when making external HTTP requests
+Core.userAgent = 'YouVersion Suggest';
 
 export default Core;

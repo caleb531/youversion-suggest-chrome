@@ -4,6 +4,7 @@
   "description": "Search the YouVersion Bible, quickly and easily",
   "main": "dist/scripts/main.js",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
     "classnames": "^2.2.5",
     "mithril": "^1.1.3"
   },
