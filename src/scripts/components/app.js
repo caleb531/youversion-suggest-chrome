@@ -40,6 +40,8 @@ class AppComponent {
     this.refSearch.search(this.queryStr).then((results) => {
       this.searchResults.push.apply(this.searchResults, results);
       m.redraw();
+    }, () => {
+      // Do nothing if no results are returned
     });
   }
 
