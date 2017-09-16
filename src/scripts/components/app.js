@@ -18,10 +18,6 @@ class AppComponent {
         this.triggerSearch(items.queryStr);
         chrome.storage.local.set({lastSearchTime: Date.now()});
       }
-      // Even though m.redraw is internally called after the constructor runs,
-      // calling m.redraw() here is necessary to avoid race conditions, since
-      // the chrome.storage API is asynchronous
-      m.redraw();
     });
     // Ensure that `this` is always bound to the class instance for all class
     // methods, no matter how they're called
