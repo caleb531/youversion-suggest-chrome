@@ -20,6 +20,13 @@ class AppComponent {
       }
       m.redraw();
     });
+    // Ensure that `this` is always bound to the class instance for all class
+    // methods, no matter how they're called
+    Object.getOwnPropertyNames(this.constructor.prototype).forEach((methodName) => {
+      if (methodName !== 'constructor') {
+        this.constructor.prototype[methodName] = this.constructor.prototype[methodName].bind(this);
+      }
+    });
   }
 
   triggerSearch(queryStr) {
@@ -105,7 +112,7 @@ class AppComponent {
           m('input[type=text][autofocus].search-field', {
             placeholder: 'Type a book, chapter, verse, or keyword',
             value: this.queryStr,
-            onkeydown: this.handleKeyboardNav.bind(this),
+            onkeydown: this.handleKeyboardNav,
             oninput: (inputEvent) => this.triggerSearch(inputEvent.target.value)
           }),
           m(SearchIconComponent)
@@ -119,7 +126,7 @@ class AppComponent {
         m('ol.search-results-list', {
           // Bind a mouseover event to the results list and listen for events on
           // the individual result items
-          onmouseover: this.selectByMouse.bind(this)
+          onmouseover: this.selectByMouse
         }, [
           // Search results from the reference filter (e.g. 1co13.3-7)
           this.searchResults.length > 0 ? [
