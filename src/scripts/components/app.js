@@ -104,6 +104,13 @@ class AppComponent {
     }
   }
 
+  // Action whichever result the user has clicked
+  actionByMouse(clickEvent) {
+    let resultElem = clickEvent.target.closest('.search-result');
+    let resultIndex = this.getResultElemIndex(resultElem);
+    this.searchResults[resultIndex].view();
+  }
+
   view() {
     return m('div.app', [
       m('header.app-header', [
@@ -124,9 +131,10 @@ class AppComponent {
         this.queryStr !== '' && this.searchResults.length === 0 ?
         m('div.no-search-results-message', 'No Results') : null,
         m('ol.search-results-list', {
-          // Bind a mouseover event to the results list and listen for events on
-          // the individual result items
-          onmouseover: this.selectByMouse
+          // Use event delegation to listen for mouse events on any of the
+          // result list items
+          onmouseover: this.selectByMouse,
+          onclick: this.actionByMouse
         }, [
           // Search results from the reference filter (e.g. 1co13.3-7)
           this.searchResults.length > 0 ? [
