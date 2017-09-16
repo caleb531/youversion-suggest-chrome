@@ -50,6 +50,8 @@ class AppComponent {
     let keyCode = keydownEvent.keyCode;
     // Do not proceed if no results are selected
     if (this.searchResults.length === 0) {
+      // Prevent Mithril from redrawing for irrelevant keydown events
+      keydownEvent.redraw = false;
       return;
     }
     if (keyCode === 13) {
@@ -73,7 +75,6 @@ class AppComponent {
       }
       keydownEvent.preventDefault();
     } else {
-      // Prevent Mithril from redrawing for irrelevant keydown events
       keydownEvent.redraw = false;
     }
   }
