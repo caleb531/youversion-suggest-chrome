@@ -4,9 +4,6 @@
   position: relative;
   height: (($search-result-line-height * ($search-result-title-font-size + $search-result-subtitle-font-size)) + ($search-result-padding-y * 2) + $search-result-border-width) * $max-visible-search-results;
   overflow-y: scroll;
-  &.no-search-results {
-    border-top: solid $app-border-width rgba(#000, 0.3);
-  }
 }
 
 .search-results-watermark {

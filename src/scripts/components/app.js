@@ -111,11 +111,7 @@ class AppComponent {
           m(SearchIconComponent)
         ])
       ]),
-      m('div.search-results-container', {
-        class: classNames({
-          'no-search-results': (this.searchResults.length === 0)
-        })
-      }, [
+      m('div.search-results-container', [
         this.queryStr === '' ?
         m('div.search-results-watermark') : null,
         this.queryStr !== '' && this.searchResults.length === 0 ?
@@ -136,7 +132,7 @@ class AppComponent {
                   'selected': r === this.selectedResultIndex
                 }),
                 // Scroll selected result into view as needed
-                onupdate: this.scrollSelectedResultIntoView.bind(this)
+                onupdate: this.scrollSelectedResultIntoView
               }, [
                 m('div.search-result-title', result.title),
                 m('div.search-result-subtitle', result.subtitle)
