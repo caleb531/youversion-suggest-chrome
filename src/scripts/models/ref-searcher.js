@@ -42,7 +42,11 @@ class RefSearch {
         }
       });
 
-      return Promise.resolve(results);
+      if (results.length > 0) {
+        return Promise.resolve(results);
+      } else {
+        return Promise.reject(results);
+      }
     });
 
   }

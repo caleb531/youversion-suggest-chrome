@@ -15,6 +15,7 @@ class AppComponent {
     this.refSearcher = new RefSearcher();
     this.contentSearcher = new ContentSearcher();
     this.queryStr = '';
+    this.loadingSearchResults = false;
 
     chrome.storage.local.get(['queryStr', 'lastSearchTime'], (items) => {
       // Clear the query if it's been more than 5 minutes since last search
@@ -46,24 +47,30 @@ class AppComponent {
     this.searchResults.length = 0;
     // Always select the first result when the search query changes
     this.selectedResultIndex = 0;
+    // Reset loading indicators
+    this.loadingSearchResults = false;
 
     this.refSearcher.search(this.queryStr).then((results) => {
       this.searchResults.push.apply(this.searchResults, results);
       m.redraw();
     }, () => {
-      // Do nothing if no results are returned
-    });
-
-    this.contentSearcher.search(this.queryStr).then((results) => {
-      // The user may type faster than page fetches can finish, so ensure that
-      // only the results from the last fetch (i.e. for the latest query string)
-      // are displayed
-      if (queryStr === this.queryStr) {
-        this.searchResults.push.apply(this.searchResults, results);
-        m.redraw();
-      }
-    }, () => {
-      // Again, no need to do anything
+      this.loadingSearchResults = true;
+      m.redraw();
+      // Perform content search if no reference results turned up
+      this.contentSearcher.search(this.queryStr).then((results) => {
+        // The user may type faster than page fetches can finish, so ensure that
+        // only the results from the last fetch (i.e. for the latest query
+        // string) are displayed
+        if (queryStr === this.queryStr) {
+          this.searchResults.push.apply(this.searchResults, results);
+          this.loadingSearchResults = false;
+          m.redraw();
+        }
+      }, () => {
+        // If content search turned up no results, be sure to hide the loading
+        // indicator
+        this.loadingSearchResults = false;
+      });
     });
 
   }
@@ -156,8 +163,10 @@ class AppComponent {
       m('div.search-results-container', [
         this.queryStr === '' ?
         m('div.search-results-watermark') : null,
+        this.loadingSearchResults ?
+        m('div.search-results-message', 'Loading...') :
         this.queryStr !== '' && this.searchResults.length === 0 ?
-        m('div.no-search-results-message', 'No Results') : null,
+        m('div.search-results-message', 'No Results') : null,
         m('ol.search-results-list', {
           // Use event delegation to listen for mouse events on any of the
           // result list items
