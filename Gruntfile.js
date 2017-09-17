@@ -1,5 +1,6 @@
 let commonjs = require('rollup-plugin-commonjs');
 let resolve = require('rollup-plugin-node-resolve');
+let json = require('rollup-plugin-json');
 
 module.exports = function (grunt) {
 
@@ -29,7 +30,8 @@ module.exports = function (grunt) {
         moduleName: 'yvs',
         plugins: [
           resolve(),
-          commonjs()
+          commonjs(),
+          json()
         ]
       },
       all: {
