@@ -1,7 +1,3 @@
-let commonjs = require('rollup-plugin-commonjs');
-let resolve = require('rollup-plugin-node-resolve');
-let json = require('rollup-plugin-json');
-
 module.exports = function (grunt) {
 
   grunt.initConfig({
@@ -24,19 +20,11 @@ module.exports = function (grunt) {
       }
     },
 
-    rollup: {
-      options: {
-        format: 'iife',
-        moduleName: 'yvs',
-        plugins: [
-          resolve(),
-          commonjs(),
-          json()
-        ]
-      },
+    webpack: {
       all: {
-        files: {
-          'dist/scripts/popup.js': ['src/scripts/popup.js']
+        entry: './src/scripts/popup.js',
+        output: {
+          filename: './dist/scripts/popup.js',
         }
       }
     },
@@ -48,7 +36,7 @@ module.exports = function (grunt) {
       },
       scripts: {
         files: ['src/scripts/**/*.js'],
-        tasks: ['rollup']
+        tasks: ['webpack']
       },
       styles: {
         files: ['src/styles/*.scss'],
@@ -70,14 +58,14 @@ module.exports = function (grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-sass');
-  grunt.loadNpmTasks('grunt-rollup');
+  grunt.loadNpmTasks('grunt-webpack');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
 
   grunt.registerTask('build', [
     'copy',
     'sass',
-    'rollup'
+    'webpack'
   ]);
 
   grunt.registerTask('serve', [
