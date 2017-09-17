@@ -21,8 +21,9 @@ class ContentSearch {
       $references.each((r, reference) => {
         let $reference = $(reference);
         results.push(new RefResult({
-          title: $reference.find('h3').text(),
-          subtitle: $reference.find('p').text()
+          title: $reference.find('h3').text().trim(),
+          subtitle: $reference.find('p').text().trim(),
+          uid: $reference.find('a').prop('href').match(Core.refUIDPattern)[0]
         }));
       });
 

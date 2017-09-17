@@ -47,6 +47,7 @@ class Core {
 
 // The base URL for Bible references on the YouVersion website
 Core.baseURL = 'https://www.bible.com/bible';
+Core.refUIDPattern = /\d+\/[a-z0-9]+\.\d+\.\d+/;
 // The user agent to use when making external HTTP requests
 Core.userAgent = 'YouVersion Suggest';
 

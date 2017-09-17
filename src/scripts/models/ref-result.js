@@ -4,7 +4,7 @@ import Core from './core';
 class RefResult {
 
   // Build the JSON for a search result
-  constructor({title, subtitle, book, query, version}) {
+  constructor({title, subtitle, uid, book, query, version}) {
 
     if (book && query && version) {
       this.uid = `${version.id}/${book.id}.${query.chapter}`;
@@ -22,6 +22,7 @@ class RefResult {
     } else {
       this.title = title;
       this.subtitle = subtitle;
+      this.uid = uid;
     }
 
   }
