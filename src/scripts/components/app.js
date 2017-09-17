@@ -1,7 +1,7 @@
 import m from 'mithril';
 import classNames from 'classnames';
-import RefSearch from '../models/ref-search';
-import ContentSearch from '../models/content-search';
+import RefSearcher from '../models/ref-searcher';
+import ContentSearcher from '../models/content-searcher';
 import SearchIconComponent from './search-icon';
 
 // The front-end application UI
@@ -12,8 +12,8 @@ class AppComponent {
     // Results for a "Filter by Reference" search
     this.searchResults = [];
     this.selectedResultIndex = 0;
-    this.refSearch = new RefSearch();
-    this.contentSearch = new ContentSearch();
+    this.refSearcher = new RefSearcher();
+    this.contentSearcher = new ContentSearcher();
     this.queryStr = '';
 
     chrome.storage.local.get(['queryStr', 'lastSearchTime'], (items) => {
@@ -47,14 +47,14 @@ class AppComponent {
     // Always select the first result when the search query changes
     this.selectedResultIndex = 0;
 
-    this.refSearch.search(this.queryStr).then((results) => {
+    this.refSearcher.search(this.queryStr).then((results) => {
       this.searchResults.push.apply(this.searchResults, results);
       m.redraw();
     }, () => {
       // Do nothing if no results are returned
     });
 
-    this.contentSearch.search(this.queryStr).then((results) => {
+    this.contentSearcher.search(this.queryStr).then((results) => {
       // The user may type faster than page fetches can finish, so ensure that
       // only the results from the last fetch (i.e. for the latest query string)
       // are displayed
