@@ -70,6 +70,7 @@ class AppComponent {
         // If content search turned up no results, be sure to hide the loading
         // indicator
         this.loadingSearchResults = false;
+        m.redraw();
       });
     });
 
