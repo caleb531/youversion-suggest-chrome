@@ -8,12 +8,14 @@ import SearchIconComponent from './search-icon';
 class AppComponent {
 
   constructor() {
+
     // Results for a "Filter by Reference" search
     this.searchResults = [];
     this.selectedResultIndex = 0;
     this.refSearch = new RefSearch();
     this.contentSearch = new ContentSearch();
     this.queryStr = '';
+
     chrome.storage.local.get(['queryStr', 'lastSearchTime'], (items) => {
       // Clear the query if it's been more than 5 minutes since last search
       if ((Date.now() - items.lastSearchTime) <= this.constructor.queryMaxAge) {
@@ -21,6 +23,7 @@ class AppComponent {
         chrome.storage.local.set({lastSearchTime: Date.now()});
       }
     });
+
     // Ensure that `this` is always bound to the class instance for all class
     // methods, no matter how they're called
     Object.getOwnPropertyNames(this.constructor.prototype).forEach((methodName) => {
@@ -30,15 +33,20 @@ class AppComponent {
     });
   }
 
+
   triggerSearch(queryStr) {
+
     this.queryStr = queryStr;
+
     chrome.storage.local.set({
       queryStr: this.queryStr,
       lastSearchTime: Date.now()
     });
+
     this.searchResults.length = 0;
     // Always select the first result when the search query changes
     this.selectedResultIndex = 0;
+
     this.refSearch.search(this.queryStr).then((results) => {
       this.searchResults.push.apply(this.searchResults, results);
       m.redraw();
@@ -52,10 +60,12 @@ class AppComponent {
     }, () => {
       // Again, no need to do anything
     });
+
   }
 
   // Handle keyboard shortcuts for navigating results
   handleKeyboardNav(keydownEvent) {
+
     let keyCode = keydownEvent.keyCode;
     // Do not proceed if no results are selected
     if (this.searchResults.length === 0) {
@@ -63,6 +73,7 @@ class AppComponent {
       keydownEvent.redraw = false;
       return;
     }
+
     if (keyCode === 13) {
       // On enter key, view reference
       this.searchResults[this.selectedResultIndex].view();
@@ -86,6 +97,7 @@ class AppComponent {
     } else {
       keydownEvent.redraw = false;
     }
+
   }
 
   // Get the index of a search result DOM element via its data-index attribute

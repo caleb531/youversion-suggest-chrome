@@ -23,10 +23,12 @@ class RefSearch {
     // Ensure that bible/chapter data has loaded, then proceed to search for
     // Bible references matching the given query
     return Promise.all([this.bible, this.chapters]).then(([bible, chapters]) => {
+
       let matchingBooks = this.getBooksMatchingQuery(bible.books, query);
       if (!query.chapter) {
         query.chapter = 1;
       }
+
       // Temporarily make the version always the same
       let chosenVersion = this.chooseBestVersion(bible.versions, bible.default_version, query);
       matchingBooks.forEach((book) => {
@@ -39,6 +41,7 @@ class RefSearch {
           }));
         }
       });
+
       return Promise.resolve(results);
     });
 

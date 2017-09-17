@@ -14,8 +14,10 @@ class ContentSearch {
 
     let searchURL = `${this.constructor.baseSearchURL}`;
     return Core.getHTML(searchURL, {q: queryStr, version_id: 111}).then((html) => {
+
       let $ = cheerio.load(html);
       let $references = $('li.reference');
+
       $references.each((r, reference) => {
         let $reference = $(reference);
         results.push(new RefResult({
@@ -23,6 +25,7 @@ class ContentSearch {
           subtitle: $reference.find('p').text()
         }));
       });
+
       return results;
     });
 
