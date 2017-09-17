@@ -30,7 +30,7 @@ class ContentSearch {
       if (results.length > 0) {
         return Promise.resolve(results);
       } else {
-        return Promise.reject(results);
+        return Promise.reject();
       }
     });
 
