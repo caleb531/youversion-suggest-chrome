@@ -55,8 +55,13 @@ class AppComponent {
     });
 
     this.contentSearch.search(this.queryStr).then((results) => {
-      this.searchResults.push.apply(this.searchResults, results);
-      m.redraw();
+      // The user may type faster than page fetches can finish, so ensure that
+      // only the results from the last fetch (i.e. for the latest query string)
+      // are displayed
+      if (queryStr === this.queryStr) {
+        this.searchResults.push.apply(this.searchResults, results);
+        m.redraw();
+      }
     }, () => {
       // Again, no need to do anything
     });
