@@ -1,0 +1,17 @@
+.loading-icon {
+  $icon-size: 100px;
+  width: $icon-size;
+  height: $icon-size;
+  fill: none;
+  stroke: #36c;
+  stroke-width: 8;
+  stroke-linecap: round;
+  animation: loading 1000ms linear infinite;
+}
+
+// Define the a spinning/throbbing animation for the indicator
+@keyframes loading {
+  100% {
+    transform: rotate(360deg);
+  }
+}

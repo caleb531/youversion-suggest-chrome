@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import RefSearcher from '../models/ref-searcher';
 import ContentSearcher from '../models/content-searcher';
 import SearchIconComponent from './search-icon';
+import LoadingIconComponent from './loading-icon';
 
 // The front-end application UI
 class AppComponent {
@@ -47,11 +48,10 @@ class AppComponent {
     this.searchResults.length = 0;
     // Always select the first result when the search query changes
     this.selectedResultIndex = 0;
-    // Reset loading indicators
-    this.loadingSearchResults = false;
 
     this.refSearcher.search(this.queryStr).then((results) => {
       this.searchResults.push.apply(this.searchResults, results);
+      this.loadingSearchResults = false;
       m.redraw();
     }, () => {
       this.loadingSearchResults = true;
@@ -67,10 +67,12 @@ class AppComponent {
           m.redraw();
         }
       }, () => {
-        // If content search turned up no results, be sure to hide the loading
-        // indicator
-        this.loadingSearchResults = false;
-        m.redraw();
+        if (queryStr === this.queryStr) {
+          // If content search turned up no results, be sure to hide the loading
+          // indicator
+          this.loadingSearchResults = false;
+          m.redraw();
+        }
       });
     });
 
@@ -165,9 +167,9 @@ class AppComponent {
         this.queryStr === '' ?
         m('div.search-results-watermark') : null,
         this.loadingSearchResults ?
-        m('div.search-results-message', 'Loading...') :
+        m('div.search-loading-icon-container', m(LoadingIconComponent)) :
         this.queryStr !== '' && this.searchResults.length === 0 ?
-        m('div.search-results-message', 'No Results') : null,
+        m('div.no-search-results-message', 'No Results') : null,
         m('ol.search-results-list', {
           // Use event delegation to listen for mouse events on any of the
           // result list items
