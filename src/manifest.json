@@ -15,6 +15,7 @@
   },
 
   "permissions": [
+    "https://www.bible.com/*",
     "clipboardWrite",
     "notifications",
     "storage"

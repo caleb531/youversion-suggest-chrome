@@ -32,7 +32,11 @@ class RefSearch {
       matchingBooks.forEach((book) => {
         // Ensure that chapter numbers are not out of range
         if (query.chapter <= chapters[book.id]) {
-          results.push(new RefResult(book, query, chosenVersion));
+          results.push(new RefResult({
+            book: book,
+            query: query,
+            version: chosenVersion
+          }));
         }
       });
       return Promise.resolve(results);

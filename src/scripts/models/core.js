@@ -5,18 +5,18 @@ class Core {
 
   // Fetch the HTML contents at the given URL (with the given GET parameters)
   static getHTML(baseURL, getParams) {
-      return m.request({
-        url: baseURL,
-        data: getParams,
-        headers: {
-          'User-Agent': Core.userAgent
-        }
-      });
+    return m.request({
+      url: baseURL,
+      data: getParams,
+      // By default, Mithril will try to parse response as JSON; return raw data
+      // instead, since we are expecting HTML
+      deserialize: (value) => value
+    });
   }
 
   // Fetch any arbitrary JSON data via the given data file path
   static getJSON(dataFilePath) {
-      return m.request({url: dataFilePath});
+    return m.request({url: dataFilePath});
   }
 
   // Retrieve the Bible data for the current language (English for now)

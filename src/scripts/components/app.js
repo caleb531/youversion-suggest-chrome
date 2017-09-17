@@ -46,6 +46,12 @@ class AppComponent {
       // Do nothing if no results are returned
     });
 
+    this.contentSearch.search(this.queryStr).then((results) => {
+      this.searchResults.push.apply(this.searchResults, results);
+      m.redraw();
+    }, () => {
+      // Again, no need to do anything
+    });
   }
 
   // Handle keyboard shortcuts for navigating results
