@@ -11,6 +11,8 @@ class Searcher {
   constructor({onUpdateSearchStatus}) {
 
       this.queryStr = '';
+      this.restoreSavedQueryStr();
+
       this.refSearcher = new RefSearcher();
       this.contentSearcher = new ContentSearcher();
 
@@ -19,8 +21,6 @@ class Searcher {
       this.selectedResultIndex = 0;
       this.loadingResults = false;
       this.onUpdateSearchStatus = onUpdateSearchStatus;
-
-      this.restoreSavedQueryStr();
 
   }
 
