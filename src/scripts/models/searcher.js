@@ -8,7 +8,7 @@ class Searcher {
 
   // Initialize the Searcher with a callback to run whenever the internal search
   // results are updated
-  constructor({onResultsUpdate}) {
+  constructor({onUpdateSearchStatus}) {
 
       this.queryStr = '';
       this.refSearcher = new RefSearcher();
@@ -18,7 +18,7 @@ class Searcher {
       this.results = [];
       this.selectedResultIndex = 0;
       this.loadingResults = false;
-      this.onResultsUpdate = onResultsUpdate;
+      this.onUpdateSearchStatus = onUpdateSearchStatus;
 
       this.restoreSavedQueryStr();
 
@@ -63,7 +63,7 @@ class Searcher {
     this.refSearcher.search(queryStr).then((results) => {
       this.results.push.apply(this.results, results);
       this.loadingResults = false;
-      this.onResultsUpdate();
+      this.onUpdateSearchStatus();
     }, () => {
       this.performContentSearch(queryStr);
     });
@@ -74,7 +74,7 @@ class Searcher {
   performContentSearch(queryStr) {
 
     this.loadingResults = true;
-    this.onResultsUpdate();
+    this.onUpdateSearchStatus();
     // Perform content search if no reference results turned up
     this.contentSearcher.search(queryStr).then((results) => {
       // The user may type faster than page fetches can finish, so ensure that
@@ -83,14 +83,14 @@ class Searcher {
       if (queryStr === this.queryStr) {
         this.results.push.apply(this.results, results);
         this.loadingResults = false;
-        this.onResultsUpdate();
+        this.onUpdateSearchStatus();
       }
     }, () => {
       if (queryStr === this.queryStr) {
         // If content search turned up no results, be sure to hide the loading
         // indicator
         this.loadingResults = false;
-        this.onResultsUpdate();
+        this.onUpdateSearchStatus();
       }
     });
 

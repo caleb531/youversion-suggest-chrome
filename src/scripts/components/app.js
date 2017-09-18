@@ -10,7 +10,7 @@ class AppComponent {
   constructor() {
     // Initialize a new Searcher object, making sure to redraw whenever results
     // are updated
-    this.searcher = new Searcher({onResultsUpdate: () => m.redraw()});
+    this.searcher = new Searcher({onUpdateSearchStatus: () => m.redraw()});
     this.bindAllMethods();
   }
 
