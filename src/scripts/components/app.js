@@ -1,7 +1,6 @@
 import m from 'mithril';
 import classNames from 'classnames';
-import RefSearcher from '../models/ref-searcher';
-import ContentSearcher from '../models/content-searcher';
+import Searcher from '../models/searcher';
 import SearchIconComponent from './search-icon';
 import LoadingIconComponent from './loading-icon';
 
@@ -9,25 +8,15 @@ import LoadingIconComponent from './loading-icon';
 class AppComponent {
 
   constructor() {
+    // Initialize a new Searcher object, making sure to redraw whenever results
+    // are updated
+    this.searcher = new Searcher({onResultsUpdate: () => m.redraw()});
+    this.bindAllMethods();
+  }
 
-    // Results for a "Filter by Reference" search
-    this.searchResults = [];
-    this.selectedResultIndex = 0;
-    this.refSearcher = new RefSearcher();
-    this.contentSearcher = new ContentSearcher();
-    this.queryStr = '';
-    this.loadingSearchResults = false;
-
-    chrome.storage.local.get(['queryStr', 'lastSearchTime'], (items) => {
-      // Clear the query if it's been more than 5 minutes since last search
-      if ((Date.now() - items.lastSearchTime) <= this.constructor.queryMaxAge) {
-        this.triggerSearch(items.queryStr);
-        chrome.storage.local.set({lastSearchTime: Date.now()});
-      }
-    });
-
-    // Ensure that `this` is always bound to the class instance for all class
-    // methods, no matter how they're called
+  // Ensure that `this` is always bound to the class instance for all class
+  // methods, no matter how they're called
+  bindAllMethods() {
     Object.getOwnPropertyNames(this.constructor.prototype).forEach((methodName) => {
       if (methodName !== 'constructor') {
         this.constructor.prototype[methodName] = this.constructor.prototype[methodName].bind(this);
@@ -35,79 +24,28 @@ class AppComponent {
     });
   }
 
-
-  triggerSearch(queryStr) {
-
-    this.queryStr = queryStr;
-
-    chrome.storage.local.set({
-      queryStr: this.queryStr,
-      lastSearchTime: Date.now()
-    });
-
-    this.searchResults.length = 0;
-    // Always select the first result when the search query changes
-    this.selectedResultIndex = 0;
-
-    this.refSearcher.search(this.queryStr).then((results) => {
-      this.searchResults.push.apply(this.searchResults, results);
-      this.loadingSearchResults = false;
-      m.redraw();
-    }, () => {
-      this.loadingSearchResults = true;
-      m.redraw();
-      // Perform content search if no reference results turned up
-      this.contentSearcher.search(this.queryStr).then((results) => {
-        // The user may type faster than page fetches can finish, so ensure that
-        // only the results from the last fetch (i.e. for the latest query
-        // string) are displayed
-        if (queryStr === this.queryStr) {
-          this.searchResults.push.apply(this.searchResults, results);
-          this.loadingSearchResults = false;
-          m.redraw();
-        }
-      }, () => {
-        if (queryStr === this.queryStr) {
-          // If content search turned up no results, be sure to hide the loading
-          // indicator
-          this.loadingSearchResults = false;
-          m.redraw();
-        }
-      });
-    });
-
-  }
-
   // Handle keyboard shortcuts for navigating results
   handleKeyboardNav(keydownEvent) {
 
     let keyCode = keydownEvent.keyCode;
     // Do not proceed if no results are selected
-    if (this.searchResults.length === 0) {
+    if (this.searcher.results.length === 0) {
       // Prevent Mithril from redrawing for irrelevant keydown events
       keydownEvent.redraw = false;
       return;
     }
 
     if (keyCode === 13) {
-      // On enter key, view reference
-      this.searchResults[this.selectedResultIndex].view();
+      // On enter key, action selected result (by default, view the reference)
+      this.searcher.actionSelectedResult();
       keydownEvent.preventDefault();
     } else if (keyCode === 40) {
       // On down arrow, select next result
-      this.selectedResultIndex += 1;
-      // Wrap around as needed
-      if (this.selectedResultIndex === this.searchResults.length) {
-        this.selectedResultIndex = 0;
-      }
+      this.searcher.selectNextResult();
       keydownEvent.preventDefault();
     } else if (keyCode === 38) {
       // On up arrow, select previous result
-      this.selectedResultIndex -= 1;
-      // Wrap around
-      if (this.selectedResultIndex < 0) {
-        this.selectedResultIndex = this.searchResults.length - 1;
-      }
+      this.searcher.selectPrevResult();
       keydownEvent.preventDefault();
     } else {
       keydownEvent.redraw = false;
@@ -124,7 +62,7 @@ class AppComponent {
   // visible area (such as when scrolling)
   scrollSelectedResultIntoView(vnode) {
     let resultIndex = this.getResultElemIndex(vnode.dom);
-    if (resultIndex === this.selectedResultIndex) {
+    if (this.searcher.isSelectedResult(resultIndex)) {
       vnode.dom.scrollIntoView({block: 'nearest'});
     }
   }
@@ -133,8 +71,8 @@ class AppComponent {
   selectByMouse(mouseoverEvent) {
     let resultElem = mouseoverEvent.target.closest('.search-result');
     let newSelectedIndex = this.getResultElemIndex(resultElem);
-    if (newSelectedIndex !== this.selectedResultIndex) {
-      this.selectedResultIndex = newSelectedIndex;
+    if (!this.searcher.isSelectedResult(newSelectedIndex)) {
+      this.searcher.selectResult(newSelectedIndex);
     } else {
       // Prevent Mithril from redrawing if the selected result hasn't changed
       // when hovering
@@ -146,7 +84,9 @@ class AppComponent {
   actionByMouse(clickEvent) {
     let resultElem = clickEvent.target.closest('.search-result');
     let resultIndex = this.getResultElemIndex(resultElem);
-    this.searchResults[resultIndex].view();
+    if (this.searcher.isSelectedResult(resultIndex)) {
+      this.searcher.actionSelectedResult();
+    }
   }
 
   view() {
@@ -156,19 +96,19 @@ class AppComponent {
         m('div.search-field-container', [
           m('input[type=text][autofocus].search-field', {
             placeholder: 'Type a book, chapter, verse, or keyword',
-            value: this.queryStr,
+            value: this.searcher.queryStr,
             onkeydown: this.handleKeyboardNav,
-            oninput: (inputEvent) => this.triggerSearch(inputEvent.target.value)
+            oninput: (inputEvent) => this.searcher.search(inputEvent.target.value)
           }),
           m(SearchIconComponent)
         ])
       ]),
       m('div.search-results-container', [
-        this.queryStr === '' ?
+        this.searcher.queryStr === '' ?
         m('div.search-results-watermark') : null,
-        this.loadingSearchResults ?
+        this.searcher.loadingResults ?
         m('div.search-loading-icon-container', m(LoadingIconComponent)) :
-        this.queryStr !== '' && this.searchResults.length === 0 ?
+        this.searcher.queryStr !== '' && this.searcher.results.length === 0 ?
         m('div.no-search-results-message', 'No Results') : null,
         m('ol.search-results-list', {
           // Use event delegation to listen for mouse events on any of the
@@ -177,14 +117,14 @@ class AppComponent {
           onclick: this.actionByMouse
         }, [
           // Search results from the reference filter (e.g. 1co13.3-7)
-          this.searchResults.length > 0 ? [
-            this.searchResults.map((result, r) => {
+          this.searcher.results.length > 0 ? [
+            this.searcher.results.map((result, r) => {
               return m('li.search-result', {
                 // Store the index on each result element for easy referencing
                 // within event callbacks later
                 'data-index': r,
                 class: classNames({
-                  'selected': r === this.selectedResultIndex
+                  'selected': this.searcher.isSelectedResult(r)
                 }),
                 // Scroll selected result into view as needed
                 onupdate: this.scrollSelectedResultIntoView
@@ -200,9 +140,5 @@ class AppComponent {
   }
 
 }
-
-// The time since the last search (in milliseconds) to wait before clearing the
-// query
-AppComponent.queryMaxAge = 300e3;
 
 export default AppComponent;
