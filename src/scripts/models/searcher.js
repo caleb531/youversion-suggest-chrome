@@ -61,7 +61,7 @@ class Searcher {
   performRefSearch(queryStr) {
 
     this.refSearcher.search(queryStr).then((results) => {
-      this.results.push.apply(this.results, results);
+      this.results.push(...results);
       this.loadingResults = false;
       this.onUpdateSearchStatus();
     }, () => {
@@ -81,7 +81,7 @@ class Searcher {
       // only the results from the last fetch (i.e. for the latest query
       // string) are displayed
       if (queryStr === this.queryStr) {
-        this.results.push.apply(this.results, results);
+        this.results.push(...results);
         this.loadingResults = false;
         this.onUpdateSearchStatus();
       }
