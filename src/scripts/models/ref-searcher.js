@@ -1,9 +1,9 @@
 import Core from './core';
-import RefSearchQuery from './ref-search-query.js';
+import RefSearcherQuery from './ref-search-query.js';
 import RefResult from './ref-result.js';
 
 // Functions for searching the Bible by reference
-class RefSearch {
+class RefSearcher {
 
   constructor() {
     this.bible = Core.getBibleData();
@@ -16,7 +16,7 @@ class RefSearch {
 
     let results = [];
     // Build a query object containing the individual parts of the query string
-    let query = new RefSearchQuery(queryStr);
+    let query = new RefSearcherQuery(queryStr);
     if (query.isEmpty()) {
       return Promise.reject();
     }
@@ -87,4 +87,4 @@ class RefSearch {
 
 }
 
-export default RefSearch;
+export default RefSearcher;

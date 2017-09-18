@@ -2,7 +2,7 @@ import cheerio from 'cheerio';
 import Core from './core';
 import RefResult from './ref-result.js';
 
-class ContentSearch {
+class ContentSearcher {
 
   search(queryStr) {
 
@@ -38,6 +38,6 @@ class ContentSearch {
 
 }
 
-ContentSearch.baseSearchURL = 'https://www.bible.com/search/bible';
+ContentSearcher.baseSearchURL = 'https://www.bible.com/search/bible';
 
-export default ContentSearch;
+export default ContentSearcher;
