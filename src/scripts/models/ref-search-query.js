@@ -34,26 +34,26 @@ class RefSearchQuery {
     this.book = bookMatch.trimRight();
 
     let chapterMatch = queryMatches[2];
-    if (chapterMatch) {
 
-      this.chapter = Math.max(Number(chapterMatch), 1);
+    this.chapter = Math.max(Number(chapterMatch), 1);
+    if (!this.chapter) {
+      this.chapter = 1;
+    }
 
-      let verseMatch = queryMatches[3];
-      if (verseMatch) {
-        this.verse = Math.max(Number(verseMatch), 1);
-        let endVerseMatch = queryMatches[4];
+    let verseMatch = queryMatches[3];
+    if (verseMatch) {
+      this.verse = Math.max(Number(verseMatch), 1);
+      let endVerseMatch = queryMatches[4];
 
-        if (endVerseMatch) {
-          this.endVerse = Number(endVerseMatch);
-        }
-
+      if (endVerseMatch) {
+        this.endVerse = Number(endVerseMatch);
       }
 
-      let versionMatch = queryMatches[5];
-      if (versionMatch) {
-        this.version = Core.normalizeQueryStr(versionMatch);
-      }
+    }
 
+    let versionMatch = queryMatches[5];
+    if (versionMatch) {
+      this.version = Core.normalizeQueryStr(versionMatch);
     }
 
   }

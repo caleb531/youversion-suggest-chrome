@@ -14,40 +14,46 @@ class RefSearcher {
   // list of search results as JSON
   search(queryStr) {
 
-    let results = [];
     // Build a query object containing the individual parts of the query string
     let query = new RefSearcherQuery(queryStr);
     if (query.isEmpty()) {
       return Promise.reject();
     }
+
     // Ensure that bible/chapter data has loaded, then proceed to search for
     // Bible references matching the given query
     return Promise.all([this.bible, this.chapters]).then(([bible, chapters]) => {
 
       let matchingBooks = this.getBooksMatchingQuery(bible.books, query);
-      if (!query.chapter) {
-        query.chapter = 1;
-      }
-
-      // Temporarily make the version always the same
       let chosenVersion = this.chooseBestVersion(bible.versions, bible.default_version, query);
-      matchingBooks.forEach((book) => {
-        // Ensure that chapter numbers are not out of range
-        if (query.chapter <= chapters[book.id]) {
-          results.push(new RefResult({
-            book: book,
-            query: query,
-            version: chosenVersion
-          }));
-        }
-      });
+      let results = this.buildResultsFromData({chapters, matchingBooks, query, chosenVersion});
 
       if (results.length > 0) {
         return Promise.resolve(results);
       } else {
         return Promise.reject();
       }
+
     });
+
+  }
+
+  // Perform a reference search using the fetched Bible/chapter data, as well as
+  // the parsed query
+  buildResultsFromData({chapters, matchingBooks, query, chosenVersion}) {
+
+    let results = [];
+    matchingBooks.forEach((book) => {
+      // Ensure that chapter numbers are not out of range
+      if (query.chapter <= chapters[book.id]) {
+        results.push(new RefResult({
+          book: book,
+          query: query,
+          version: chosenVersion
+        }));
+      }
+    });
+    return results;
 
   }
 
