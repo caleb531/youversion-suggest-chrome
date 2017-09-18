@@ -53,31 +53,45 @@ class Searcher {
     // Always select the first result when the search query changes
     this.selectedResultIndex = 0;
 
-    this.refSearcher.search(this.queryStr).then((results) => {
+    this.performRefSearch(queryStr);
+
+  }
+
+  // Perform a search by reference using the given query string
+  performRefSearch(queryStr) {
+
+    this.refSearcher.search(queryStr).then((results) => {
       this.results.push.apply(this.results, results);
       this.loadingResults = false;
       this.onResultsUpdate();
     }, () => {
-      this.loadingResults = true;
-      this.onResultsUpdate();
-      // Perform content search if no reference results turned up
-      this.contentSearcher.search(this.queryStr).then((results) => {
-        // The user may type faster than page fetches can finish, so ensure that
-        // only the results from the last fetch (i.e. for the latest query
-        // string) are displayed
-        if (queryStr === this.queryStr) {
-          this.results.push.apply(this.results, results);
-          this.loadingResults = false;
-          this.onResultsUpdate();
-        }
-      }, () => {
-        if (queryStr === this.queryStr) {
-          // If content search turned up no results, be sure to hide the loading
-          // indicator
-          this.loadingResults = false;
-          this.onResultsUpdate();
-        }
-      });
+      this.performContentSearch(queryStr);
+    });
+
+  }
+
+  // Perform a search by content using the given query string
+  performContentSearch(queryStr) {
+
+    this.loadingResults = true;
+    this.onResultsUpdate();
+    // Perform content search if no reference results turned up
+    this.contentSearcher.search(queryStr).then((results) => {
+      // The user may type faster than page fetches can finish, so ensure that
+      // only the results from the last fetch (i.e. for the latest query
+      // string) are displayed
+      if (queryStr === this.queryStr) {
+        this.results.push.apply(this.results, results);
+        this.loadingResults = false;
+        this.onResultsUpdate();
+      }
+    }, () => {
+      if (queryStr === this.queryStr) {
+        // If content search turned up no results, be sure to hide the loading
+        // indicator
+        this.loadingResults = false;
+        this.onResultsUpdate();
+      }
     });
 
   }
