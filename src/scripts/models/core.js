@@ -10,7 +10,7 @@ class Core {
       data: getParams,
       // By default, Mithril will try to parse response as JSON; return raw data
       // instead, since we are expecting HTML
-      deserialize: (value) => value
+      deserialize: (content) => content
     });
   }
 
