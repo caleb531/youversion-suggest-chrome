@@ -1,3 +1,5 @@
+import debounce from 'debounce-promise';
+import Core from './core';
 import RefSearcher from '../models/ref-searcher';
 import ContentSearcher from '../models/content-searcher';
 
@@ -22,6 +24,14 @@ class Searcher {
       this.loadingResults = false;
       this.onUpdateSearchStatus = onUpdateSearchStatus;
 
+      this.debounceContentSearch();
+
+  }
+
+  // Only run a content search if the last content search was at least some
+  // amount of time ago (specified by searchDelay)
+  debounceContentSearch() {
+    this.constructor.prototype.performContentSearch = debounce(this.constructor.prototype.performContentSearch, this.constructor.searchDelay);
   }
 
   // Retrieve the last-searched query from the extension's local data store
@@ -48,24 +58,33 @@ class Searcher {
 
     this.queryStr = queryStr;
     this.saveQueryStr();
+    let normalizedQueryStr = Core.normalizeQueryStr(queryStr);
 
     this.results.length = 0;
     // Always select the first result when the search query changes
     this.selectedResultIndex = 0;
 
-    this.performRefSearch(queryStr);
+    if (normalizedQueryStr === '') {
+      this.loadingResults = false;
+      this.onUpdateSearchStatus();
+      return;
+    }
+
+    return this.performRefSearch(queryStr);
 
   }
 
   // Perform a search by reference using the given query string
   performRefSearch(queryStr) {
 
-    this.refSearcher.search(queryStr).then((results) => {
+    return this.refSearcher.search(queryStr).then((results) => {
       this.results.push(...results);
       this.loadingResults = false;
       this.onUpdateSearchStatus();
     }, () => {
-      this.performContentSearch(queryStr);
+      this.loadingResults = true;
+      this.onUpdateSearchStatus();
+      return this.performContentSearch(queryStr);
     });
 
   }
@@ -73,10 +92,8 @@ class Searcher {
   // Perform a search by content using the given query string
   performContentSearch(queryStr) {
 
-    this.loadingResults = true;
-    this.onUpdateSearchStatus();
     // Perform content search if no reference results turned up
-    this.contentSearcher.search(queryStr).then((results) => {
+    return this.contentSearcher.search(queryStr).then((results) => {
       // The user may type faster than page fetches can finish, so ensure that
       // only the results from the last fetch (i.e. for the latest query
       // string) are displayed
@@ -135,5 +152,8 @@ class Searcher {
 // The number of milliseconds to wait (since the last search) before clearing
 // the query
 Searcher.queryMaxAge = 300e3;
+// The time in milliseconds to wait (after the user has stopped typing) before
+// performing the search
+Searcher.searchDelay = 300;
 
 export default Searcher;
