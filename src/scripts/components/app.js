@@ -90,6 +90,7 @@ class AppComponent {
   }
 
   view() {
+
     return m('div.app', [
       m('header.app-header', [
         m('h1.app-title', 'YouVersion Suggest'),
@@ -103,13 +104,18 @@ class AppComponent {
           m(SearchIconComponent)
         ])
       ]),
+
       m('div.app-content', [
+
         this.searcher.loadingResults ?
         m('div.search-loading-icon-container', m(LoadingIconComponent)) :
+
         this.searcher.queryStr === '' ?
         m('div.app-watermark') :
+
         this.searcher.results.length === 0 ?
         m('div.app-status-message', 'No Results') : null,
+
         m('ol.search-results-list', {
           // Use event delegation to listen for mouse events on any of the
           // result list items
@@ -137,6 +143,7 @@ class AppComponent {
         ])
       ])
     ]);
+
   }
 
 }
