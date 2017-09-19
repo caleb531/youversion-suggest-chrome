@@ -103,13 +103,13 @@ class AppComponent {
           m(SearchIconComponent)
         ])
       ]),
-      m('div.search-results-container', [
-        this.searcher.queryStr === '' && !this.searcher.loadingResults ?
-        m('div.search-results-watermark') : null,
+      m('div.app-content', [
         this.searcher.loadingResults ?
         m('div.search-loading-icon-container', m(LoadingIconComponent)) :
-        this.searcher.queryStr !== '' && this.searcher.results.length === 0 ?
-        m('div.no-search-results-message', 'No Results') : null,
+        this.searcher.queryStr === '' ?
+        m('div.app-watermark') :
+        this.searcher.results.length === 0 ?
+        m('div.app-status-message', 'No Results') : null,
         m('ol.search-results-list', {
           // Use event delegation to listen for mouse events on any of the
           // result list items

@@ -1,31 +1,5 @@
 // Search results containers and items
 
-.search-results-container {
-  position: relative;
-  height: (($search-result-line-height * ($search-result-title-font-size + $search-result-subtitle-font-size)) + ($search-result-padding-y * 2) + $search-result-border-width) * $max-visible-search-results;
-  overflow-y: scroll;
-}
-
-.search-results-watermark {
-  opacity: 0.1;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('../icons/icon-outline.svg');
-  background-size: 256px;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-}
-
-.no-search-results-message {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 32px;
-  color: rgba(#000, 0.3);
-}
-
 .search-loading-icon-container {
   display: flex;
   justify-content: center;
