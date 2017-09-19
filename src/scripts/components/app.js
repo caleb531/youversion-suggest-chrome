@@ -104,7 +104,7 @@ class AppComponent {
         ])
       ]),
       m('div.search-results-container', [
-        this.searcher.queryStr === '' ?
+        this.searcher.queryStr === '' && !this.searcher.loadingResults ?
         m('div.search-results-watermark') : null,
         this.searcher.loadingResults ?
         m('div.search-loading-icon-container', m(LoadingIconComponent)) :

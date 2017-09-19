@@ -1,8 +1,15 @@
+import debounce from 'debounce-promise';
 import cheerio from 'cheerio';
 import Core from './core';
 import RefResult from './ref-result.js';
 
 class ContentSearcher {
+
+  constructor() {
+    // Only run a content search if the last content search was at least some
+    // amount of time ago (specified by searchDelay)
+    this.constructor.prototype.search = debounce(this.constructor.prototype.search, this.constructor.searchDelay);
+  }
 
   search(queryStr) {
 
@@ -39,5 +46,8 @@ class ContentSearcher {
 }
 
 ContentSearcher.baseSearchURL = 'https://www.bible.com/search/bible';
+// The time in milliseconds to wait (after the user has stopped typing) before
+// performing the search
+ContentSearcher.searchDelay = 300;
 
 export default ContentSearcher;
