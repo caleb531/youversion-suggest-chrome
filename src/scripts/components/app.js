@@ -124,7 +124,7 @@ class AppComponent {
         }, [
           // Search results from the reference filter (e.g. 1co13.3-7)
           this.searcher.results.length > 0 ? [
-            this.searcher.results.map((result, r) => {
+            this.searcher.results.map((reference, r) => {
               return m('li.search-result', {
                 // Store the index on each result element for easy referencing
                 // within event callbacks later
@@ -135,8 +135,9 @@ class AppComponent {
                 // Scroll selected result into view as needed
                 onupdate: this.scrollSelectedResultIntoView
               }, [
-                m('div.search-result-title', result.title),
-                m('div.search-result-subtitle', result.subtitle)
+                m('div.search-result-title', reference.name),
+                reference.content ?
+                m('div.search-result-subtitle', reference.content) : null
               ]);
             })
           ] : null

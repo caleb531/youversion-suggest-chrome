@@ -1,28 +1,33 @@
 import Core from './core';
 
 // A search result for a Bible reference search
-class RefResult {
+class Reference {
 
   // Build the JSON for a search result
-  constructor({title, subtitle, uid, book, query, version}) {
+  constructor({name, uid, book, query, version, content}) {
 
     if (book && query && version) {
       this.uid = `${version.id}/${book.id}.${query.chapter}`;
-      this.title = `${book.name} ${query.chapter}`;
-      this.subtitle = 'View on YouVersion';
+      this.book = book;
+      this.name = `${book.name} ${query.chapter}`;
       if (query.verse) {
         this.uid += `.${query.verse}`;
-        this.title += `:${query.verse}`;
+        this.name += `:${query.verse}`;
+        this.verse = query.verse;
       }
       if (query.endVerse && query.endVerse > query.verse) {
         this.uid += `-${query.endVerse}`;
-        this.title += `-${query.endVerse}`;
+        this.name += `-${query.endVerse}`;
+        this.endVerse = query.endVerse;
       }
-      this.title += ` (${version.name})`;
+      this.name += ` (${version.name})`;
+      this.version = version;
     } else {
-      this.title = title;
-      this.subtitle = subtitle;
+      this.name = name;
       this.uid = uid;
+      if (content) {
+        this.content = content;
+      }
     }
 
   }
@@ -34,4 +39,4 @@ class RefResult {
 
 }
 
-export default RefResult;
+export default Reference;

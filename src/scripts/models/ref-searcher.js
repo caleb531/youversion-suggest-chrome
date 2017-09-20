@@ -1,6 +1,6 @@
 import Core from './core';
 import RefSearcherQuery from './ref-search-query.js';
-import RefResult from './ref-result.js';
+import Reference from './reference.js';
 
 // Functions for searching the Bible by reference
 class RefSearcher {
@@ -46,7 +46,7 @@ class RefSearcher {
     matchingBooks.forEach((book) => {
       // Ensure that chapter numbers are not out of range
       if (query.chapter <= chapters[book.id]) {
-        results.push(new RefResult({
+        results.push(new Reference({
           book: book,
           query: query,
           version: chosenVersion

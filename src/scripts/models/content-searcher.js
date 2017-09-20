@@ -1,6 +1,6 @@
 import cheerio from 'cheerio';
 import Core from './core';
-import RefResult from './ref-result.js';
+import Reference from './reference.js';
 
 class ContentSearcher {
 
@@ -27,10 +27,10 @@ class ContentSearcher {
     let results = [];
     $references.each((r, reference) => {
       let $reference = $(reference);
-      results.push(new RefResult({
-        title: $reference.find('h3').text().trim(),
-        subtitle: $reference.find('p').text().trim(),
-        uid: $reference.find('a').prop('href').match(Core.refUIDPattern)[0]
+      results.push(new Reference({
+        uid: $reference.find('a').prop('href').match(Core.refUIDPattern)[0],
+        name: $reference.find('h3').text().trim(),
+        content: $reference.find('p').text().trim(),
       }));
     });
     return results;
