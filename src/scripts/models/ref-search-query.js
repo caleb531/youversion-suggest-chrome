@@ -22,38 +22,51 @@ class RefSearchQuery {
 
   // Parse the query string into its individual parts
   parseQueryStr() {
-
     let queryMatches = this.queryStr.match(this.constructor.refPattern);
     if (!queryMatches) {
       return;
     }
+    this.parseBook(queryMatches);
+    this.parseChapter(queryMatches);
+    this.parseVerses(queryMatches);
+    this.parseVersion(queryMatches);
+  }
 
+  // Individual functions for parsing each part of the query string reference
+
+  parseBook(queryMatches) {
     let bookMatch = queryMatches[1];
     this.book = bookMatch.trimRight();
+  }
 
+  parseChapter(queryMatches) {
     let chapterMatch = queryMatches[2];
-
     this.chapter = Math.max(Number(chapterMatch), 1);
     if (!this.chapter) {
       this.chapter = 1;
     }
+  }
 
+  parseVerses(queryMatches) {
     let verseMatch = queryMatches[3];
     if (verseMatch) {
       this.verse = Math.max(Number(verseMatch), 1);
-      let endVerseMatch = queryMatches[4];
-
-      if (endVerseMatch) {
-        this.endVerse = Number(endVerseMatch);
-      }
-
+      this.parseEndVerse(queryMatches);
     }
+  }
 
+  parseEndVerse(queryMatches) {
+    let endVerseMatch = queryMatches[4];
+    if (endVerseMatch) {
+      this.endVerse = Number(endVerseMatch);
+    }
+  }
+
+  parseVersion(queryMatches) {
     let versionMatch = queryMatches[5];
     if (versionMatch) {
       this.version = versionMatch;
     }
-
   }
 
   // Check if already normalized-query is empty
