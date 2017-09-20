@@ -29,7 +29,7 @@ class RefResult {
 
   // View this reference result on the YouVersion website
   view() {
-    window.open(`${Core.baseURL}/${this.uid.toUpperCase()}`);
+    window.open(`${Core.baseRefURL}/${this.uid.toUpperCase()}`);
   }
 
 }

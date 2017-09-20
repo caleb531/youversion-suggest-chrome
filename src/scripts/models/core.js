@@ -46,7 +46,7 @@ class Core {
 }
 
 // The base URL for Bible references on the YouVersion website
-Core.baseURL = 'https://www.bible.com/bible';
+Core.baseRefURL = 'https://www.bible.com/bible';
 Core.refUIDPattern = /\d+\/[a-z0-9]+\.\d+\.\d+/;
 
 export default Core;
