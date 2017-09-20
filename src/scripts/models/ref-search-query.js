@@ -1,11 +1,9 @@
-import Core from './core';
-
 // A parsed search query for a Bible reference search
 class RefSearchQuery {
 
   constructor(queryStr) {
 
-    this.queryStr = Core.normalizeQueryStr(queryStr);
+    this.queryStr = queryStr;
     this.parseQueryStr();
 
   }
@@ -53,7 +51,7 @@ class RefSearchQuery {
 
     let versionMatch = queryMatches[5];
     if (versionMatch) {
-      this.version = Core.normalizeQueryStr(versionMatch);
+      this.version = versionMatch;
     }
 
   }

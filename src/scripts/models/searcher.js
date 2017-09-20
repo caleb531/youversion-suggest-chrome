@@ -70,7 +70,7 @@ class Searcher {
       return;
     }
 
-    return this.performRefSearch(queryStr);
+    return this.performRefSearch(normalizedQueryStr);
 
   }
 
