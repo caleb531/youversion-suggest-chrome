@@ -6,7 +6,7 @@
 
 .search-field {
   width: 100%;
-  border: solid $app-border-width $search-field-unfocus-color;
+  border: solid $app-border-width $search-field-border-color;
   padding: 6px 12px;
   padding-left: $search-field-icon-size + $search-field-icon-padding-left + $search-field-icon-padding-right;
   font-size: 16px;
@@ -24,7 +24,7 @@
   transform: translateY(-$search-field-icon-size / 2);
   width: $search-field-icon-size;
   height: $search-field-icon-size;
-  fill: $search-field-unfocus-color;
+  fill: $search-field-border-color;
   .search-field:focus + & {
     fill: $search-field-focus-color;
   }

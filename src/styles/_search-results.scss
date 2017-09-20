@@ -20,7 +20,7 @@
 
 .search-result {
   padding: $search-result-padding-y $search-result-padding-x;
-  border-bottom: solid $app-border-width $search-result-unselected-border-color;
+  border-bottom: solid $app-border-width $search-result-border-color;
   &.selected {
     background-color: $search-result-selected-color;
     color: #fff;
