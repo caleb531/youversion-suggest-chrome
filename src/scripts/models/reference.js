@@ -9,6 +9,7 @@ class Reference {
     if (book && query && version) {
       this.uid = `${version.id}/${book.id}.${query.chapter}`;
       this.book = book;
+      this.chapter = query.chapter;
       this.name = `${book.name} ${query.chapter}`;
       if (query.verse) {
         this.uid += `.${query.verse}`;
