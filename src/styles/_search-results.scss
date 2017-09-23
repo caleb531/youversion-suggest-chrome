@@ -20,7 +20,7 @@
 
 .search-result {
   position: relative;
-  padding: $app-base-padding $app-base-padding;
+  padding: ($app-base-padding / 2) $app-base-padding;
   border-bottom: solid $app-border-width $search-result-border-color;
   &.selected {
     background-color: $search-result-selected-color;
