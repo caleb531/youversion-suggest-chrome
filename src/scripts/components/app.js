@@ -129,27 +129,22 @@ class AppComponent {
           // result list items
           onmouseover: this.selectByMouse,
           onclick: this.actionByMouse
-        }, [
-          // Search results from the reference filter (e.g. 1co13.3-7)
-          this.searcher.results.length > 0 ? [
-            this.searcher.results.map((reference, r) => {
-              return m('li.search-result', {
-                // Store the index on each result element for easy referencing
-                // within event callbacks later
-                'data-index': r,
-                class: classNames({
-                  'selected': this.searcher.isSelectedResult(r)
-                }),
-                // Scroll selected result into view as needed
-                onupdate: this.scrollSelectedResultIntoView
-              }, [
-                m('div.search-result-title', reference.name),
-                reference.content ?
-                m('div.search-result-subtitle', reference.content) : null
-              ]);
-            })
-          ] : null
-        ])
+        }, this.searcher.results.map((reference, r) => {
+          return m('li.search-result', {
+            // Store the index on each result element for easy referencing
+            // within event callbacks later
+            'data-index': r,
+            class: classNames({
+              'selected': this.searcher.isSelectedResult(r)
+            }),
+            // Scroll selected result into view as needed
+            onupdate: this.scrollSelectedResultIntoView
+          }, [
+            m('div.search-result-title', reference.name),
+            reference.content ?
+            m('div.search-result-subtitle', reference.content) : null
+          ]);
+        }))
       ])
     ]);
 
