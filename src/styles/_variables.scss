@@ -16,16 +16,5 @@ $search-field-icon-padding-right: 4px;
 
 // Search results
 
-// The maximum number of search results to show at one time
-
 $search-result-selected-color: $search-field-focus-color;
-$search-result-selected-border-color: darken($search-result-selected-color, 10%);
 $search-result-border-color: #bbb;
-
-$max-visible-search-results: 6;
-$search-result-padding-x: $app-base-padding;
-$search-result-padding-y: $app-base-padding / 2;
-$search-result-border-width: $app-border-width;
-$search-result-line-height: 1.25;
-$search-result-title-font-size: 16px;
-$search-result-subtitle-font-size: 12px;

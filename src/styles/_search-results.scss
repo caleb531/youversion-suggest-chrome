@@ -15,12 +15,12 @@
   margin: 0;
   padding: 0;
   list-style-type: none;
-  line-height: $search-result-line-height;
+  line-height: 1.25;
 }
 
 .search-result {
   position: relative;
-  padding: $search-result-padding-y $search-result-padding-x;
+  padding: $app-base-padding $app-base-padding;
   border-bottom: solid $app-border-width $search-result-border-color;
   &.selected {
     background-color: $search-result-selected-color;
@@ -28,11 +28,11 @@
   }
 }
 .search-result-title {
-  font-size: $search-result-title-font-size;
+  font-size: 16px;
 }
 .search-result-subtitle {
   opacity: 0.5;
-  font-size: $search-result-subtitle-font-size;
+  font-size: 12px;
 }
 
 .search-result-actions {
