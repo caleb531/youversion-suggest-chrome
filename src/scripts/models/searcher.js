@@ -113,21 +113,18 @@ class Searcher {
 
   }
 
-  // Check if the result with the given index is currently selected in the
-  // results list
+  // Methods related to the selected search result
+
   isSelectedResult(resultIndex) {
     return (resultIndex === this.selectedResultIndex);
   }
 
-  // Select the result at the given index in the results list
   selectResult(resultIndex) {
     this.selectedResultIndex = resultIndex;
   }
 
-  // Perform the default action on the selected reference result (which is, by
-  // default, to view it on the YouVersion website)
-  actionSelectedResult() {
-    this.results[this.selectedResultIndex].view();
+  getSelectedResult() {
+    return this.results[this.selectedResultIndex];
   }
 
   // Select the next result in the results list

@@ -37,7 +37,7 @@ class AppComponent {
 
     if (keyCode === 13) {
       // On enter key, action selected result (by default, view the reference)
-      this.searcher.actionSelectedResult();
+      this.searcher.getSelectedResult().runDefaultAction();
       keydownEvent.preventDefault();
       keydownEvent.redraw = false;
     } else if (keyCode === 40) {
@@ -87,14 +87,28 @@ class AppComponent {
     }
   }
 
-  // Action whichever result the user has clicked
-  actionByMouse(clickEvent) {
+  // Run default action for whichever result the user has clicked
+  runDefaultResultActionByMouse(clickEvent) {
     let resultElem = clickEvent.target.closest('.search-result');
     let resultIndex = this.getResultElemIndex(resultElem);
     if (this.searcher.isSelectedResult(resultIndex)) {
-      this.searcher.actionSelectedResult();
+      this.searcher.getSelectedResult().runDefaultAction();
       clickEvent.redraw = false;
     }
+  }
+
+  // Copy the content of the selected reference via its action link
+  copyContentByLink(clickEvent) {
+    let actionLinkElem = clickEvent.target;
+    let resultElem = actionLinkElem
+      .closest('.search-result');
+    let resultIndex = this.getResultElemIndex(resultElem);
+    if (this.searcher.isSelectedResult(resultIndex)) {
+      this.searcher.getSelectedResult().copy();
+      clickEvent.redraw = false;
+    }
+    clickEvent.preventDefault();
+    clickEvent.stopPropagation();
   }
 
   view() {
@@ -128,7 +142,7 @@ class AppComponent {
           // Use event delegation to listen for mouse events on any of the
           // result list items
           onmouseover: this.selectByMouse,
-          onclick: this.actionByMouse
+          onclick: this.runDefaultResultActionByMouse
         }, this.searcher.results.map((reference, r) => {
           return m('li.search-result', {
             // Store the index on each result element for easy referencing
@@ -140,9 +154,18 @@ class AppComponent {
             // Scroll selected result into view as needed
             onupdate: this.scrollSelectedResultIntoView
           }, [
+
             m('div.search-result-title', reference.name),
             reference.content ?
-            m('div.search-result-subtitle', reference.content) : null
+            m('div.search-result-subtitle', reference.content) : null,
+
+            this.searcher.isSelectedResult(r) ?
+            m('div.search-result-actions', [
+              m('a[href=#].search-result-action', {
+                onclick: this.copyContentByLink
+              }, 'Copy')
+            ]) : null
+
           ]);
         }))
       ])

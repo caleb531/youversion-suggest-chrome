@@ -19,6 +19,7 @@
 }
 
 .search-result {
+  position: relative;
   padding: $search-result-padding-y $search-result-padding-x;
   border-bottom: solid $app-border-width $search-result-border-color;
   &.selected {
@@ -32,4 +33,15 @@
 .search-result-subtitle {
   opacity: 0.5;
   font-size: $search-result-subtitle-font-size;
+}
+
+.search-result-actions {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+.search-result-action {
+  font-size: 12px;
+  color: rgba(#fff, 0.75);
+  text-decoration: none;
 }

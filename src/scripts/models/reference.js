@@ -40,6 +40,7 @@ class Reference {
     window.open(`${Core.baseRefURL}/${this.uid.toUpperCase()}`);
   }
 
+  // Copy the full contents of this reference to the clipboard
   copy() {
     let contentFetcher = new RefContentFetcher(this);
     contentFetcher.fetchContent().then((refContent) => {
@@ -51,6 +52,11 @@ class Reference {
         message: `Contents copied to clipboard!`
       });
     });
+  }
+
+  // Define the default action for any reference result
+  runDefaultAction() {
+    this.view();
   }
 
 }
