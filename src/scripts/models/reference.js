@@ -43,7 +43,7 @@ class Reference {
   // Copy the full contents of this reference to the clipboard
   copy() {
     let contentFetcher = new RefContentFetcher(this);
-    contentFetcher.fetchContent().then((refContent) => {
+    return contentFetcher.fetchContent().then((refContent) => {
       copy(refContent);
       chrome.notifications.create({
         type: 'basic',

@@ -104,8 +104,12 @@ class AppComponent {
       .closest('.search-result');
     let resultIndex = this.getResultElemIndex(resultElem);
     if (this.searcher.isSelectedResult(resultIndex)) {
-      this.searcher.getSelectedResult().copy();
-      clickEvent.redraw = false;
+      // Update the UI to indicate that content to copy is being fetched
+      this.copyingRefContent = true;
+      this.searcher.getSelectedResult().copy().then(() => {
+        this.copyingRefContent = false;
+        m.redraw();
+      });
     }
     clickEvent.preventDefault();
     clickEvent.stopPropagation();
@@ -163,7 +167,7 @@ class AppComponent {
             m('div.search-result-actions', [
               m('a[href=#].search-result-action', {
                 onclick: this.copyContentByLink
-              }, 'Copy')
+              }, this.copyingRefContent ? 'Copying...' : 'Copy')
             ]) : null
 
           ]);
