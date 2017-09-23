@@ -53,6 +53,12 @@ class AppComponent {
 
   }
 
+  // Run the main search function as soon as the search field contents change
+  triggerSearch(inputEvent) {
+    this.searcher.search(inputEvent.target.value);
+    inputEvent.redraw = false;
+  }
+
   // Get the index of a search result DOM element via its data-index attribute
   getResultElemIndex(resultElem) {
     return Number(resultElem.getAttribute('data-index'));
@@ -99,7 +105,7 @@ class AppComponent {
             placeholder: 'Type a book, chapter, verse, or keyword',
             value: this.searcher.queryStr,
             onkeydown: this.handleKeyboardNav,
-            oninput: (inputEvent) => this.searcher.search(inputEvent.target.value)
+            oninput: this.triggerSearch
           }),
           m(SearchIconComponent)
         ])
