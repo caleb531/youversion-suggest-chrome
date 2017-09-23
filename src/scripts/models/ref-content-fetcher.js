@@ -29,7 +29,7 @@ class RefContentFetcher {
   // Fetch the textual content of the given Bible reference; returns a promise
   fetchContent() {
 
-    let chapterURL = `${Core.baseRefURL}/${this.getChapterUID()}`;
+    let chapterURL = `${Core.baseRefURL}/${this.getChapterUID().toUpperCase()}`;
     return Core.getHTML(chapterURL).then((html) => {
       return this.parseContentFromHTML(html);
     });
