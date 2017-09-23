@@ -1,3 +1,4 @@
+import copy from 'copy-to-clipboard';
 import Core from './core';
 import RefContentFetcher from './ref-content-fetcher';
 
@@ -41,8 +42,14 @@ class Reference {
 
   copy() {
     let contentFetcher = new RefContentFetcher(this);
-    contentFetcher.fetchContent().then((data) => {
-      console.log(data);
+    contentFetcher.fetchContent().then((refContent) => {
+      copy(refContent);
+      chrome.notifications.create({
+        type: 'basic',
+        iconUrl: 'icons/icon-square.png',
+        title: this.name,
+        message: `Contents copied to clipboard!`
+      });
     });
   }
 
