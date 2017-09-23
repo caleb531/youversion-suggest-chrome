@@ -39,6 +39,7 @@ class AppComponent {
       // On enter key, action selected result (by default, view the reference)
       this.searcher.actionSelectedResult();
       keydownEvent.preventDefault();
+      keydownEvent.redraw = false;
     } else if (keyCode === 40) {
       // On down arrow, select next result
       this.searcher.selectNextResult();
@@ -92,6 +93,7 @@ class AppComponent {
     let resultIndex = this.getResultElemIndex(resultElem);
     if (this.searcher.isSelectedResult(resultIndex)) {
       this.searcher.actionSelectedResult();
+      clickEvent.redraw = false;
     }
   }
 
