@@ -38,7 +38,9 @@ class RefContentFetcher {
 
   // Build the language-agnostic unique identifier for this chapter
   getChapterUID() {
-    return `${this.ref.version.id}/${this.ref.book.id}.${this.ref.chapter}`;
+    // The chapter UID will always be contained within the reference ID, no
+    // matter what type of reference it is
+    return this.ref.uid.match(/^(\d+)\/([a-z0-9]{3})\.\d+/)[0];
   }
 
   // Parse the given YouVersion HTML and return a string a reference content
