@@ -43,3 +43,11 @@
   font-size: 32px;
   color: rgba(#000, 0.3);
 }
+
+.search-loading-icon-container .loading-icon {
+  $icon-size: 100px;
+  width: $icon-size;
+  height: $icon-size;
+  stroke: $search-result-selected-color;
+  stroke-width: 8;
+}
