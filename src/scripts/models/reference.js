@@ -1,4 +1,5 @@
 import Core from './core';
+import RefContentFetcher from './ref-content-fetcher';
 
 // A search result for a Bible reference search
 class Reference {
@@ -36,6 +37,13 @@ class Reference {
   // View this reference result on the YouVersion website
   view() {
     window.open(`${Core.baseRefURL}/${this.uid.toUpperCase()}`);
+  }
+
+  copy() {
+    let contentFetcher = new RefContentFetcher(this);
+    contentFetcher.fetchContent().then((data) => {
+      console.log(data);
+    });
   }
 
 }
