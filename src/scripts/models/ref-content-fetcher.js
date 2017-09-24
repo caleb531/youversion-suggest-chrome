@@ -5,23 +5,29 @@ class RefContentFetcher {
 
   constructor(reference) {
     this.ref = reference;
-    this.parseRef();
+    this.setVerseRangeToFetch();
   }
 
-  parseRef() {
+  // Determine the range of verses to fetch based on the particular reference
+  // passed to the fetcher
+  setVerseRangeToFetch() {
     // If a verse is given, start at that verse (at least)
     if (this.ref.verse) {
       this.startVerseNum = this.ref.verse;
       if (this.ref.endVerse) {
         this.endVerseNum = this.ref.endVerse;
       } else {
-        // The end verse is inclusive, so if one isn't given, make the end verse
-        // the start verse
+        // If fetching a single verse, the start verse and end verse numbers
+        // will be the same
         this.endVerseNum = this.ref.verse;
       }
     } else {
-      // Otherwise, fetch all verses in the chapter
+      // If reference is a full chapter, set verse range to all verses in the
+      // chapter
       this.startVerseNum = 1;
+      // The fetcher will stop if it reaches the last verse in the chapter; an
+      // end verse number of Infinity only implies that the verse range has no
+      // upper limit
       this.endVerseNum = Infinity;
     }
   }
