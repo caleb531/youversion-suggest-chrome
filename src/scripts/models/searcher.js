@@ -31,7 +31,7 @@ class Searcher {
   // Only run a content search if the last content search was at least some
   // amount of time ago (specified by searchDelay)
   debounceContentSearch() {
-    this.constructor.prototype.performContentSearch = debounce(this.constructor.prototype.performContentSearch, this.constructor.searchDelay);
+    this.constructor.prototype.searchByContent = debounce(this.constructor.prototype.searchByContent, this.constructor.searchDelay);
   }
 
   // Retrieve the last-searched query from the extension's local data store
@@ -70,12 +70,12 @@ class Searcher {
       return;
     }
 
-    return this.performRefSearch(normalizedQueryStr);
+    return this.searchByRef(normalizedQueryStr);
 
   }
 
   // Perform a search by reference using the given query string
-  performRefSearch(queryStr) {
+  searchByRef(queryStr) {
 
     return this.refSearcher.search(queryStr).then((results) => {
       this.results.push(...results);
@@ -84,13 +84,13 @@ class Searcher {
     }, () => {
       this.loadingResults = true;
       this.onUpdateSearchStatus();
-      return this.performContentSearch(queryStr);
+      return this.searchByContent(queryStr);
     });
 
   }
 
   // Perform a search by content using the given query string
-  performContentSearch(queryStr) {
+  searchByContent(queryStr) {
 
     // Perform content search if no reference results turned up
     return this.contentSearcher.search(queryStr).then((results) => {
