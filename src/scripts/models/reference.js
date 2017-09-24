@@ -60,7 +60,7 @@ class Reference {
     this.copyingContent = true;
     return contentFetcher.fetchContent().then((refContent) => {
       this.copyingContent = false;
-      copy(refContent);
+      copy(`${this.name}\n\n${refContent}`);
       chrome.notifications.create({
         type: 'basic',
         iconUrl: 'icons/icon-square.png',
