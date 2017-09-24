@@ -61,12 +61,6 @@ class Reference {
     return contentFetcher.fetchContent().then((refContent) => {
       this.copyingContent = false;
       copy(`${this.name}\n\n${refContent}`);
-      chrome.notifications.create({
-        type: 'basic',
-        iconUrl: 'icons/icon-square.png',
-        title: this.name,
-        message: `Contents copied to clipboard!`
-      });
     });
   }
 

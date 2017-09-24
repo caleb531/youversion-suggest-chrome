@@ -104,13 +104,25 @@ class PopupComponent {
       .closest('.search-result');
     let resultIndex = this.getResultElemIndex(resultElem);
     if (this.searcher.isSelectedResult(resultIndex)) {
-      // Update the UI to indicate that content to copy is being fetched
-      this.searcher.getSelectedResult().copy().then(() => {
+      let selectedRef = this.searcher.getSelectedResult();
+      selectedRef.copy().then(() => {
+        this.postNotification({
+          title: selectedRef.name,
+          message: `Contents copied to clipboard!`
+        });
         m.redraw();
       });
     }
     clickEvent.preventDefault();
     clickEvent.stopPropagation();
+  }
+
+  // Spawn a browser notification with the given parameters
+  postNotification(params) {
+    chrome.notifications.create(Object.assign({
+      type: 'basic',
+      iconUrl: 'icons/icon-square.png'
+    }, params));
   }
 
   view() {
