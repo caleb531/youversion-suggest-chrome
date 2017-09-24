@@ -58,8 +58,8 @@ class RefContentFetcher {
   }
 
   // Determine the appropriate amount of spacing (e.g. line/paragraph breaks) to
-  // add to the reference content
-  getSectionSpacing($section) {
+  // insert before the given section of content
+  getSpacingBeforeSection($section) {
     let sectionType = $section.prop('class');
     if (this.constructor.blockElems.has(sectionType)) {
       return '\n\n';
@@ -68,9 +68,17 @@ class RefContentFetcher {
     }
   }
 
+  // Determine the spacing to insert after the given section of content
+  getSpacingAfterSection($section) {
+    let sectionType = $section.prop('class');
+    if (this.constructor.blockElems.has(sectionType)) {
+      return '\n\n';
+    }
+  }
+
   // Retrieve all reference content within the given section
   getSectionContent($section) {
-    let sectionContentParts = [this.getSectionSpacing($section)];
+    let sectionContentParts = [this.getSpacingBeforeSection($section)];
     let $verses = $section.children('.verse');
     $verses.each((v, verse) => {
       let $verse = this.$(verse);
@@ -78,6 +86,7 @@ class RefContentFetcher {
         sectionContentParts.push(...$verse.find('.content').text());
       }
     });
+    sectionContentParts.push(this.getSpacingAfterSection($section));
     return sectionContentParts;
   }
 
