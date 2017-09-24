@@ -115,9 +115,9 @@ class PopupComponent {
 
   view() {
 
-    return m('div.app', [
-      m('header.app-header', [
-        m('h1.app-title', 'YouVersion Suggest'),
+    return m('div.popup', [
+      m('header.popup-header', [
+        m('h1.popup-title', 'YouVersion Suggest'),
         m('div.search-field-container', [
           m('input[type=text][autofocus].search-field', {
             placeholder: 'Type a book, chapter, verse, or keyword',
@@ -129,16 +129,16 @@ class PopupComponent {
         ])
       ]),
 
-      m('div.app-content', [
+      m('div.popup-content', [
 
         this.searcher.loadingResults ?
         m('div.search-loading-icon-container', m(LoadingIconComponent)) :
 
         this.searcher.queryStr === '' ?
-        m('div.app-watermark') :
+        m('div.popup-watermark') :
 
         this.searcher.results.length === 0 ?
-        m('div.app-status-message', 'No Results') : null,
+        m('div.popup-status-message', 'No Results') : null,
 
         m('ol.search-results-list', {
           // Use event delegation to listen for mouse events on any of the

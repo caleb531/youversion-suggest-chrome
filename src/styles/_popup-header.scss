@@ -1,0 +1,16 @@
+// App header where search field resides
+@import 'search-field';
+
+.popup-header {
+  padding: $app-base-padding;
+  padding-top: 15px;
+  border-bottom: solid $app-border-width $search-result-border-color;
+  background-color: #f3f3f3;
+}
+.popup-title {
+  margin: 0;
+  margin-bottom: 5px;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(#000, 0.5);
+}

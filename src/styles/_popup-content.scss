@@ -1,20 +1,8 @@
-// App header where search field resides
+// Popup content area (below header)
+@import 'loading-icon';
+@import 'search-results';
 
-.app-header {
-  padding: $app-base-padding;
-  padding-top: 15px;
-  border-bottom: solid $app-border-width $search-result-border-color;
-  background-color: #f3f3f3;
-}
-.app-title {
-  margin: 0;
-  margin-bottom: 5px;
-  font-size: 12px;
-  font-weight: 400;
-  color: rgba(#000, 0.5);
-}
-
-.app-content {
+.popup-content {
   // Ensure that 'position: absolute' children are positioned relative to this
   // container
   position: relative;
@@ -24,7 +12,7 @@
   overflow: auto;
 }
 
-.app-watermark {
+.popup-watermark {
   opacity: 0.1;
   position: absolute;
   top: 0;
@@ -37,12 +25,13 @@
   background-position: 50% 50%;
 }
 
-.app-status-message {
+.popup-status-message {
   margin-top: 20px;
   text-align: center;
   font-size: 32px;
   color: rgba(#000, 0.3);
 }
+
 
 .search-loading-icon-container .loading-icon {
   $icon-size: 100px;

@@ -1,8 +1,20 @@
 // Main stylesheet
-
 @import 'variables';
-@import 'containers';
-@import 'app';
-@import 'search-field';
-@import 'search-results';
-@import 'loading-icon';
+
+// Styles
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 390px;
+  margin: 0;
+  padding: 0;
+  font-size: 0;
+  cursor: default;
+  user-select: none;
+}
+
+@import 'popup-header';
+@import 'popup-content';
