@@ -5,11 +5,6 @@ import Reference from './reference.js';
 // Functions for searching the Bible by reference
 class RefSearcher {
 
-  constructor() {
-    this.bible = Core.getBibleData();
-    this.chapters = Core.getChapterData();
-  }
-
   // Search the Bible by reference name (e.g. "1 Corinthians 13:4-7"); return a
   // list of search results as JSON
   search(queryStr) {
@@ -24,7 +19,7 @@ class RefSearcher {
 
     // Ensure that bible/chapter data has loaded, then proceed to search for
     // Bible references matching the given query
-    return Promise.all([this.bible, this.chapters]).then(([bible, chapters]) => {
+    return Core.getAllBibleData().then(([bible, chapters]) => {
 
       let matchingBooks = this.getBooksMatchingQuery(bible.books, query);
       let chosenVersion = this.chooseBestVersion(bible.versions, bible.default_version, query);
