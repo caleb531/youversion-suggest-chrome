@@ -4,8 +4,8 @@ import Searcher from './models/searcher';
 import SearchIconComponent from './components/search-icon';
 import LoadingIconComponent from './components/loading-icon';
 
-// The front-end application UI
-class AppComponent {
+// The extension popup UI
+class PopupComponent {
 
   constructor() {
     // Initialize a new Searcher object, making sure to redraw whenever results
@@ -177,4 +177,4 @@ class AppComponent {
 
 }
 
-m.mount(document.querySelector('main'), AppComponent);
+m.mount(document.querySelector('main'), PopupComponent);
