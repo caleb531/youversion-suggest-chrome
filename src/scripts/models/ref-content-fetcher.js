@@ -49,12 +49,12 @@ class RefContentFetcher {
     let $chapter = this.$('.chapter');
     let contentParts = [];
 
-    // Loop over sections
+    // Loop over sections indicating paragraphs / breaks in the text
     $chapter.children().each((s, section) => {
       let $section = this.$(section);
       contentParts.push(...this.getSectionContent($section));
     });
-    return contentParts.join('');
+    return this.normalizeRefContent(contentParts.join(''));
   }
 
   // Determine the appropriate amount of spacing (e.g. line/paragraph breaks) to
@@ -90,6 +90,19 @@ class RefContentFetcher {
   // Parse the verse number from the given verse element's HTML class
   getVerseNumberFromClass($verse) {
     return $verse.prop('class').match(/v(\d+)/i)[1];
+  }
+
+  // Strip superfluous whitespace from throughout reference content
+  normalizeRefContent(content) {
+    // Strip leading/trailing whitespace for entire reference
+    content = content.trim();
+    // Collapse consecutive spaces into a single space
+    content = content.replace(/ {2,}/gi, ' ');
+    // Collapse sequences of three or more newlines into two
+    content = content.replace(/\n{3,}/gi, '\n\n');
+    // Strip leading/trailing whitespace for each paragraph
+    content = content.replace(/ ?\n ?/gi, '\n');
+    return content;
   }
 
 }
