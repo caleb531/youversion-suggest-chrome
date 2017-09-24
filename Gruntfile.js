@@ -22,10 +22,14 @@ module.exports = function (grunt) {
 
     webpack: {
       all: {
-        entry: './src/scripts/popup.js',
+        entry: {
+          popup: './src/scripts/popup.js',
+          options: './src/scripts/options.js'
+        },
         devtool: 'cheap-source-map',
         output: {
-          filename: './dist/scripts/popup.js',
+          path: __dirname + '/dist/scripts',
+          filename: '[name].js'
         }
       }
     },
