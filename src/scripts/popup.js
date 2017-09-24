@@ -100,8 +100,7 @@ class PopupComponent {
   // Copy the content of the selected reference via its action link
   copyContentByLink(clickEvent) {
     let actionLinkElem = clickEvent.target;
-    let resultElem = actionLinkElem
-      .closest('.search-result');
+    let resultElem = actionLinkElem.closest('.search-result');
     let resultIndex = this.getResultElemIndex(resultElem);
     if (this.searcher.isSelectedResult(resultIndex)) {
       let selectedRef = this.searcher.getSelectedResult();
