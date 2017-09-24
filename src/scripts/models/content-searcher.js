@@ -8,12 +8,7 @@ class ContentSearcher {
 
     let searchURL = `${this.constructor.baseSearchURL}`;
     return Core.getHTML(searchURL, {q: queryStr, version_id: 111}).then((html) => {
-      let results = this.parseResults(html);
-      if (results.length > 0) {
-        return Promise.resolve(results);
-      } else {
-        return Promise.reject();
-      }
+      return this.parseResults(html);
     });
 
   }

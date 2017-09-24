@@ -17,7 +17,9 @@ class RefSearcher {
     // Build a query object containing the individual parts of the query string
     let query = new RefSearcherQuery(queryStr);
     if (query.isEmpty()) {
-      return Promise.reject();
+      // Since a query string that doesn't look like a reference doesn't
+      // strictly constitute an error, the promise should still resolve
+      return Promise.resolve([]);
     }
 
     // Ensure that bible/chapter data has loaded, then proceed to search for
@@ -26,13 +28,7 @@ class RefSearcher {
 
       let matchingBooks = this.getBooksMatchingQuery(bible.books, query);
       let chosenVersion = this.chooseBestVersion(bible.versions, bible.default_version, query);
-      let results = this.buildResultsFromData({chapters, matchingBooks, query, chosenVersion});
-
-      if (results.length > 0) {
-        return Promise.resolve(results);
-      } else {
-        return Promise.reject();
-      }
+      return this.buildResultsFromData({chapters, matchingBooks, query, chosenVersion});
 
     });
 

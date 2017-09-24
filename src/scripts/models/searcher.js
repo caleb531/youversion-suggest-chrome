@@ -78,13 +78,17 @@ class Searcher {
   searchByRef(queryStr) {
 
     return this.refSearcher.search(queryStr).then((results) => {
-      this.results.push(...results);
-      this.loadingResults = false;
-      this.onUpdateSearchStatus();
-    }, () => {
-      this.loadingResults = true;
-      this.onUpdateSearchStatus();
-      return this.searchByContent(queryStr);
+      if (results.length > 0) {
+        this.results.push(...results);
+        this.loadingResults = false;
+        this.onUpdateSearchStatus();
+        return results;
+      } else {
+        // If the ref search turns up no results, perform a content search
+        this.loadingResults = true;
+        this.onUpdateSearchStatus();
+        return this.searchByContent(queryStr);
+      }
     });
 
   }
@@ -101,13 +105,7 @@ class Searcher {
         this.results.push(...results);
         this.loadingResults = false;
         this.onUpdateSearchStatus();
-      }
-    }, () => {
-      if (queryStr === this.queryStr) {
-        // If content search turned up no results, be sure to hide the loading
-        // indicator
-        this.loadingResults = false;
-        this.onUpdateSearchStatus();
+        return results;
       }
     });
 
