@@ -10,3 +10,8 @@ This project is in its very early stages of development, so expect functionality
 to be missing and incomplete.
 
 [yvs]: https://github.com/caleb531/youversion-suggest
+
+## Disclaimer
+
+This project is not affiliated with YouVersion, and all Bible content is
+copyright of the respective publishers.
