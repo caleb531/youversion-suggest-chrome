@@ -27,13 +27,13 @@ class Core {
 
   // Retrieve the Bible data for the current language (English for now)
   static getBibleData() {
-    return this.getJSON('data/bible/language-eng.json');
+    return this.getJSON('data/languages/language-eng.json');
   }
 
   // Retrieve an object of YouVersion book IDs mapped to the number of chapters
   // in each
   static getChapterData() {
-    return this.getJSON('data/bible/chapters.json');
+    return this.getJSON('data/languages/chapters.json');
   }
 
   // Change the query string to be in a consistent format
