@@ -181,4 +181,4 @@ class AppComponent {
 
 }
 
-m.mount(document.getElementById('main'), AppComponent);
+m.mount(document.querySelector('main'), AppComponent);

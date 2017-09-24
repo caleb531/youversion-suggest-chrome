@@ -10,4 +10,4 @@ class OptionsComponent {
 
 }
 
-m.mount(document.getElementById('main'), OptionsComponent);
+m.mount(document.querySelector('main'), OptionsComponent);
