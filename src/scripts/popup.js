@@ -105,10 +105,7 @@ class AppComponent {
     let resultIndex = this.getResultElemIndex(resultElem);
     if (this.searcher.isSelectedResult(resultIndex)) {
       // Update the UI to indicate that content to copy is being fetched
-      this.copyingRefContent = true;
-      this.indexOfCopyingRef = resultIndex;
       this.searcher.getSelectedResult().copy().then(() => {
-        this.copyingRefContent = false;
         m.redraw();
       });
     }
@@ -168,8 +165,7 @@ class AppComponent {
             m('div.search-result-actions', [
               m('a[href=#].search-result-action', {
                 onclick: this.copyContentByLink
-              }, this.copyingRefContent && this.indexOfCopyingRef === r ?
-              'Copying...' : 'Copy')
+              }, reference.copyingContent ? 'Copying...' : 'Copy')
             ]) : null
 
           ]);
