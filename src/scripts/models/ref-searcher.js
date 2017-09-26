@@ -19,13 +19,16 @@ class RefSearcher {
 
     // Ensure that bible/chapter data has loaded, then proceed to search for
     // Bible references matching the given query
-    return Core.getAllBibleData().then(([bible, chapters]) => {
-
-      let matchingBooks = this.getBooksMatchingQuery(bible.books, query);
-      let chosenVersion = this.chooseBestVersion(bible.versions, bible.default_version, query);
-      return this.buildResultsFromData({chapters, matchingBooks, query, chosenVersion});
-
-    });
+    return Core.getAllBibleData()
+      .then(([bible, chapters]) => {
+        let matchingBooks = this.getBooksMatchingQuery(bible.books, query);
+        let chosenVersion = this.chooseBestVersion(bible.versions, bible.default_version, query);
+        return this.buildResultsFromData({chapters, matchingBooks, query, chosenVersion});
+      })
+      .catch((error) => {
+        console.error(error);
+        throw error;
+      });
 
   }
 

@@ -77,19 +77,24 @@ class Searcher {
   // Perform a search by reference using the given query string
   searchByRef(queryStr) {
 
-    return this.refSearcher.search(queryStr).then((results) => {
-      if (results.length > 0) {
-        this.results.push(...results);
-        this.loadingResults = false;
+    return this.refSearcher.search(queryStr)
+      .then((results) => {
+        if (results.length > 0) {
+          this.results.push(...results);
+          this.loadingResults = false;
+          this.onUpdateSearchStatus();
+          return results;
+        } else {
+          // If the ref search turns up no results, perform a content search
+          this.loadingResults = true;
+          this.onUpdateSearchStatus();
+          return this.searchByContent(queryStr);
+        }
+      })
+      .catch((error) => {
+        this.error = error;
         this.onUpdateSearchStatus();
-        return results;
-      } else {
-        // If the ref search turns up no results, perform a content search
-        this.loadingResults = true;
-        this.onUpdateSearchStatus();
-        return this.searchByContent(queryStr);
-      }
-    });
+      });
 
   }
 
@@ -97,17 +102,22 @@ class Searcher {
   searchByContent(queryStr) {
 
     // Perform content search if no reference results turned up
-    return this.contentSearcher.search(queryStr).then((results) => {
-      // The user may type faster than page fetches can finish, so ensure that
-      // only the results from the last fetch (i.e. for the latest query
-      // string) are displayed
-      if (queryStr === this.queryStr) {
-        this.results.push(...results);
-        this.loadingResults = false;
+    return this.contentSearcher.search(queryStr)
+      .then((results) => {
+        // The user may type faster than page fetches can finish, so ensure that
+        // only the results from the last fetch (i.e. for the latest query
+        // string) are displayed
+        if (queryStr === this.queryStr) {
+          this.results.push(...results);
+          this.loadingResults = false;
+          this.onUpdateSearchStatus();
+          return results;
+        }
+      })
+      .catch((error) => {
+        this.error = error;
         this.onUpdateSearchStatus();
-        return results;
-      }
-    });
+      });
 
   }
 

@@ -104,13 +104,21 @@ class PopupComponent {
     let resultIndex = this.getResultElemIndex(resultElem);
     if (this.searcher.isSelectedResult(resultIndex)) {
       let selectedRef = this.searcher.getSelectedResult();
-      selectedRef.copy().then(() => {
-        this.postNotification({
-          title: selectedRef.name,
-          message: `Contents copied to clipboard!`
+      selectedRef.copy()
+        .then(() => {
+          this.postNotification({
+            title: 'Copied!',
+            message: `${selectedRef.name} copied to the clipboard`
+          });
+          m.redraw();
+        })
+        .catch(() => {
+          this.postNotification({
+            title: 'Error',
+            message: `Could not copy ${selectedRef.name} to the clipboard`
+          });
+          m.redraw();
         });
-        m.redraw();
-      });
     }
     clickEvent.preventDefault();
     clickEvent.stopPropagation();

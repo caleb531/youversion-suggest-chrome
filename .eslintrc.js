@@ -51,7 +51,7 @@ module.exports = {
     // disallow assignment operators in conditional expressions
     'no-cond-assign': ['error', 'always'],
     // disallow the use of console
-    'no-console': ['error'],
+    'no-console': ['error', {'allow': ['error']}],
     // disallow the use of debugger
     'no-debugger': ['error'],
     // disallow duplicate arguments in function definitions
@@ -167,6 +167,8 @@ module.exports = {
     'no-useless-return': ['error'],
     // disallow with statements
     'no-with': ['error'],
+    // require using Error objects as Promise rejection reasons
+    'prefer-promise-reject-errors': ['error'],
     // enforce the consistent use of the radix argument when using parseInt()
     'radix': ['error'],
 

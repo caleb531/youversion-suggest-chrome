@@ -13,7 +13,7 @@ class Reference {
     } else if (query && book && version) {
       this.buildRefFromRefSearchData({book, query, version});
     } else {
-      throw new Error('invalid arguments to Reference() constructor');
+      throw new Error('Invalid arguments to Reference() constructor');
     }
 
   }
@@ -58,10 +58,16 @@ class Reference {
   copy() {
     let contentFetcher = new RefContentFetcher(this);
     this.copyingContent = true;
-    return contentFetcher.fetchContent().then((refContent) => {
-      this.copyingContent = false;
-      copy(`${this.name}\n\n${refContent}`);
-    });
+    return contentFetcher.fetchContent()
+      .then((refContent) => {
+        this.copyingContent = false;
+        copy(`${this.name}\n\n${refContent}`);
+      })
+      .catch((error) => {
+        this.copyingContent = false;
+        // Pass the error down the chain
+        return Promise.reject(error);
+      });
   }
 
   // Define the default action for any reference result

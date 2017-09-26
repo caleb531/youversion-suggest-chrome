@@ -36,9 +36,19 @@ class RefContentFetcher {
   fetchContent() {
 
     let chapterURL = `${Core.baseRefURL}/${this.getChapterUID().toUpperCase()}`;
-    return Core.getHTML(chapterURL).then((html) => {
-      return this.parseContentFromHTML(html);
-    });
+    return Core.getHTML(chapterURL)
+      .then((html) => {
+        let content = this.parseContentFromHTML(html);
+        if (content !== '') {
+          return content;
+        } else {
+          return Promise.reject(new Error('Fetched reference content is empty'));
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        throw error;
+      });
 
   }
 
