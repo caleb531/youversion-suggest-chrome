@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 0;
+}
+
+.options-header {
+  padding: 20px;
+}
+.options-header-logo {
+  display: inline-block;
+  width: 50px;
+  margin-right: 20px;
+  vertical-align: middle;
+}
+.options-page-title {
+  display: inline-block;
+  margin: 0;
+  font-size: 32px;
+  vertical-align: middle;
+}
