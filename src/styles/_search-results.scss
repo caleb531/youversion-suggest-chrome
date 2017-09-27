@@ -37,10 +37,13 @@
 
 .search-result-actions {
   position: absolute;
-  top: 5px;
-  right: 10px;
+  top: 0;
+  right: 0;
 }
 .search-result-action {
+  display: inline-block;
+  padding-top: 5px;
+  padding-right: 6px;
   font-size: 12px;
   color: rgba(#fff, 0.75);
   text-decoration: none;
