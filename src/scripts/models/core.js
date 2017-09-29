@@ -36,6 +36,36 @@ class Core {
     return this.getJSON('data/languages/chapters.json');
   }
 
+  // Retrieve the full list of supported languages
+  static getLanguages() {
+    return Core.getJSON('data/languages/languages.json');
+  }
+
+  // Retrieve the raw user preferences without defaults merged in
+  static getRawPreferences() {
+    return new Promise((resolve) => {
+      chrome.storage.sync.get(['preferences'], (items) => {
+        resolve(items.preferences);
+      });
+    });
+  }
+
+  // Retrieve the map of default values for user preferences
+  static getDefaultPreferences() {
+    return Core.getJSON('data/preferences/defaults.json');
+  }
+
+  // Get the final preferences object (stored user data merged with defaults)
+  static getPreferences() {
+    return Promise.all([
+      this.getDefaultPreferences(),
+      this.getRawPreferences(),
+    ])
+    .then(([defaultPrefs, rawPrefs]) => {
+      return Object.assign({}, defaultPrefs, rawPrefs);
+    });
+  }
+
   // Retrieve all relevant Bible data used by the extension
   static getAllBibleData() {
     return Promise.all([

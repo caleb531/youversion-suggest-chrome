@@ -14,10 +14,7 @@
     "default_popup": "popup.html"
   },
 
-  "options_ui": {
-    "page": "options.html",
-    "chrome_style": true
-  },
+  "options_page": "options.html",
 
   "permissions": [
     "https://www.bible.com/*",

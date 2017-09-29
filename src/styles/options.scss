@@ -1,3 +1,5 @@
+@import 'loading-icon';
+
 * {
   box-sizing: border-box;
 }
@@ -5,5 +7,54 @@
 body {
   max-width: 600px;
   margin: 0 auto;
+  padding: 20px;
   font-size: 0;
+  text-align: center;
+}
+
+.options-header {
+  display: inline-block;
+  padding: 20px;
+}
+.options-header-logo {
+  display: inline-block;
+  width: 50px;
+  margin-right: 20px;
+  vertical-align: middle;
+}
+.options-page-title {
+  display: inline-block;
+  margin: 0;
+  font-size: 32px;
+  vertical-align: middle;
+}
+
+.options-fields {
+  display: inline-block;
+  padding: 20px 40px;
+  text-align: left;
+}
+
+label {
+  margin-right: 10px;
+  font-size: 16px;
+  vertical-align: middle;
+}
+select {
+  -webkit-appearance: none;
+  height: 30px;
+  border: solid 1px #999;
+  border-radius: 3px;
+  padding: 0 10px;
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.options-loading-icon-container {
+  display: inline-block;
+  stroke: #36c;
+  stroke-width: 30;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
 }
