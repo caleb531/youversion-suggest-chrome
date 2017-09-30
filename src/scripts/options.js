@@ -1,5 +1,7 @@
 import m from 'mithril';
 import Core from './models/core';
+import LanguagePicker from './models/language-picker';
+import VersionPicker from './models/version-picker';
 import OptionsMenuComponent from './options-menu';
 
 class OptionsComponent {
@@ -8,21 +10,16 @@ class OptionsComponent {
     Core.getPreferences()
       .then((preferences) => {
         this.preferences = preferences;
-        return Core.getLanguages();
+        this.languagePicker = new LanguagePicker({
+          preferences: this.preferences
+        });
+        this.versionPicker = new VersionPicker({
+          preferences: this.preferences
+        });
       })
-      .then((languages) => {
-        this.languages = languages;
-        return this.reloadVersions();
-      })
+      .then(() => this.languagePicker.getLanguages())
+      .then(() => this.versionPicker.getVersions())
       .then(() => m.redraw());
-  }
-
-  reloadVersions() {
-    return Core.getBibleLanguageData(this.preferences.language)
-      .then((bible) => {
-        this.versions = bible.versions;
-        this.defaultVersion = bible.default_version;
-      });
   }
 
   view() {
@@ -39,7 +36,7 @@ class OptionsComponent {
         ])
       ]),
 
-      this.languages && this.versions && this.preferences ?
+      this.languagePicker && this.versionPicker && this.preferences ?
       m('div.options-fields', [
 
         m('div.options-field.language-picker-container', [
@@ -48,7 +45,7 @@ class OptionsComponent {
           )),
           m('.options-cell', m(OptionsMenuComponent, {
             id: 'language-picker',
-            options: this.languages,
+            options: this.languagePicker.languages,
             preferences: this.preferences,
             preferenceKey: 'language'
           }))
@@ -60,7 +57,7 @@ class OptionsComponent {
           )),
           m('.options-cell', m(OptionsMenuComponent, {
             id: 'version-picker',
-            options: this.versions,
+            options: this.versionPicker.versions,
             preferences: this.preferences,
             preferenceKey: 'version'
           }))

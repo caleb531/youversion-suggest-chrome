@@ -1,13 +1,14 @@
 import Core from './core';
 
-class LanguageSelector {
+class LanguagePicker {
 
-  constructor() {
+  constructor({preferences}) {
     this.languages = [];
+    this.preferences = preferences;
   }
 
   getLanguages() {
-    return Core.getJSON('data/languages/languages.json')
+    return Core.getLanguages()
       .then((languages) => {
         this.languages = languages;
       }).catch((error) => {
@@ -18,4 +19,4 @@ class LanguageSelector {
 
 }
 
-export default LanguageSelector;
+export default LanguagePicker;
