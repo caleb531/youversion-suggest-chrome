@@ -22,16 +22,26 @@ body {
   margin-right: 20px;
   vertical-align: middle;
 }
-.options-page-title {
+.options-header-headings {
   display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+.app-title {
   margin: 0;
   font-size: 32px;
   vertical-align: middle;
 }
+.options-page-title {
+  margin: 0;
+  font-size: 24px;
+  color: rgba(#000, 0.5);
+}
 
 .options-fields {
   display: table;
-  padding: 20px 40px;
+  margin: 0 auto;
+  padding: 20px 0;
   text-align: left;
 }
 

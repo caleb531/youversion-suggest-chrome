@@ -33,7 +33,10 @@ class OptionsComponent {
           src: 'icons/icon-square.svg',
           alt: 'YouVersion Suggest'
         }),
-        m('h1.options-page-title', 'YouVersion Suggest Options')
+        m('div.options-header-headings', [
+          m('h1.app-title', 'YouVersion Suggest'),
+          m('h2.options-page-title', 'Preferences')
+        ])
       ]),
 
       m('div.options-fields', [
