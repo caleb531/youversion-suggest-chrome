@@ -66,14 +66,6 @@ class Core {
     });
   }
 
-  // Retrieve all relevant Bible data used by the extension
-  static getAllBibleData(language) {
-    return Promise.all([
-      this.getBibleLanguageData(language),
-      this.getBibleChapterData()
-    ]);
-  }
-
   // Change the query string to be in a consistent format
   static normalizeQueryStr(queryStr) {
     queryStr = queryStr.toLowerCase();
