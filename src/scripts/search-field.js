@@ -6,7 +6,7 @@ import SearchIconComponent from './search-icon';
 class SearchFieldComponent {
 
   constructor({attrs}) {
-    this.searcher = attrs.searcher;
+    Object.assign(this, attrs);
     autoBind(this);
   }
 
@@ -46,11 +46,11 @@ class SearchFieldComponent {
     inputEvent.redraw = false;
   }
 
-  view({attrs}) {
+  view() {
     return m('div.search-field-container', [
       m('input[type=text].search-field', {
-        autofocus: attrs.autofocus,
-        placeholder: attrs.placeholder,
+        autofocus: this.autofocus,
+        placeholder: this.placeholder,
         value: this.searcher.queryStr,
         onkeydown: this.handleKeyboardNav,
         oninput: this.triggerSearch
