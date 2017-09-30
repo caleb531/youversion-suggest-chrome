@@ -1,5 +1,6 @@
 import m from 'mithril';
 import Core from './models/core';
+import OptionsMenuComponent from './options-menu';
 
 class OptionsComponent {
 
@@ -41,36 +42,28 @@ class OptionsComponent {
       this.languages && this.versions && this.preferences ?
       m('div.options-fields', [
 
-        m('div.option-field.language-picker-container', [
-          m('.option-cell', (
+        m('div.options-field.language-picker-container', [
+          m('.options-cell', (
             m('label[for="language-picker"]', 'Language:')
           )),
-          m('.option-cell', [
-            m('select#language-picker',
-              this.languages.map((language) => {
-                return m('option', {
-                  value: language.id,
-                  selected: language.id === this.preferences.language
-                }, language.name);
-              })
-            )
-          ])
+          m('.options-cell', m(OptionsMenuComponent, {
+            id: 'language-picker',
+            options: this.languages,
+            preferences: this.preferences,
+            preferenceKey: 'language'
+          }))
         ]),
 
-        m('div.option-field.version-picker-container', [
-          m('.option-cell', (
+        m('div.options-field.version-picker-container', [
+          m('.options-cell', (
             m('label[for="version-picker"]', 'Version:')
           )),
-          m('.option-cell', [
-            m('select#version-picker',
-              this.versions.map((version) => {
-                return m('option', {
-                  value: version.id,
-                  selected: version.id === this.preferences.version
-                }, version.name);
-              })
-            )
-          ])
+          m('.options-cell', m(OptionsMenuComponent, {
+            id: 'version-picker',
+            options: this.versions,
+            preferences: this.preferences,
+            preferenceKey: 'version'
+          }))
         ])
 
       ]) : null

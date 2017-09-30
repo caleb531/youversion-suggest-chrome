@@ -8,7 +8,8 @@ $app-border-width: 1px;
 // Search field
 
 $search-field-focus-color: #36c;
-$search-field-focus-glow: 0 0 5px 1px #9cf;
+$search-field-focus-glow-color: #9cf;
+$search-field-focus-glow: 0 0 5px 1px $search-field-focus-glow-color;
 $search-field-border-color: #999;
 $search-field-icon-size: 16px;
 $search-field-icon-padding-left: 8px;

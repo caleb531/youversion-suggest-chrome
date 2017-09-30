@@ -7,11 +7,11 @@
   text-align: left;
 }
 
-.option-field {
+.options-field {
   display: table-row;
 }
 
-.option-cell {
+.options-cell {
   display: table-cell;
   padding: 10px 0;
   vertical-align: middle;
@@ -30,6 +30,10 @@ label {
   font-size: 16px;
   vertical-align: middle;
 }
+.options-menu-container {
+  display: inline-block;
+  position: relative;
+}
 select {
   -webkit-appearance: none;
   height: 30px;
@@ -42,5 +46,22 @@ select {
     outline-width: 0;
     border-color: $search-field-focus-color;
     box-shadow: $search-field-focus-glow;
+  }
+}
+.options-menu-arrow {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  fill: none;
+  $icon-size: 16px;
+  width: $icon-size;
+  height: $icon-size;
+  stroke: darken($search-field-border-color, 25%);
+  stroke-width: $app-border-width * 1.25;
+  stroke-linecap: round;
+  select:focus + & {
+    stroke: darken($search-field-focus-color, 0%);
+    filter: drop-shadow(0 0 1px $search-field-focus-glow-color);
   }
 }
