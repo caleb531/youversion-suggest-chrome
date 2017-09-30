@@ -5,15 +5,24 @@ import LoadingIconComponent from './components/loading-icon';
 class OptionsComponent {
 
   constructor() {
-    Promise.all([
-      Core.getPreferences(),
-      Core.getLanguages()
-    ])
-    .then(([preferences, languages]) => {
-      this.preferences = preferences;
-      this.languages = languages;
-      m.redraw();
-    });
+    Core.getPreferences()
+      .then((preferences) => {
+        this.preferences = preferences;
+        return Core.getLanguages();
+      })
+      .then((languages) => {
+        this.languages = languages;
+        return this.reloadVersions();
+      })
+      .then(() => m.redraw());
+  }
+
+  reloadVersions() {
+    return Core.getBibleLanguageData(this.preferences.language)
+      .then((bible) => {
+        this.versions = bible.versions;
+        this.defaultVersion = bible.default_version;
+      });
   }
 
   view() {
@@ -41,6 +50,23 @@ class OptionsComponent {
                   value: language.id,
                   selected: language.id === this.preferences.language
                 }, language.name);
+              })
+            ) : m('div.options-loading-icon-container', m(LoadingIconComponent))
+          ])
+        ]),
+
+        m('div.option-field.version-picker-container', [
+          m('.option-cell', (
+            m('label[for="version-picker"]', 'Version:')
+          )),
+          m('.option-cell', [
+            this.versions && this.preferences ?
+            m('select#version-picker',
+              this.versions.map((version) => {
+                return m('option', {
+                  value: version.id,
+                  selected: version.id === this.preferences.version
+                }, version.name);
               })
             ) : m('div.options-loading-icon-container', m(LoadingIconComponent))
           ])

@@ -25,20 +25,20 @@ class Core {
     });
   }
 
-  // Retrieve the Bible data for the current language (English for now)
-  static getBibleLanguageData() {
-    return this.getJSON('data/languages/language-eng.json');
+  // Retrieve the Bible data for the given language
+  static getBibleLanguageData(language) {
+    return this.getJSON(`data/bible/language-${language}.json`);
   }
 
   // Retrieve an object of YouVersion book IDs mapped to the number of chapters
   // in each
   static getBibleChapterData() {
-    return this.getJSON('data/languages/chapters.json');
+    return this.getJSON('data/bible/chapters.json');
   }
 
   // Retrieve the full list of supported languages
   static getLanguages() {
-    return Core.getJSON('data/languages/languages.json');
+    return Core.getJSON('data/bible/languages.json');
   }
 
   // Retrieve the raw user preferences without defaults merged in
@@ -67,9 +67,9 @@ class Core {
   }
 
   // Retrieve all relevant Bible data used by the extension
-  static getAllBibleData() {
+  static getAllBibleData(language) {
     return Promise.all([
-      this.getBibleLanguageData(),
+      this.getBibleLanguageData(language),
       this.getBibleChapterData()
     ]);
   }
