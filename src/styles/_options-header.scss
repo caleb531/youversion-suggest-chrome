@@ -1,0 +1,27 @@
+// Options page header
+
+.options-header {
+  display: inline-block;
+  padding: 20px;
+}
+.options-header-logo {
+  display: inline-block;
+  width: 50px;
+  margin-right: 20px;
+  vertical-align: middle;
+}
+.options-header-headings {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+.app-title {
+  margin: 0;
+  font-size: 32px;
+  vertical-align: middle;
+}
+.options-page-title {
+  margin: 0;
+  font-size: 24px;
+  color: rgba(#000, 0.5);
+}
