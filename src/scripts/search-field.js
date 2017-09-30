@@ -5,8 +5,8 @@ import SearchIconComponent from './search-icon';
 // A generic autocomplete-based search field
 class SearchFieldComponent {
 
-  constructor(vnode) {
-    this.searcher = vnode.attrs.searcher;
+  constructor({attrs}) {
+    this.searcher = attrs.searcher;
     autoBind(this);
   }
 
@@ -46,11 +46,11 @@ class SearchFieldComponent {
     inputEvent.redraw = false;
   }
 
-  view(vnode) {
+  view({attrs}) {
     return m('div.search-field-container', [
       m('input[type=text].search-field', {
-        autofocus: vnode.attrs.autofocus,
-        placeholder: vnode.attrs.placeholder,
+        autofocus: attrs.autofocus,
+        placeholder: attrs.placeholder,
         value: this.searcher.queryStr,
         onkeydown: this.handleKeyboardNav,
         oninput: this.triggerSearch
