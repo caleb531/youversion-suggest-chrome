@@ -1,6 +1,6 @@
 import m from 'mithril';
 import Core from './models/core';
-import LoadingIconComponent from './components/loading-icon';
+import LoadingIconComponent from './loading-icon';
 
 class OptionsComponent {
 

@@ -1,8 +1,8 @@
 import m from 'mithril';
 import classNames from 'classnames';
 import Searcher from './models/searcher';
-import SearchIconComponent from './components/search-icon';
-import LoadingIconComponent from './components/loading-icon';
+import SearchIconComponent from './search-icon';
+import LoadingIconComponent from './loading-icon';
 
 // The extension popup UI
 class PopupComponent {
