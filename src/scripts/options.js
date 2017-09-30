@@ -1,6 +1,5 @@
 import m from 'mithril';
 import Core from './models/core';
-import LoadingIconComponent from './loading-icon';
 
 class OptionsComponent {
 
@@ -39,6 +38,7 @@ class OptionsComponent {
         ])
       ]),
 
+      this.languages && this.versions && this.preferences ?
       m('div.options-fields', [
 
         m('div.option-field.language-picker-container', [
@@ -46,7 +46,6 @@ class OptionsComponent {
             m('label[for="language-picker"]', 'Language:')
           )),
           m('.option-cell', [
-            this.languages && this.preferences ?
             m('select#language-picker',
               this.languages.map((language) => {
                 return m('option', {
@@ -54,7 +53,7 @@ class OptionsComponent {
                   selected: language.id === this.preferences.language
                 }, language.name);
               })
-            ) : m('div.options-loading-icon-container', m(LoadingIconComponent))
+            )
           ])
         ]),
 
@@ -63,7 +62,6 @@ class OptionsComponent {
             m('label[for="version-picker"]', 'Version:')
           )),
           m('.option-cell', [
-            this.versions && this.preferences ?
             m('select#version-picker',
               this.versions.map((version) => {
                 return m('option', {
@@ -71,11 +69,11 @@ class OptionsComponent {
                   selected: version.id === this.preferences.version
                 }, version.name);
               })
-            ) : m('div.options-loading-icon-container', m(LoadingIconComponent))
+            )
           ])
         ])
 
-      ])
+      ]) : null
 
     ]);
   }
