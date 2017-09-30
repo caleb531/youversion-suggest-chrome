@@ -1,8 +1,8 @@
 import autoBind from 'auto-bind';
 import m from 'mithril';
-import classNames from 'classnames';
 import Searcher from './models/searcher';
 import SearchFieldComponent from './search-field';
+import SearchResultsComponent from './search-results';
 import LoadingIconComponent from './loading-icon';
 
 // The extension popup UI
@@ -15,66 +15,24 @@ class PopupComponent {
     autoBind(this);
   }
 
-  // Get the index of a search result DOM element via its data-index attribute
-  getResultElemIndex(resultElem) {
-    return Number(resultElem.getAttribute('data-index'));
-  }
-
-  // Scroll the search result into view when the search result is outside the
-  // visible area (such as when scrolling)
-  scrollSelectedResultIntoView(vnode) {
-    let resultIndex = this.getResultElemIndex(vnode.dom);
-    if (this.searcher.isSelectedResult(resultIndex)) {
-      vnode.dom.scrollIntoView({block: 'nearest'});
-    }
-  }
-
-  // Select whichever result the user is currently mousing over
-  selectByMouse(mouseoverEvent) {
-    let resultElem = mouseoverEvent.target.closest('.search-result');
-    let newSelectedIndex = this.getResultElemIndex(resultElem);
-    if (!this.searcher.isSelectedResult(newSelectedIndex)) {
-      this.searcher.selectResult(newSelectedIndex);
-    } else {
-      // Prevent Mithril from redrawing if the selected result hasn't changed
-      // when hovering
-      mouseoverEvent.redraw = false;
-    }
-  }
-
-  // Run default action for whichever result the user has clicked
-  runDefaultResultActionByMouse(clickEvent) {
-    let resultElem = clickEvent.target.closest('.search-result');
-    let resultIndex = this.getResultElemIndex(resultElem);
-    if (this.searcher.isSelectedResult(resultIndex)) {
-      this.searcher.getSelectedResult().runDefaultAction();
-      clickEvent.redraw = false;
-    }
-  }
-
   // Copy the content of the selected reference via its action link
   copyContentByLink(clickEvent) {
-    let actionLinkElem = clickEvent.target;
-    let resultElem = actionLinkElem.closest('.search-result');
-    let resultIndex = this.getResultElemIndex(resultElem);
-    if (this.searcher.isSelectedResult(resultIndex)) {
-      let selectedRef = this.searcher.getSelectedResult();
-      selectedRef.copy()
-        .then(() => {
-          this.postNotification({
-            title: 'Copied!',
-            message: `${selectedRef.name} copied to the clipboard`
-          });
-          m.redraw();
-        })
-        .catch(() => {
-          this.postNotification({
-            title: 'Error',
-            message: `Could not copy ${selectedRef.name} to the clipboard`
-          });
-          m.redraw();
+    let selectedRef = this.searcher.getSelectedResult();
+    selectedRef.copy()
+      .then(() => {
+        this.postNotification({
+          title: 'Copied!',
+          message: `${selectedRef.name} copied to the clipboard`
         });
-    }
+        m.redraw();
+      })
+      .catch(() => {
+        this.postNotification({
+          title: 'Error',
+          message: `Could not copy ${selectedRef.name} to the clipboard`
+        });
+        m.redraw();
+      });
     clickEvent.preventDefault();
     clickEvent.stopPropagation();
   }
@@ -110,36 +68,20 @@ class PopupComponent {
         this.searcher.results.length === 0 ?
         m('div.popup-status-message', 'No Results') : null,
 
-        m('ol.search-results-list', {
-          // Use event delegation to listen for mouse events on any of the
-          // result list items
-          onmouseover: this.selectByMouse,
-          onclick: this.runDefaultResultActionByMouse
-        }, this.searcher.results.map((reference, r) => {
-          return m('li.search-result', {
-            // Store the index on each result element for easy referencing
-            // within event callbacks later
-            'data-index': r,
-            class: classNames({
-              'selected': this.searcher.isSelectedResult(r)
-            }),
-            // Scroll selected result into view as needed
-            onupdate: this.scrollSelectedResultIntoView
-          }, [
+        m(SearchResultsComponent, {
+          // Required
+          searcher: this.searcher,
+          titleKey: 'name',
+          // Optional
+          subtitleKey: 'content',
+          actions: [
+            {
+              linkText: (ref) => ref.copyingContent ? 'Copying...' : 'Copy',
+              onclick: this.copyContentByLink,
+            }
+          ]
+        })
 
-            m('div.search-result-title', reference.name),
-            reference.content ?
-            m('div.search-result-subtitle', reference.content) : null,
-
-            this.searcher.isSelectedResult(r) ?
-            m('div.search-result-actions', [
-              m('a[href=#].search-result-action', {
-                onclick: this.copyContentByLink
-              }, reference.copyingContent ? 'Copying...' : 'Copy')
-            ]) : null
-
-          ]);
-        }))
       ])
     ]);
 
