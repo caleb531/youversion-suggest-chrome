@@ -28,18 +28,24 @@ class OptionsComponent {
       ]),
 
       m('div.options-fields', [
+
         m('div.option-field.language-picker-container', [
-          m('label[for="language-picker"]', 'Language:'),
-          this.languages && this.preferences ?
-          m('select#language-picker',
-            this.languages.map((language) => {
-              return m('option', {
-                value: language.id,
-                selected: language.id === this.preferences.language
-              }, language.name);
-            })
-          ) : m('div.options-loading-icon-container', m(LoadingIconComponent))
+          m('.option-cell', (
+            m('label[for="language-picker"]', 'Language:')
+          )),
+          m('.option-cell', [
+            this.languages && this.preferences ?
+            m('select#language-picker',
+              this.languages.map((language) => {
+                return m('option', {
+                  value: language.id,
+                  selected: language.id === this.preferences.language
+                }, language.name);
+              })
+            ) : m('div.options-loading-icon-container', m(LoadingIconComponent))
+          ])
         ])
+
       ])
 
     ]);
