@@ -13,7 +13,7 @@
   &:focus {
     outline-width: 0;
     border-color: $search-field-focus-color;
-    box-shadow: 0 0 5px 1px $search-field-focus-glow-color;
+    box-shadow: $search-field-focus-glow;
   }
 }
 

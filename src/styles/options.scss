@@ -1,3 +1,4 @@
+@import 'variables';
 @import 'loading-icon';
 
 * {
@@ -71,10 +72,16 @@ label {
 select {
   -webkit-appearance: none;
   height: 30px;
-  border: solid 1px #999;
+  background-color: rgba(#000, 0.05);
+  border: solid 1px $search-field-border-color;
   border-radius: 3px;
   padding: 0 10px;
   font-size: 12px;
+  &:focus {
+    outline-width: 0;
+    border-color: $search-field-focus-color;
+    box-shadow: $search-field-focus-glow;
+  }
 }
 
 .options-loading-icon-container {
