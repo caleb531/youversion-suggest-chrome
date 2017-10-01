@@ -3,17 +3,23 @@ import Core from './core';
 class VersionPicker {
 
   constructor({preferences}) {
-    this.versions = [];
+    this.options = [];
     this.preferences = preferences;
   }
 
-  getVersions() {
+  getOptions() {
     return Core.getBibleLanguageData(this.preferences.language)
       .then((bible) => {
-        this.versions = bible.versions;
-      }).catch((error) => {
-        console.error(error);
+        this.options = bible.versions;
+        this.defaultOption = bible.default_version;
       });
+  }
+
+  setOption(version) {
+    return new Promise((resolve) => {
+      this.preferences.version = version;
+      chrome.storage.sync.set({preferences: this.preferences}, resolve);
+    });
   }
 
 }

@@ -3,18 +3,25 @@ import Core from './core';
 class LanguagePicker {
 
   constructor({preferences}) {
-    this.languages = [];
+    this.options = [];
     this.preferences = preferences;
   }
 
-  getLanguages() {
+  getOptions() {
     return Core.getLanguages()
       .then((languages) => {
-        this.languages = languages;
-      }).catch((error) => {
-        console.error(error);
-        throw error;
+        this.options = languages;
       });
+  }
+
+  setOption(language) {
+    return new Promise((resolve) => {
+      this.preferences.language = language;
+      // Every time the language is changed, the version is updated to the default
+      // version of the newly-set language
+      delete this.preferences.version;
+      chrome.storage.sync.set({preferences: this.preferences}, resolve);
+    });
   }
 
 }

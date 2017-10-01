@@ -2,7 +2,8 @@ import m from 'mithril';
 import Core from './models/core';
 import LanguagePicker from './models/language-picker';
 import VersionPicker from './models/version-picker';
-import OptionsMenuComponent from './options-menu';
+import LanguagePickerComponent from './language-picker';
+import VersionPickerComponent from './version-picker';
 
 class OptionsComponent {
 
@@ -17,8 +18,8 @@ class OptionsComponent {
           preferences: this.preferences
         });
       })
-      .then(() => this.languagePicker.getLanguages())
-      .then(() => this.versionPicker.getVersions())
+      .then(() => this.languagePicker.getOptions())
+      .then(() => this.versionPicker.getOptions())
       .then(() => m.redraw());
   }
 
@@ -39,29 +40,15 @@ class OptionsComponent {
       this.languagePicker && this.versionPicker && this.preferences ?
       m('div.options-fields', [
 
-        m('div.options-field.language-picker-container', [
-          m('.options-cell', (
-            m('label[for="language-picker"]', 'Language:')
-          )),
-          m('.options-cell', m(OptionsMenuComponent, {
-            id: 'language-picker',
-            options: this.languagePicker.languages,
-            preferences: this.preferences,
-            preferenceKey: 'language'
-          }))
-        ]),
-
-        m('div.options-field.version-picker-container', [
-          m('.options-cell', (
-            m('label[for="version-picker"]', 'Version:')
-          )),
-          m('.options-cell', m(OptionsMenuComponent, {
-            id: 'version-picker',
-            options: this.versionPicker.versions,
-            preferences: this.preferences,
-            preferenceKey: 'version'
-          }))
-        ])
+        m(LanguagePickerComponent, {
+          languagePicker: this.languagePicker,
+          versionPicker: this.versionPicker,
+          preferences: this.preferences
+        }),
+        m(VersionPickerComponent, {
+          versionPicker: this.versionPicker,
+          preferences: this.preferences
+        }),
 
       ]) : null
 

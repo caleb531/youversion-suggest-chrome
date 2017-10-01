@@ -1,4 +1,3 @@
-import autoBind from 'auto-bind';
 import m from 'mithril';
 
 // An options menu for choosing an option
@@ -6,14 +5,14 @@ class OptionsMenuComponent {
 
   constructor({attrs}) {
     Object.assign(this, attrs);
-    autoBind(this);
   }
 
   view() {
     return m('div.options-menu-container', [
       m('select', {
-        id: this.id
-      }, this.options.map((option) => {
+        id: this.id,
+        onchange: this.onchange
+      }, this.picker.options.map((option) => {
         return m('option', {
           value: option.id,
           selected: option.id === this.preferences[this.preferenceKey]
