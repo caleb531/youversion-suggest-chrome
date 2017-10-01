@@ -30,17 +30,23 @@ label {
   font-size: 16px;
   vertical-align: middle;
 }
+
 .options-menu-container {
   display: inline-block;
   position: relative;
 }
+
+$menu-arrow-size: 16px;
+$menu-arrow-padding: 8px;
 select {
   -webkit-appearance: none;
   height: 30px;
   background-color: rgba(#000, 0.05);
   border: solid 1px $search-field-border-color;
   border-radius: 3px;
-  padding: 0 10px;
+  $menu-padding: 10px;
+  padding: 0 $menu-padding;
+  padding-right: $menu-arrow-size + ($menu-arrow-padding * 2);
   font-size: 12px;
   &:focus {
     outline-width: 0;
@@ -51,12 +57,11 @@ select {
 .options-menu-arrow {
   position: absolute;
   top: 50%;
-  right: 8px;
+  right: $menu-arrow-padding;
   transform: translateY(-50%);
   fill: none;
-  $icon-size: 16px;
-  width: $icon-size;
-  height: $icon-size;
+  width: $menu-arrow-size;
+  height: $menu-arrow-size;
   stroke: darken($search-field-border-color, 25%);
   stroke-width: $app-border-width * 1.25;
   stroke-linecap: round;
