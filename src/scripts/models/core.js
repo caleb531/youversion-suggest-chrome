@@ -79,15 +79,15 @@ class Core {
     return queryStr;
   }
 
-  // Retrieve the reference UID from the given URL
-  static getUIDFromURL(url) {
-    let matches = url.match(Core.refUIDPattern);
+  // Retrieve the reference ID from the given URL
+  static getRefIDFromURL(url) {
+    let matches = url.match(Core.refIDPattern);
     return matches[1];
   }
 
-  // Retrieve the individual parts of the given reference UID
-  static getUIDParts(uid) {
-    let matches = uid.match(Core.refUIDPattern);
+  // Retrieve the individual parts of the given reference ID
+  static getRefIDParts(id) {
+    let matches = id.match(Core.refIDPattern);
     let parts = {};
     parts.version = Number(matches[2]);
     parts.book = matches[3];
@@ -106,6 +106,6 @@ class Core {
 
 // The base URL for Bible references on the YouVersion website
 Core.baseRefURL = 'https://www.bible.com/bible';
-Core.refUIDPattern = /((\d+)\/([1-3a-z]{3})\.(\d+)(?:\.(\d+)(?:\-(\d+))?)?)/;
+Core.refIDPattern = /((\d+)\/([1-3a-z]{3})\.(\d+)(?:\.(\d+)(?:\-(\d+))?)?)/;
 
 export default Core;

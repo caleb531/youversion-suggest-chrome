@@ -28,7 +28,7 @@ class ContentSearcher {
     $references.each((r, reference) => {
       let $reference = $(reference);
       results.push(new Reference({
-        uid: Core.getUIDFromURL($reference.find('a').prop('href')),
+        id: Core.getRefIDFromURL($reference.find('a').prop('href')),
         name: $reference.find('h3').text().trim(),
         content: $reference.find('p').text().trim(),
       }));

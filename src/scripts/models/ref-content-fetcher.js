@@ -35,7 +35,7 @@ class RefContentFetcher {
   // Fetch the textual content of the given Bible reference; returns a promise
   fetchContent() {
 
-    let chapterURL = `${Core.baseRefURL}/${this.getChapterUID().toUpperCase()}`;
+    let chapterURL = `${Core.baseRefURL}/${this.getChapterID().toUpperCase()}`;
     return Core.getHTML(chapterURL)
       .then((html) => {
         let content = this.parseContentFromHTML(html);
@@ -53,8 +53,8 @@ class RefContentFetcher {
   }
 
   // Build the language-agnostic unique identifier for this chapter
-  getChapterUID() {
-    let {book, version, chapter} = Core.getUIDParts(this.ref.uid);
+  getChapterID() {
+    let {book, version, chapter} = Core.getRefIDParts(this.ref.id);
     return `${version}/${book}.${chapter}`;
   }
 

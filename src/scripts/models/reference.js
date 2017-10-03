@@ -6,10 +6,10 @@ import RefContentFetcher from './ref-content-fetcher';
 class Reference {
 
   // Build the JSON for a search result
-  constructor({name, uid, content, query, book, version}) {
+  constructor({name, id, content, query, book, version}) {
 
-    if (name && uid && content) {
-      this.buildRefFromContentSearchData({name, uid, content});
+    if (name && id && content) {
+      this.buildRefFromContentSearchData({name, id, content});
     } else if (query && book && version) {
       this.buildRefFromRefSearchData({book, query, version});
     } else {
@@ -21,17 +21,17 @@ class Reference {
   // Build reference object from the data provided by reference search results
   // (i.e. the query object, book data, and version data)
   buildRefFromRefSearchData({query, book, version}) {
-    this.uid = `${version.id}/${book.id}.${query.chapter}`;
+    this.id = `${version.id}/${book.id}.${query.chapter}`;
     this.book = book.id;
     this.chapter = query.chapter;
     this.name = `${book.name} ${query.chapter}`;
     if (query.verse) {
-      this.uid += `.${query.verse}`;
+      this.id += `.${query.verse}`;
       this.name += `:${query.verse}`;
       this.verse = query.verse;
     }
     if (query.endVerse && query.endVerse > query.verse) {
-      this.uid += `-${query.endVerse}`;
+      this.id += `-${query.endVerse}`;
       this.name += `-${query.endVerse}`;
       this.endVerse = query.endVerse;
     }
@@ -40,18 +40,18 @@ class Reference {
   }
 
   // Build reference object from the data provided by content search results
-  // (i.e. name, uid, and content)
-  buildRefFromContentSearchData({name, uid, content}) {
+  // (i.e. name, id, and content)
+  buildRefFromContentSearchData({name, id, content}) {
     this.name = name;
-    this.uid = uid;
+    this.id = id;
     this.content = content;
     // Adds chapter, verse, and endVerse properties (respectively, if present)
-    Object.assign(this, Core.getUIDParts(uid));
+    Object.assign(this, Core.getRefIDParts(id));
   }
 
   // View this reference result on the YouVersion website
   view() {
-    window.open(`${Core.baseRefURL}/${this.uid.toUpperCase()}`);
+    window.open(`${Core.baseRefURL}/${this.id.toUpperCase()}`);
   }
 
   // Copy the full contents of this reference to the clipboard
