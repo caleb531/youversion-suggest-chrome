@@ -66,6 +66,19 @@ class Core {
     });
   }
 
+  // Merge the given preferences into the persisted user preferences object
+  static setPreferences(prefsToUpdate) {
+    return this.getPreferences()
+      .then((currentPrefs) => {
+        let newPrefs = Object.assign(currentPrefs, prefsToUpdate);
+        return new Promise((resolve) => {
+          chrome.storage.sync.set({preferences: newPrefs}, () => {
+            resolve(newPrefs);
+          });
+        });
+      });
+  }
+
   // Change the query string to be in a consistent format
   static normalizeQueryStr(queryStr) {
     queryStr = queryStr.toLowerCase();

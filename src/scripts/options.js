@@ -1,5 +1,4 @@
 import m from 'mithril';
-import Core from './models/core';
 import LanguagePicker from './models/language-picker';
 import VersionPicker from './models/version-picker';
 import LanguagePickerComponent from './language-picker';
@@ -8,19 +7,15 @@ import VersionPickerComponent from './version-picker';
 class OptionsComponent {
 
   constructor() {
-    Core.getPreferences()
-      .then((preferences) => {
-        this.preferences = preferences;
-        this.languagePicker = new LanguagePicker({
-          preferences: this.preferences
-        });
-        this.versionPicker = new VersionPicker({
-          preferences: this.preferences
-        });
-      })
-      .then(() => this.languagePicker.getOptions())
-      .then(() => this.versionPicker.getOptions())
-      .then(() => m.redraw());
+      this.languagePicker = new LanguagePicker();
+      this.versionPicker = new VersionPicker();
+      this.languagePicker.loadLanguages()
+        .then(() => this.languagePicker.loadPreferredLanguage())
+        .then((preferredLanguage) => {
+          return this.versionPicker.loadVersions({language: preferredLanguage});
+        })
+        .then(() => this.versionPicker.loadPreferredVersion())
+        .then(() => m.redraw());
   }
 
   view() {
@@ -37,17 +32,15 @@ class OptionsComponent {
         ])
       ]),
 
-      this.languagePicker && this.versionPicker && this.preferences ?
+      this.languagePicker.languages && this.versionPicker.versions ?
       m('div.options-fields', [
 
         m(LanguagePickerComponent, {
           languagePicker: this.languagePicker,
-          versionPicker: this.versionPicker,
-          preferences: this.preferences
+          versionPicker: this.versionPicker
         }),
         m(VersionPickerComponent, {
           versionPicker: this.versionPicker,
-          preferences: this.preferences
         }),
 
       ]) : null

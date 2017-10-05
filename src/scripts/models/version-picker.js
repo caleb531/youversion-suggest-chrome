@@ -2,24 +2,29 @@ import Core from './core';
 
 class VersionPicker {
 
-  constructor({preferences}) {
-    this.options = [];
-    this.preferences = preferences;
+  constructor() {
+    this.versions = [];
+    this.preferredVersion = null;
   }
 
-  getOptions() {
-    return Core.getBibleLanguageData(this.preferences.language)
+  loadVersions({language}) {
+    return Core.getBibleLanguageData(language)
       .then((bible) => {
-        this.options = bible.versions;
-        this.defaultOption = bible.default_version;
+        this.versions = bible.versions;
+        this.defaultVersion = bible.default_version;
       });
   }
 
-  setOption(version) {
-    return new Promise((resolve) => {
-      this.preferences.version = version;
-      chrome.storage.sync.set({preferences: this.preferences}, resolve);
+  loadPreferredVersion() {
+    return Core.getPreferences().then((prefs) => {
+      this.preferredVersion = prefs.version;
+      return this.preferredVersion;
     });
+  }
+
+  setPreferredVersion(newVersion) {
+    this.preferredVersion = newVersion;
+    return Core.setPreferences({version: newVersion});
   }
 
 }

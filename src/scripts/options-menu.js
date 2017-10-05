@@ -7,15 +7,15 @@ class OptionsMenuComponent {
     Object.assign(this, attrs);
   }
 
-  view() {
+  view({attrs}) {
     return m('div.options-menu-container', [
       m('select', {
-        id: this.id,
-        onchange: this.onchange
-      }, this.picker.options.map((option) => {
+        id: attrs.id,
+        onchange: attrs.onchange
+      }, attrs.options.map((option) => {
         return m('option', {
           value: option.id,
-          selected: option.id === this.preferences[this.preferenceKey]
+          selected: option.id === attrs.value
         }, option.name);
       })),
       m('svg[viewBox="0 0 16 16"].options-menu-arrow', m('path', {

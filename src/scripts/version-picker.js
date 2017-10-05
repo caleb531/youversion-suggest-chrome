@@ -9,9 +9,9 @@ class VersionPickerComponent {
     autoBind(this);
   }
 
-  setVersion(changeEvent) {
+  setPreferredVersion(changeEvent) {
     changeEvent.redraw = false;
-    this.versionPicker.setOption(Number(changeEvent.target.value));
+    this.versionPicker.setPreferredVersion(Number(changeEvent.target.value));
   }
 
   view() {
@@ -21,10 +21,9 @@ class VersionPickerComponent {
       )),
       m('.options-cell', m(OptionsMenuComponent, {
         id: 'version-picker',
-        picker: this.versionPicker,
-        preferences: this.preferences,
-        preferenceKey: 'version',
-        onchange: this.setVersion
+        options: this.versionPicker.versions,
+        value: this.versionPicker.preferredVersion,
+        onchange: this.setPreferredVersion
       }))
     ]);
   }

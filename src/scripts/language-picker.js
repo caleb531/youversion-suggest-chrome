@@ -9,14 +9,15 @@ class LanguagePickerComponent {
     autoBind(this);
   }
 
-  setLanguage(changeEvent) {
+  setPreferredLanguage(changeEvent) {
     changeEvent.redraw = false;
-    this.languagePicker.setOption(changeEvent.target.value)
-      .then(() => this.versionPicker.getOptions())
+    let newLanguage = changeEvent.target.value;
+    this.languagePicker.setPreferredLanguage(newLanguage)
+      .then(() => this.versionPicker.loadVersions({language: newLanguage}))
       .then(() => {
         // Every time the language is changed, the version is set to the default
         // version for that language
-        this.versionPicker.setOption(this.versionPicker.defaultOption);
+        this.versionPicker.setPreferredVersion(this.versionPicker.defaultVersion);
         m.redraw();
       });
   }
@@ -28,10 +29,9 @@ class LanguagePickerComponent {
       )),
       m('.options-cell', m(OptionsMenuComponent, {
         id: 'language-picker',
-        picker: this.languagePicker,
-        preferences: this.preferences,
-        preferenceKey: 'language',
-        onchange: this.setLanguage
+        options: this.languagePicker.languages,
+        value: this.languagePicker.preferredLanguage,
+        onchange: this.setPreferredLanguage
       }))
     ]);
   }
