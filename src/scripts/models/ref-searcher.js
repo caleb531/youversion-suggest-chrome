@@ -1,6 +1,6 @@
 import Core from './core';
-import RefSearcherQuery from './ref-search-query.js';
-import Reference from './reference.js';
+import RefSearcherQuery from './ref-search-query';
+import Reference from './reference';
 
 // Functions for searching the Bible by reference
 class RefSearcher {
