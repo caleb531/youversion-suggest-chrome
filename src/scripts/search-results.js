@@ -20,7 +20,17 @@ class SearchResultsComponent {
   scrollSelectedResultIntoView(vnode) {
     let resultIndex = this.getResultElemIndex(vnode.dom);
     if (this.searcher.isSelectedResult(resultIndex)) {
-      vnode.dom.scrollIntoView({block: 'nearest'});
+      // Under some circumstances, the UI should not scroll the selected result
+      // into view (i.e. if the user moused over the selected result); this
+      // ensures that the results list does not unintentionally scroll while the
+      // user is moving the cursor
+      if (this.isScrollIntoViewEnabled) {
+        vnode.dom.scrollIntoView({block: 'nearest'});
+      } else {
+        // Reset flag to ensure that the above scrollIntoView logic can still
+        // run (e.g. if triggered via keyboard navigation)
+        this.isScrollIntoViewEnabled = true;
+      }
     }
   }
 
@@ -29,6 +39,9 @@ class SearchResultsComponent {
     let resultElem = mouseoverEvent.target.closest('.search-result');
     let newSelectedIndex = this.getResultElemIndex(resultElem);
     if (!this.searcher.isSelectedResult(newSelectedIndex)) {
+      // Do not scroll the selected result into view when mousing over; expect
+      // that the user will manually scroll it into view
+      this.isScrollIntoViewEnabled = false;
       this.searcher.selectResult(newSelectedIndex);
     } else {
       // Prevent Mithril from redrawing if the selected result hasn't changed
