@@ -21,7 +21,7 @@ class Searcher {
       // The last-returned list search results
       this.results = [];
       this.selectedResultIndex = 0;
-      this.loadingResults = false;
+      this.isLoadingResults = false;
       this.onUpdateSearchStatus = onUpdateSearchStatus;
 
   }
@@ -63,7 +63,7 @@ class Searcher {
     this.selectedResultIndex = 0;
 
     if (normalizedQueryStr === '') {
-      this.loadingResults = false;
+      this.isLoadingResults = false;
       this.onUpdateSearchStatus();
       return;
     }
@@ -79,12 +79,12 @@ class Searcher {
       .then((results) => {
         if (results.length > 0) {
           this.results.push(...results);
-          this.loadingResults = false;
+          this.isLoadingResults = false;
           this.onUpdateSearchStatus();
           return results;
         } else {
           // If the ref search turns up no results, perform a content search
-          this.loadingResults = true;
+          this.isLoadingResults = true;
           this.onUpdateSearchStatus();
           return this.searchByContent(queryStr);
         }
@@ -107,7 +107,7 @@ class Searcher {
         // string) are displayed
         if (queryStr === this.queryStr) {
           this.results.push(...results);
-          this.loadingResults = false;
+          this.isLoadingResults = false;
           this.onUpdateSearchStatus();
           return results;
         }

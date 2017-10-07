@@ -57,14 +57,14 @@ class Reference {
   // Copy the full contents of this reference to the clipboard
   copy() {
     let contentFetcher = new RefContentFetcher(this);
-    this.copyingContent = true;
+    this.isCopyingContent = true;
     return contentFetcher.fetchContent()
       .then((refContent) => {
-        this.copyingContent = false;
+        this.isCopyingContent = false;
         copy(`${this.name}\n\n${refContent}`);
       })
       .catch((error) => {
-        this.copyingContent = false;
+        this.isCopyingContent = false;
         // Pass the error down the chain
         return Promise.reject(error);
       });

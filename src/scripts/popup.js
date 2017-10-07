@@ -59,7 +59,7 @@ class PopupComponent {
 
       m('div.popup-content', [
 
-        this.searcher.loadingResults ?
+        this.searcher.isLoadingResults ?
         m('div.search-loading-icon-container', m(LoadingIconComponent)) :
 
         this.searcher.queryStr === '' ?
@@ -76,7 +76,7 @@ class PopupComponent {
           subtitleKey: 'content',
           actions: [
             {
-              linkText: (ref) => ref.copyingContent ? 'Copying...' : 'Copy',
+              linkText: (ref) => ref.isCopyingContent ? 'Copying...' : 'Copy',
               onclick: this.copyContentByLink,
             }
           ]
