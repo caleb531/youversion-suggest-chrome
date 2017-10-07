@@ -1,13 +1,13 @@
 import cheerio from 'cheerio';
-import Core from './core';
-import Reference from './reference.js';
+import {getHTML} from './fetch';
+import Reference from './reference';
 
 class ContentSearcher {
 
   search(queryStr) {
 
     let searchURL = `${this.constructor.baseSearchURL}`;
-    return Core.getHTML(searchURL, {q: queryStr, version_id: 111})
+    return getHTML(searchURL, {q: queryStr, version_id: 111})
       .then((html) => {
         return this.parseResults(html);
       })
@@ -28,7 +28,7 @@ class ContentSearcher {
     $references.each((r, reference) => {
       let $reference = $(reference);
       results.push(new Reference({
-        id: Core.getRefIDFromURL($reference.find('a').prop('href')),
+        id: Reference.getIDFromURL($reference.find('a').prop('href')),
         name: $reference.find('h3').text().trim(),
         content: $reference.find('p').text().trim(),
       }));

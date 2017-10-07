@@ -1,5 +1,4 @@
 import copy from 'copy-to-clipboard';
-import Core from './core';
 import RefContentFetcher from './ref-content-fetcher';
 
 // A search result for a Bible reference search
@@ -42,16 +41,24 @@ class Reference {
   // Build reference object from the data provided by content search results
   // (i.e. name, id, and content)
   buildRefFromContentSearchData({name, id, content}) {
+    let matches = id.match(this.constructor.idPattern);
     this.name = name;
     this.id = id;
     this.content = content;
-    // Adds chapter, verse, and endVerse properties (respectively, if present)
-    Object.assign(this, Core.getRefIDParts(id));
+    this.version = Number(matches[2]);
+    this.book = matches[3];
+    this.chapter = Number(matches[4]);
+    if (matches[5]) {
+      this.verse = Number(matches[5]);
+    }
+    if (matches[6]) {
+      this.endVerse = Number(matches[6]);
+    }
   }
 
   // View this reference result on the YouVersion website
   view() {
-    window.open(`${Core.baseRefURL}/${this.id.toUpperCase()}`);
+    window.open(`${this.constructor.baseURL}/${this.id.toUpperCase()}`);
   }
 
   // Copy the full contents of this reference to the clipboard
@@ -75,6 +82,24 @@ class Reference {
     this.view();
   }
 
+  // Build the direct URL to this reference's corresponding chapter
+  getChapterURL() {
+    let baseURL = this.constructor.baseURL;
+    let {version, book, chapter} = this;
+    return `${baseURL}/${version}/${book.toUpperCase()}.${chapter}`;
+  }
+
+  // Retrieve the reference ID from the given URL
+  static getIDFromURL(url) {
+    let matches = url.match(this.idPattern);
+    return matches[1];
+  }
+
 }
+
+// The base URL for Bible references on the YouVersion website
+Reference.baseURL = 'https://www.bible.com/bible';
+// The pattern to match a reference ID anywhere in a string
+Reference.idPattern = /((\d+)\/([1-3a-z]{3})\.(\d+)(?:\.(\d+)(?:\-(\d+))?)?)/;
 
 export default Reference;
