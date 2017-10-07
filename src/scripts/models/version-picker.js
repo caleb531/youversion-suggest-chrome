@@ -1,4 +1,5 @@
-import Core from './core';
+import {getBibleLanguageData} from './bible';
+import {getPreferences, setPreferences} from './preferences';
 
 class VersionPicker {
 
@@ -8,7 +9,7 @@ class VersionPicker {
   }
 
   loadVersions({language}) {
-    return Core.getBibleLanguageData(language)
+    return getBibleLanguageData(language)
       .then((bible) => {
         this.versions = bible.versions;
         this.defaultVersion = bible.default_version;
@@ -16,7 +17,7 @@ class VersionPicker {
   }
 
   loadPreferredVersion() {
-    return Core.getPreferences().then((prefs) => {
+    return getPreferences().then((prefs) => {
       this.preferredVersion = prefs.version;
       return this.preferredVersion;
     });
@@ -24,7 +25,7 @@ class VersionPicker {
 
   setPreferredVersion(newVersion) {
     this.preferredVersion = newVersion;
-    return Core.setPreferences({version: newVersion});
+    return setPreferences({version: newVersion});
   }
 
 }

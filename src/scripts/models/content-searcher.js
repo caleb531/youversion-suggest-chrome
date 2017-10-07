@@ -1,5 +1,5 @@
 import cheerio from 'cheerio';
-import Core from './core';
+import {getHTML} from './fetch';
 import Reference from './reference';
 
 class ContentSearcher {
@@ -7,7 +7,7 @@ class ContentSearcher {
   search(queryStr) {
 
     let searchURL = `${this.constructor.baseSearchURL}`;
-    return Core.getHTML(searchURL, {q: queryStr, version_id: 111})
+    return getHTML(searchURL, {q: queryStr, version_id: 111})
       .then((html) => {
         return this.parseResults(html);
       })

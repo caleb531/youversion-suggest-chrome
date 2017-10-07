@@ -1,4 +1,5 @@
-import Core from './core';
+import {getBibleLanguageData, getBibleChapterData} from './bible';
+import {getPreferences} from './preferences';
 import RefSearcherQuery from './ref-search-query';
 import Reference from './reference';
 
@@ -8,10 +9,10 @@ class RefSearcher {
   constructor() {
     this.allBibleData = Promise.all([
       // Retrieve the Bible data for the currently-set language
-      Core.getPreferences().then((preferences) => {
-        return Core.getBibleLanguageData(preferences.language);
+      getPreferences().then((preferences) => {
+        return getBibleLanguageData(preferences.language);
       }),
-      Core.getBibleChapterData()
+      getBibleChapterData()
     ]);
   }
 
@@ -64,7 +65,7 @@ class RefSearcher {
   // Filter a list of Bible books to only those matching the given query book
   getBooksMatchingQuery(books, query) {
     return books.filter((book) => {
-      let bookName = Core.normalizeQueryStr(book.name);
+      let bookName = RefSearcherQuery.normalizeQueryStr(book.name);
       return bookName.startsWith(query.book);
     });
   }
@@ -90,7 +91,7 @@ class RefSearcher {
   // Find a version which best matches the version of the given query
   guessVersion(versions, query) {
     return versions.find((version) => {
-      let versionName = Core.normalizeQueryStr(version.name);
+      let versionName = RefSearcherQuery.normalizeQueryStr(version.name);
       return versionName.startsWith(query.version);
     });
   }

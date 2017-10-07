@@ -1,5 +1,5 @@
 import debounce from 'debounce-promise';
-import Core from './core';
+import RefSearchQuery from './ref-search-query';
 import RefSearcher from './ref-searcher';
 import ContentSearcher from './content-searcher';
 
@@ -56,7 +56,7 @@ class Searcher {
 
     this.queryStr = queryStr;
     this.saveQueryStr();
-    let normalizedQueryStr = Core.normalizeQueryStr(queryStr);
+    let normalizedQueryStr = RefSearchQuery.normalizeQueryStr(queryStr);
 
     this.results.length = 0;
     // Always select the first result when the search query changes

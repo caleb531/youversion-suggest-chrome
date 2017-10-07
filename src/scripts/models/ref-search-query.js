@@ -20,6 +20,20 @@ class RefSearchQuery {
     this.refPattern = new RegExp(pattern);
   }
 
+  // Change the query string (or anything compared against the query string) to
+  // be in a consistent format
+  static normalizeQueryStr(queryStr) {
+    queryStr = queryStr.toLowerCase();
+    // Remove all non-alphanumeric characters
+    queryStr = queryStr.replace(/[\W_]/gi, ' ', queryStr);
+    // Remove extra whitespace
+    queryStr = queryStr.trim();
+    queryStr = queryStr.replace(/\s+/g, ' ', queryStr);
+    // Parse shorthand reference notation
+    queryStr = queryStr.replace(/(\d)(?=[a-z])/, '$1 ', queryStr);
+    return queryStr;
+  }
+
   // Parse the query string into its individual parts
   parseQueryStr() {
     let queryMatches = this.queryStr.match(this.constructor.refPattern);

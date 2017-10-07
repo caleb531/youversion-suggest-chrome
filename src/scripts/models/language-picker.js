@@ -1,4 +1,5 @@
-import Core from './core';
+import {getLanguages} from './bible';
+import {getPreferences, setPreferences} from './preferences';
 
 class LanguagePicker {
 
@@ -8,7 +9,7 @@ class LanguagePicker {
   }
 
   loadLanguages() {
-    return Core.getLanguages()
+    return getLanguages()
       .then((languages) => {
         this.languages = languages;
         return languages;
@@ -16,7 +17,7 @@ class LanguagePicker {
   }
 
   loadPreferredLanguage() {
-    return Core.getPreferences().then((prefs) => {
+    return getPreferences().then((prefs) => {
       this.preferredLanguage = prefs.language;
       return this.preferredLanguage;
     });
@@ -24,7 +25,7 @@ class LanguagePicker {
 
   setPreferredLanguage(newLanguage) {
     this.preferredLanguage = newLanguage;
-    return Core.setPreferences({language: newLanguage});
+    return setPreferences({language: newLanguage});
   }
 
 }

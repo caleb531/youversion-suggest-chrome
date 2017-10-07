@@ -1,5 +1,5 @@
 import cheerio from 'cheerio';
-import Core from './core';
+import {getHTML} from './fetch';
 
 class RefContentFetcher {
 
@@ -35,7 +35,7 @@ class RefContentFetcher {
   // Fetch the textual content of the given Bible reference; returns a promise
   fetchContent() {
 
-    return Core.getHTML(this.ref.getChapterURL())
+    return getHTML(this.ref.getChapterURL())
       .then((html) => {
         let content = this.parseContentFromHTML(html);
         if (content !== '') {
