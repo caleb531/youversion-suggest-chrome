@@ -1,3 +1,5 @@
+let UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+
 module.exports = function (grunt) {
 
   grunt.initConfig({
@@ -21,16 +23,23 @@ module.exports = function (grunt) {
     },
 
     webpack: {
-      all: {
+      options: {
         entry: {
           popup: './src/scripts/popup.js',
           options: './src/scripts/options.js'
         },
-        devtool: 'cheap-source-map',
         output: {
           path: __dirname + '/dist/scripts',
           filename: '[name].js'
         }
+      },
+      dev: {
+        devtool: 'cheap-source-map'
+      },
+      prod: {
+        plugins: [
+          new UglifyJSPlugin()
+        ]
       }
     },
 
@@ -41,7 +50,7 @@ module.exports = function (grunt) {
       },
       scripts: {
         files: ['src/scripts/**/*.js'],
-        tasks: ['webpack']
+        tasks: ['webpack:dev']
       },
       styles: {
         files: ['src/styles/*.scss'],
@@ -70,7 +79,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'copy',
     'sass',
-    'webpack'
+    'webpack:dev'
   ]);
 
   grunt.registerTask('serve', [
