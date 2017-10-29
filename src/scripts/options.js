@@ -43,7 +43,9 @@ class OptionsComponent {
           versionPicker: this.versionPicker,
         }),
 
-      ]) : null
+      ]) : null,
+
+      m('p.options-save-note', 'Preferences are saved automatically')
 
     ]);
   }
