@@ -17,7 +17,14 @@ class PopupComponent {
 
   // Copy the content of the selected reference via its action link
   copyContentByLink(clickEvent) {
+    clickEvent.preventDefault();
+    clickEvent.stopPropagation();
     let selectedRef = this.searcher.getSelectedResult();
+    // Do not request the reference content again until the current fetch has
+    // finished (e.g. if the user clicks the Copy link multiple times)
+    if (selectedRef.isCopyingContent) {
+      return;
+    }
     selectedRef.copy()
       .then(() => {
         this.postNotification({
@@ -33,8 +40,6 @@ class PopupComponent {
         });
         m.redraw();
       });
-    clickEvent.preventDefault();
-    clickEvent.stopPropagation();
   }
 
   // Spawn a browser notification with the given parameters
