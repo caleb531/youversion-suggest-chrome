@@ -59,6 +59,7 @@ select {
   top: 50%;
   right: $menu-arrow-padding;
   transform: translateY(-50%);
+  pointer-events: none;
   fill: none;
   width: $menu-arrow-size;
   height: $menu-arrow-size;
