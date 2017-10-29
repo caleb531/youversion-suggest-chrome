@@ -1,9 +1,9 @@
 import autoBind from 'auto-bind';
 import m from 'mithril';
-import Searcher from './models/searcher';
-import SearchFieldComponent from './search-field';
-import SearchResultsComponent from './search-results';
-import LoadingIconComponent from './loading-icon';
+import Searcher from './models/searcher.js';
+import SearchFieldComponent from './search-field.js';
+import SearchResultsComponent from './search-results.js';
+import LoadingIconComponent from './loading-icon.js';
 
 // The extension popup UI
 class PopupComponent {

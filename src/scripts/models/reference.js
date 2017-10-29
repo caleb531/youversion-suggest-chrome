@@ -1,5 +1,5 @@
 import copy from 'copy-to-clipboard';
-import RefContentFetcher from './ref-content-fetcher';
+import RefContentFetcher from './ref-content-fetcher.js';
 
 // A search result for a Bible reference search
 class Reference {

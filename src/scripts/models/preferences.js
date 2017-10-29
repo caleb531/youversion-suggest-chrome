@@ -1,4 +1,4 @@
-import {getJSON} from './fetch';
+import {getJSON} from './fetch.js';
 
 // Retrieve the raw user preferences without defaults merged in
 export function getRawPreferences() {

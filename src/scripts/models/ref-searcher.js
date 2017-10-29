@@ -1,7 +1,7 @@
-import {getBibleLanguageData, getBibleChapterData} from './bible';
-import {getPreferences} from './preferences';
-import RefSearcherQuery from './ref-search-query';
-import Reference from './reference';
+import {getBibleLanguageData, getBibleChapterData} from './bible.js';
+import {getPreferences} from './preferences.js';
+import RefSearcherQuery from './ref-search-query.js';
+import Reference from './reference.js';
 
 // Functions for searching the Bible by reference
 class RefSearcher {

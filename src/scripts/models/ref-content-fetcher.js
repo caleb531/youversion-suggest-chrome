@@ -1,5 +1,5 @@
 import cheerio from 'cheerio';
-import {getHTML} from './fetch';
+import {getHTML} from './fetch.js';
 
 class RefContentFetcher {
 

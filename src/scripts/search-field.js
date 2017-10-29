@@ -1,6 +1,6 @@
 import autoBind from 'auto-bind';
 import m from 'mithril';
-import SearchIconComponent from './search-icon';
+import SearchIconComponent from './search-icon.js';
 
 // A generic autocomplete-based search field
 class SearchFieldComponent {

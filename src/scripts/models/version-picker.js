@@ -1,5 +1,5 @@
-import {getBibleLanguageData} from './bible';
-import {getPreferences, setPreferences} from './preferences';
+import {getBibleLanguageData} from './bible.js';
+import {getPreferences, setPreferences} from './preferences.js';
 
 class VersionPicker {
 

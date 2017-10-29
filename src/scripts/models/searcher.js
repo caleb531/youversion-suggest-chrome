@@ -1,7 +1,7 @@
 import debounce from 'debounce-promise';
-import RefSearchQuery from './ref-search-query';
-import RefSearcher from './ref-searcher';
-import ContentSearcher from './content-searcher';
+import RefSearchQuery from './ref-search-query.js';
+import RefSearcher from './ref-searcher.js';
+import ContentSearcher from './content-searcher.js';
 
 // A generic class for performing several kinds of Bible searches via
 // YouVersion; every Searcher instance can perform more than one search in its

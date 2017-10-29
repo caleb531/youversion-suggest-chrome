@@ -1,4 +1,4 @@
-import {getJSON} from './fetch';
+import {getJSON} from './fetch.js';
 
 // Retrieve the Bible data for the given language
 export function getBibleLanguageData(language) {

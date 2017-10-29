@@ -1,8 +1,8 @@
 import m from 'mithril';
-import LanguagePicker from './models/language-picker';
-import VersionPicker from './models/version-picker';
-import LanguagePickerComponent from './language-picker';
-import VersionPickerComponent from './version-picker';
+import LanguagePicker from './models/language-picker.js';
+import VersionPicker from './models/version-picker.js';
+import LanguagePickerComponent from './language-picker.js';
+import VersionPickerComponent from './version-picker.js';
 
 class OptionsComponent {
 

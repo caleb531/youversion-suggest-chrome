@@ -1,6 +1,6 @@
 import autoBind from 'auto-bind';
 import m from 'mithril';
-import OptionsMenuComponent from './options-menu';
+import OptionsMenuComponent from './options-menu.js';
 
 class LanguagePickerComponent {
 

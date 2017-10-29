@@ -1,5 +1,5 @@
-import {getLanguages} from './bible';
-import {getPreferences, setPreferences} from './preferences';
+import {getLanguages} from './bible.js';
+import {getPreferences, setPreferences} from './preferences.js';
 
 class LanguagePicker {
 

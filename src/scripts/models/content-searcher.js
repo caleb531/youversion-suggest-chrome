@@ -1,6 +1,6 @@
 import cheerio from 'cheerio';
-import {getHTML} from './fetch';
-import Reference from './reference';
+import {getHTML} from './fetch.js';
+import Reference from './reference.js';
 
 class ContentSearcher {
 
