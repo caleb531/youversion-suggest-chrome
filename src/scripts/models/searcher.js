@@ -1,4 +1,3 @@
-import debounce from 'debounce-promise';
 import RefSearchQuery from './ref-search-query.js';
 import RefSearcher from './ref-searcher.js';
 import ContentSearcher from './content-searcher.js';
@@ -24,12 +23,6 @@ class Searcher {
       this.isLoadingResults = false;
       this.onUpdateSearchStatus = onUpdateSearchStatus;
 
-  }
-
-  // Only run a content search if the last content search was at least some
-  // amount of time ago (specified by searchDelay)
-  static debounceContentSearch() {
-    this.prototype.searchByContent = debounce(this.prototype.searchByContent, this.searchDelay);
   }
 
   // Retrieve the last-searched query from the extension's local data store
@@ -155,9 +148,5 @@ class Searcher {
 // The number of milliseconds to wait (since the last search) before clearing
 // the query
 Searcher.queryMaxAge = 300e3;
-// The time in milliseconds to wait (after the user has stopped typing) before
-// performing the search
-Searcher.searchDelay = 300;
-Searcher.debounceContentSearch();
 
 export default Searcher;
