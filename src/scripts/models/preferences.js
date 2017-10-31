@@ -3,7 +3,7 @@ import {getJSON} from './fetch.js';
 // Retrieve the raw user preferences without defaults merged in
 export function getRawPreferences() {
   return new Promise((resolve) => {
-    chrome.storage.sync.get(['preferences'], (items) => {
+    chrome.storage.sync.get('preferences', (items) => {
       resolve(items.preferences);
     });
   });
