@@ -1,6 +1,7 @@
 import debounce from 'debounce-promise';
 import cheerio from 'cheerio';
 import {getHTML} from './fetch.js';
+import {getPreferences} from './preferences.js';
 import Reference from './reference.js';
 
 class ContentSearcher {
@@ -29,7 +30,11 @@ class ContentSearcher {
   // Fetch the latest results list from the YouVersion website
   fetchLatestResults(queryStr) {
     let searchURL = `${this.constructor.baseSearchURL}`;
-    return getHTML(searchURL, {q: queryStr, version_id: 111})
+    return getPreferences()
+      .then((preferences) => preferences.version)
+      .then((preferredVersion) => {
+        return getHTML(searchURL, {q: queryStr, version_id: preferredVersion});
+      })
       .then((html) => {
         let results = this.parseResults(html);
         chrome.storage.local.set({contentSearchResults: results});

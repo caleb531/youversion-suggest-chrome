@@ -7,12 +7,14 @@ import Reference from './reference.js';
 class RefSearcher {
 
   constructor() {
+    this.preferences = getPreferences();
     this.allBibleData = Promise.all([
       // Retrieve the Bible data for the currently-set language
-      getPreferences().then((preferences) => {
+      this.preferences.then((preferences) => {
         return getBibleLanguageData(preferences.language);
       }),
-      getBibleChapterData()
+      getBibleChapterData(),
+      this.preferences.then((preferences) => preferences.version)
     ]);
   }
 
@@ -31,9 +33,9 @@ class RefSearcher {
     // Ensure that bible/chapter data has loaded, then proceed to search for
     // Bible references matching the given query
     return this.allBibleData
-      .then(([bible, chapters]) => {
+      .then(([bible, chapters, preferredVersion]) => {
         let matchingBooks = this.getBooksMatchingQuery(bible.books, query);
-        let chosenVersion = this.chooseBestVersion(bible.versions, bible.default_version, query);
+        let chosenVersion = this.chooseBestVersion(bible.versions, preferredVersion, query);
         return this.buildResultsFromData({chapters, matchingBooks, query, chosenVersion});
       })
       .catch((error) => {
