@@ -4,6 +4,7 @@ import Searcher from './models/searcher.js';
 import SearchFieldComponent from './search-field.js';
 import SearchResultsComponent from './search-results.js';
 import LoadingIconComponent from './loading-icon.js';
+import OptionsIconComponent from './options-icon.js';
 
 // The extension popup UI
 class PopupComponent {
@@ -54,6 +55,7 @@ class PopupComponent {
 
     return m('div.popup', [
       m('header.popup-header', [
+        m('a[href=options.html][target=_blank]', m(OptionsIconComponent)),
         m('h1.popup-title', 'YouVersion Suggest'),
         m(SearchFieldComponent, {
           searcher: this.searcher,

@@ -2,6 +2,7 @@
 @import 'search-field';
 
 .popup-header {
+  position: relative;
   padding: $app-base-padding;
   padding-top: 15px;
   border-bottom: solid $app-border-width $search-result-border-color;
@@ -13,4 +14,13 @@
   font-size: 12px;
   font-weight: 400;
   color: rgba(#000, 0.5);
+}
+.options-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  $icon-size: 16px;
+  width: $icon-size;
+  height: $icon-size;
+  fill: rgba(#000, 1/3);
 }
