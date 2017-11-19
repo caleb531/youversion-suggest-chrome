@@ -53,7 +53,8 @@ class SearchFieldComponent {
         placeholder: this.placeholder,
         value: this.searcher.queryStr,
         onkeydown: this.handleKeyboardNav,
-        oninput: this.triggerSearch
+        oninput: this.triggerSearch,
+        tabindex: 1
       }),
       m(SearchIconComponent)
     ]);
