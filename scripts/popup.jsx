@@ -65,7 +65,7 @@ class PopupComponent {
           <SearchFieldComponent
             searcher={this.searcher}
             autofocus={true}
-            placeholder="Type a book, chapter, verse, or keyword"
+            placeholder="Type a book, chapter, verse, or phrase"
           />
         </header>
 
