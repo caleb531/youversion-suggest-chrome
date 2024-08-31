@@ -58,7 +58,7 @@ class PopupComponent {
     return (
       <div className="popup">
         <header className="popup-header">
-          <a href="options.html" target="_blank">
+          <a href="options.html" target="_blank" rel="noreferrer" title="Settings">
             <OptionsIconComponent />
           </a>
           <h1 className="popup-title">YouVersion Suggest</h1>
