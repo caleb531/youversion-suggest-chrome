@@ -1,5 +1,6 @@
 import autoBind from 'auto-bind';
 import m from 'mithril';
+import OptionsFieldComponent from './options-field.js';
 import OptionsMenuComponent from './options-menu.js';
 
 class VersionPickerComponent {
@@ -14,19 +15,18 @@ class VersionPickerComponent {
   }
 
   view() {
-    return m('div.options-field.version-picker-container', [
-      m('.options-cell', m('label[for="version-picker"]', 'Version:')),
-      m(
-        '.options-cell',
-        m(OptionsMenuComponent, {
-          id: 'version-picker',
-          options: this.versionPicker.versions,
-          value: this.versionPicker.preferredVersion,
-          onchange: this.setPreferredVersion
-        })
-      )
-    ]);
+    return m(OptionsFieldComponent, {
+      id: this.id,
+      label: 'Version',
+      control: m(OptionsMenuComponent, {
+        id: this.id,
+        options: this.versionPicker.versions,
+        value: this.versionPicker.preferredVersion,
+        onchange: this.setPreferredVersion
+      })
+    });
   }
 }
+VersionPickerComponent.prototype.id = 'version';
 
 export default VersionPickerComponent;
