@@ -1,7 +1,7 @@
 import autoBind from 'auto-bind';
 import m from 'mithril';
-import OptionsFieldComponent from './options-field.js';
-import OptionsMenuComponent from './options-menu.js';
+import OptionsFieldComponent from './options-field.jsx';
+import OptionsMenuComponent from './options-menu.jsx';
 
 class LanguagePickerComponent {
   constructor({ attrs }) {

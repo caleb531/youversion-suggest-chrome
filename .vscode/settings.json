@@ -14,7 +14,8 @@
       "scripts/**/*.tsx",
       "vite.config.ts",
       "styles/**/*.scss",
-      "public/**/*.json"
+      "public/**/*.json",
+      "*.html"
     ]
   }
 }
