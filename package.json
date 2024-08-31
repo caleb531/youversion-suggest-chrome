@@ -7,7 +7,6 @@
   "dependencies": {
     "auto-bind": "^1.1.0",
     "classnames": "^2.2.5",
-    "copy-to-clipboard": "^3.0.8",
     "debounce-promise": "^3.0.1",
     "mithril": "^2.2.2",
     "youversion-suggest": "3.0.0-beta.6"
