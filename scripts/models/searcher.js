@@ -115,7 +115,9 @@ class Searcher {
       const preferences = await getPreferences();
       const referenceWithContent = await fetchReferenceContent(reference.id, {
         language: preferences.language,
-        version: preferences.version
+        version: preferences.version,
+        includeLineBreaks: preferences.linebreaks,
+        includeVerseNumbers: preferences.versenumbers
       });
       this.isCopyingContent = false;
       navigator.clipboard.writeText(

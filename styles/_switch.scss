@@ -4,6 +4,10 @@
   --switch-thumb-size: 12px;
   --switch-transition-duration: 250ms;
   --switch-transition-timing-function: ease-in-out;
+  --color-switch-track-disabled: #777;
+  --color-switch-track-enabled: #085;
+  --color-switch-thumb-disabled: #fff;
+  --color-switch-thumb-enabled: #fff;
 }
 
 .switch-container {
