@@ -1,5 +1,5 @@
-import {getLanguages} from './bible.js';
 import {getPreferences, setPreferences} from './preferences.js';
+import {getLanguages} from 'youversion-suggest';
 
 class LanguagePicker {
 

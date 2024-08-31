@@ -1,6 +1,7 @@
 import RefSearchQuery from './ref-search-query.js';
-import RefSearcher from './ref-searcher.js';
 import ContentSearcher from './content-searcher.js';
+import { getReferencesMatchingName } from 'youversion-suggest';
+import {getPreferences} from './preferences.js';
 
 // A generic class for performing several kinds of Bible searches via
 // YouVersion; every Searcher instance can perform more than one search in its
@@ -14,7 +15,6 @@ class Searcher {
       this.queryStr = '';
       this.restoreSavedQueryStr();
 
-      this.refSearcher = new RefSearcher();
       this.contentSearcher = new ContentSearcher();
 
       // The last-returned list search results
@@ -68,8 +68,17 @@ class Searcher {
   // Perform a search by reference using the given query string
   searchByRef(queryStr) {
 
-    return this.refSearcher.search(queryStr)
+    console.log('search by ref', queryStr);
+    return getPreferences()
+      .then((preferences) => {
+        console.log('preferences', preferences);
+        return getReferencesMatchingName(queryStr, {
+          language: preferences.language,
+          fallbackVersion: preferences.version
+        })
+      })
       .then((results) => {
+        console.log('results', results);
         if (results.length > 0) {
           this.results.push(...results);
           this.isLoadingResults = false;

@@ -1,5 +1,3 @@
-import {getJSON} from './fetch.js';
-
 // Retrieve the raw user preferences without defaults merged in
 export function getRawPreferences() {
   return new Promise((resolve) => {
@@ -11,7 +9,12 @@ export function getRawPreferences() {
 
 // Retrieve the map of default values for user preferences
 export function getDefaultPreferences() {
-  return getJSON('data/preferences/defaults.json');
+  return {
+    "language": "eng",
+    "refformat": "{name} ({version})\n\n{content}",
+    "versenumbers": false,
+    "linebreaks": true
+  };
 }
 
 // Get the final preferences object (stored user data merged with defaults)

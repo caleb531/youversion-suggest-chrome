@@ -1,14 +1,13 @@
 {
-
   "name": "YouVersion Suggest",
   "version": "1.0.0",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "description": "Search the YouVersion Bible, quickly and easily",
   "icons": {
     "256": "icons/icon-square.png"
   },
 
-  "browser_action": {
+  "action": {
     "default_icon": "icons/icon-square.png",
     "default_title": "YouVersion Suggest",
     "default_popup": "popup.html"
@@ -17,9 +16,14 @@
   "options_page": "options.html",
 
   "permissions": [
-    "https://www.bible.com/*",
     "clipboardWrite",
     "notifications",
     "storage"
-  ]
+  ],
+  "host_permissions": [
+    "https://www.bible.com/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  }
 }

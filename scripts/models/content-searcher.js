@@ -1,5 +1,4 @@
 import debounce from 'debounce-promise';
-import {getHTML} from './fetch.js';
 import {getPreferences} from './preferences.js';
 import Reference from './reference.js';
 import { getReferencesMatchingPhrase } from 'youversion-suggest';
@@ -32,10 +31,13 @@ class ContentSearcher {
     let searchURL = `${this.constructor.baseSearchURL}`;
     return getPreferences()
       .then((preferences) => {
-        const results = getReferencesMatchingPhrase(queryStr, {
+        return getReferencesMatchingPhrase(queryStr, {
           language: preferences.language,
           version: preferences.version
-        });
+        })
+      })
+      .then((results) => {
+        console.log('results', results);
         chrome.storage.local.set({contentSearchResults: results});
         return results;
       })

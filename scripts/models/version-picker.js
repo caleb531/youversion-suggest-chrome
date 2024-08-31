@@ -1,5 +1,5 @@
-import {getBibleLanguageData} from './bible.js';
 import {getPreferences, setPreferences} from './preferences.js';
+import { getBibleData } from 'youversion-suggest';
 
 class VersionPicker {
 
@@ -9,7 +9,7 @@ class VersionPicker {
   }
 
   loadVersions({language}) {
-    return getBibleLanguageData(language)
+    return getBibleData(language)
       .then((bible) => {
         this.versions = bible.versions;
         this.defaultVersion = bible.default_version;

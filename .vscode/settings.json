@@ -6,7 +6,8 @@
       "scripts/**/*.jsx",
       "scripts/**/*.tsx",
       "vite.config.ts",
-      "styles/**/*.scss"
+      "styles/**/*.scss",
+      "public/**/*.json"
     ]
   }
 }
