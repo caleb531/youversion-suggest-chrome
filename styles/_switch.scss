@@ -1,0 +1,54 @@
+:root {
+  --switch-track-width: 36px;
+  --switch-track-height: 18px;
+  --switch-thumb-size: 12px;
+  --switch-transition-duration: 250ms;
+  --switch-transition-timing-function: ease-in-out;
+}
+
+.switch-container {
+  display: block;
+  width: fit-content;
+  padding: 5px 0;
+}
+
+.switch-input {
+  display: none;
+}
+
+.switch-track {
+  position: relative;
+  width: var(--switch-track-width);
+  height: var(--switch-track-height);
+  border-radius: 10px;
+  background-color: var(--color-switch-track-disabled);
+  transition: background-color var(--switch-transition-duration)
+    var(--switch-transition-timing-function);
+  .switch-input:checked + & {
+    background-color: var(--color-switch-track-enabled);
+  }
+}
+
+.switch-thumb {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(
+    calc(0% + ((var(--switch-track-height) - var(--switch-thumb-size)) / 2)),
+    -50%
+  );
+  width: var(--switch-thumb-size);
+  height: var(--switch-thumb-size);
+  border-radius: 50%;
+  background-color: var(--color-switch-thumb-disabled);
+  transition: all var(--switch-transition-duration) var(--switch-transition-timing-function);
+  transition-property: left, transform, background-color;
+  .switch-input:checked + .switch-track > & {
+    left: 100%;
+    transform: translate(
+      calc(-100% - ((var(--switch-track-height) - var(--switch-thumb-size)) / 2)),
+      -50%
+    );
+    background-color: var(--color-switch-thumb-enabled);
+  }
+}
