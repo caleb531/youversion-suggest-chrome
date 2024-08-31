@@ -11,6 +11,7 @@ export function getRawPreferences() {
 export function getDefaultPreferences() {
   return {
     "language": "eng",
+    "version": 111,
     "refformat": "{name} ({version})\n\n{content}",
     "versenumbers": false,
     "linebreaks": true
