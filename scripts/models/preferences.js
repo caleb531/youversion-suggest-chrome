@@ -1,10 +1,7 @@
 // Retrieve the raw user preferences without defaults merged in
-export function getRawPreferences() {
-  return new Promise((resolve) => {
-    chrome.storage.sync.get('preferences', (items) => {
-      resolve(items.preferences);
-    });
-  });
+export async function getRawPreferences() {
+  const items = await chrome.storage.sync.get('preferences');
+  return items.preferences;
 }
 
 // Retrieve the map of default values for user preferences
@@ -19,22 +16,18 @@ export function getDefaultPreferences() {
 }
 
 // Get the final preferences object (stored user data merged with defaults)
-export function getPreferences() {
-  return Promise.all([getDefaultPreferences(), getRawPreferences()]).then(
-    ([defaultPrefs, rawPrefs]) => {
-      return Object.assign({}, defaultPrefs, rawPrefs);
-    }
-  );
+export async function getPreferences() {
+  const [defaultPrefs, rawPrefs] = await Promise.all([
+    getDefaultPreferences(),
+    getRawPreferences()
+  ]);
+  return Object.assign({}, defaultPrefs, rawPrefs);
 }
 
 // Merge the given preferences into the persisted user preferences object
-export function setPreferences(prefsToUpdate) {
-  return getPreferences().then((currentPrefs) => {
-    let newPrefs = Object.assign(currentPrefs, prefsToUpdate);
-    return new Promise((resolve) => {
-      chrome.storage.sync.set({ preferences: newPrefs }, () => {
-        resolve(newPrefs);
-      });
-    });
-  });
+export async function setPreferences(prefsToUpdate) {
+  const currentPrefs = await getPreferences();
+  let newPrefs = Object.assign(currentPrefs, prefsToUpdate);
+  await chrome.storage.sync.set({ preferences: newPrefs });
+  return newPrefs;
 }

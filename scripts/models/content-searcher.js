@@ -1,45 +1,42 @@
 import debounce from 'debounce-promise';
-import { getPreferences } from './preferences.js';
 import { getReferencesMatchingPhrase } from 'youversion-suggest';
+import { getPreferences } from './preferences.js';
 
 class ContentSearcher {
   // Search for Bible content matching the given query string, returning cached
   // results if possible
-  search(queryStr) {
-    return new Promise((resolve) => {
-      chrome.storage.local.get(['contentSearchResults', 'contentSearchQueryStr'], (items) => {
-        if (items.contentSearchResults && queryStr === items.contentSearchQueryStr) {
-          resolve(items.contentSearchResults);
-        } else {
-          chrome.storage.local.set({ contentSearchQueryStr: queryStr });
-          resolve(this.fetchLatestResults(queryStr));
-        }
-      });
-    }).catch((error) => {
+  async search(queryStr) {
+    try {
+      const items = await chrome.storage.local.get([
+        'contentSearchResults',
+        'contentSearchQueryStr'
+      ]);
+      if (items.contentSearchResults && queryStr === items.contentSearchQueryStr) {
+        return items.contentSearchResults;
+      } else {
+        chrome.storage.local.set({ contentSearchQueryStr: queryStr });
+        return this.fetchLatestResults(queryStr);
+      }
+    } catch (error) {
       console.error(error);
       throw error;
-    });
+    }
   }
 
   // Fetch the latest results list from the YouVersion website
-  fetchLatestResults(queryStr) {
-    let searchURL = `${this.constructor.baseSearchURL}`;
-    return getPreferences()
-      .then((preferences) => {
-        return getReferencesMatchingPhrase(queryStr, {
-          language: preferences.language,
-          version: preferences.version
-        });
-      })
-      .then((results) => {
-        console.log('results', results);
-        chrome.storage.local.set({ contentSearchResults: results });
-        return results;
-      })
-      .catch((error) => {
-        console.error(error);
-        throw error;
+  async fetchLatestResults(queryStr) {
+    try {
+      const preferences = await getPreferences();
+      const results = await getReferencesMatchingPhrase(queryStr, {
+        language: preferences.language,
+        version: preferences.version
       });
+      chrome.storage.local.set({ contentSearchResults: results });
+      return results;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 
   // Only run a content search if the last content search was at least some

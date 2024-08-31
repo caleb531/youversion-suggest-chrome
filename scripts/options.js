@@ -1,21 +1,22 @@
 import m from 'mithril';
+import LanguagePickerComponent from './language-picker.js';
 import LanguagePicker from './models/language-picker.js';
 import VersionPicker from './models/version-picker.js';
-import LanguagePickerComponent from './language-picker.js';
 import VersionPickerComponent from './version-picker.js';
 
 class OptionsComponent {
   constructor() {
     this.languagePicker = new LanguagePicker();
     this.versionPicker = new VersionPicker();
-    this.languagePicker
-      .loadLanguages()
-      .then(() => this.languagePicker.loadPreferredLanguage())
-      .then((preferredLanguage) => {
-        return this.versionPicker.loadVersions({ language: preferredLanguage });
-      })
-      .then(() => this.versionPicker.loadPreferredVersion())
-      .then(() => m.redraw());
+    this.loadPreferences();
+  }
+
+  async loadPreferences() {
+    await this.languagePicker.loadLanguages();
+    const preferredLanguage = await this.languagePicker.loadPreferredLanguage();
+    await this.versionPicker.loadVersions({ language: preferredLanguage });
+    await this.versionPicker.loadPreferredVersion();
+    m.redraw();
   }
 
   view() {

@@ -1,5 +1,5 @@
-import ContentSearcher from './content-searcher.js';
 import { fetchReferenceContent, getReferencesMatchingName } from 'youversion-suggest';
+import ContentSearcher from './content-searcher.js';
 import { getPreferences } from './preferences.js';
 
 // A generic class for performing several kinds of Bible searches via
@@ -22,15 +22,14 @@ class Searcher {
   }
 
   // Retrieve the last-searched query from the extension's local data store
-  restoreSavedQueryStr() {
-    chrome.storage.local.get(['queryStr', 'lastSearchTime'], (items) => {
-      // Only restore the saved query if the last search was within the last 5
-      // minutes
-      if (Date.now() - items.lastSearchTime <= this.constructor.queryMaxAge) {
-        this.search(items.queryStr);
-        chrome.storage.local.set({ lastSearchTime: Date.now() });
-      }
-    });
+  async restoreSavedQueryStr() {
+    const items = await chrome.storage.local.get(['queryStr', 'lastSearchTime']);
+    // Only restore the saved query if the last search was within the last 5
+    // minutes
+    if (Date.now() - items.lastSearchTime <= this.constructor.queryMaxAge) {
+      this.search(items.queryStr);
+      chrome.storage.local.set({ lastSearchTime: Date.now() });
+    }
   }
 
   saveQueryStr() {
@@ -59,56 +58,49 @@ class Searcher {
   }
 
   // Perform a search by reference using the given query string
-  searchByRef(queryStr) {
-    console.log('search by ref', queryStr);
-    return getPreferences()
-      .then((preferences) => {
-        console.log('preferences', preferences);
-        return getReferencesMatchingName(queryStr, {
-          language: preferences.language,
-          fallbackVersion: preferences.version
-        });
-      })
-      .then((results) => {
-        console.log('results', results);
-        if (results.length > 0) {
-          this.results.push(...results);
-          this.isLoadingResults = false;
-          this.onUpdateSearchStatus();
-          return results;
-        } else {
-          // If the ref search turns up no results, perform a content search
-          this.isLoadingResults = true;
-          this.onUpdateSearchStatus();
-          return this.searchByContent(queryStr);
-        }
-      })
-      .catch((error) => {
-        this.error = error;
-        this.onUpdateSearchStatus();
+  async searchByRef(queryStr) {
+    try {
+      const preferences = await getPreferences();
+      const results = await getReferencesMatchingName(queryStr, {
+        language: preferences.language,
+        fallbackVersion: preferences.version
       });
+      if (results.length > 0) {
+        this.results.push(...results);
+        this.isLoadingResults = false;
+        this.onUpdateSearchStatus();
+        return results;
+      } else {
+        // If the ref search turns up no results, perform a content search
+        this.isLoadingResults = true;
+        this.onUpdateSearchStatus();
+        return this.searchByContent(queryStr);
+      }
+    } catch (error) {
+      this.error = error;
+      this.isLoadingResults = false;
+      this.onUpdateSearchStatus();
+    }
   }
 
   // Perform a search by content using the given query string
-  searchByContent(queryStr) {
-    // Perform content search if no reference results turned up
-    return this.contentSearcher
-      .search(queryStr)
-      .then((results) => {
-        // The user may type faster than page fetches can finish, so ensure that
-        // only the results from the last fetch (i.e. for the latest query
-        // string) are displayed
-        if (queryStr === this.queryStr) {
-          this.results.push(...results);
-          this.isLoadingResults = false;
-          this.onUpdateSearchStatus();
-          return results;
-        }
-      })
-      .catch((error) => {
-        this.error = error;
+  async searchByContent(queryStr) {
+    try {
+      // Perform content search if no reference results turned up
+      const results = await this.contentSearcher.search(queryStr);
+      // The user may type faster than page fetches can finish, so ensure that
+      // only the results from the last fetch (i.e. for the latest query
+      // string) are displayed
+      if (queryStr === this.queryStr) {
+        this.results.push(...results);
+        this.isLoadingResults = false;
         this.onUpdateSearchStatus();
-      });
+        return results;
+      }
+    } catch (error) {
+      this.error = error;
+      this.onUpdateSearchStatus();
+    }
   }
 
   // View this reference result on the YouVersion website
@@ -117,24 +109,22 @@ class Searcher {
   }
 
   // Copy the full contents of this reference to the clipboard
-  copy(reference) {
+  async copy(reference) {
     this.isCopyingContent = true;
-    return getPreferences()
-      .then((preferences) => {
-        return fetchReferenceContent(reference.id, {
-          language: preferences.language,
-          version: preferences.version
-        });
-      })
-      .then((reference) => {
-        this.isCopyingContent = false;
-        navigator.clipboard.writeText(`${reference.name}\n\n${reference.content}`);
-      })
-      .catch((error) => {
-        this.isCopyingContent = false;
-        // Pass the error down the chain
-        return Promise.reject(error);
+    try {
+      const preferences = await getPreferences();
+      const referenceWithContent = await fetchReferenceContent(reference.id, {
+        language: preferences.language,
+        version: preferences.version
       });
+      this.isCopyingContent = false;
+      navigator.clipboard.writeText(
+        `${referenceWithContent.name}\n\n${referenceWithContent.content}`
+      );
+    } catch (error) {
+      this.isCopyingContent = false;
+      return Promise.reject(error);
+    }
   }
 
   // Define the default action for any reference result

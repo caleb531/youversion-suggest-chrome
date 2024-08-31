@@ -16,7 +16,7 @@ class PopupComponent {
   }
 
   // Copy the content of the selected reference via its action link
-  copyContentByLink(clickEvent) {
+  async copyContentByLink(clickEvent) {
     clickEvent.preventDefault();
     clickEvent.stopPropagation();
     let selectedRef = this.searcher.getSelectedResult();
@@ -25,22 +25,20 @@ class PopupComponent {
     if (this.searcher.isCopyingContent) {
       return;
     }
-    this.searcher
-      .copy(selectedRef)
-      .then(() => {
-        this.postNotification({
-          title: 'Copied!',
-          message: `${selectedRef.name} copied to the clipboard`
-        });
-        m.redraw();
-      })
-      .catch(() => {
-        this.postNotification({
-          title: 'Error',
-          message: `Could not copy ${selectedRef.name} to the clipboard`
-        });
-        m.redraw();
+    try {
+      await this.searcher.copy(selectedRef);
+      this.postNotification({
+        title: 'Copied!',
+        message: `${selectedRef.name} copied to the clipboard`
       });
+      m.redraw();
+    } catch (error) {
+      this.postNotification({
+        title: 'Error',
+        message: `Could not copy ${selectedRef.name} to the clipboard`
+      });
+      m.redraw();
+    }
   }
 
   // Spawn a browser notification with the given parameters

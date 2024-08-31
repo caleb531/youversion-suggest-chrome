@@ -1,5 +1,5 @@
-import { getPreferences, setPreferences } from './preferences.js';
 import { getLanguages } from 'youversion-suggest';
+import { getPreferences, setPreferences } from './preferences.js';
 
 class LanguagePicker {
   constructor() {
@@ -7,18 +7,16 @@ class LanguagePicker {
     this.preferredLanguage = null;
   }
 
-  loadLanguages() {
-    return getLanguages().then((languages) => {
-      this.languages = languages;
-      return languages;
-    });
+  async loadLanguages() {
+    const languages = await getLanguages();
+    this.languages = languages;
+    return languages;
   }
 
-  loadPreferredLanguage() {
-    return getPreferences().then((prefs) => {
-      this.preferredLanguage = prefs.language;
-      return this.preferredLanguage;
-    });
+  async loadPreferredLanguage() {
+    const prefs = await getPreferences();
+    this.preferredLanguage = prefs.language;
+    return this.preferredLanguage;
   }
 
   setPreferredLanguage(newLanguage) {

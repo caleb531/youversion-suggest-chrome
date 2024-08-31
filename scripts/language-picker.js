@@ -8,18 +8,15 @@ class LanguagePickerComponent {
     autoBind(this);
   }
 
-  setPreferredLanguage(changeEvent) {
+  async setPreferredLanguage(changeEvent) {
     changeEvent.redraw = false;
     let newLanguage = changeEvent.target.value;
-    this.languagePicker
-      .setPreferredLanguage(newLanguage)
-      .then(() => this.versionPicker.loadVersions({ language: newLanguage }))
-      .then(() => {
+    await this.languagePicker.setPreferredLanguage(newLanguage)
+    await this.versionPicker.loadVersions({ language: newLanguage });
         // Every time the language is changed, the version is set to the default
         // version for that language
-        this.versionPicker.setPreferredVersion(this.versionPicker.defaultVersion);
+        await this.versionPicker.setPreferredVersion(this.versionPicker.defaultVersion);
         m.redraw();
-      });
   }
 
   view() {
