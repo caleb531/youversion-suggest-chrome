@@ -20,32 +20,33 @@ class OptionsComponent {
   }
 
   view() {
-    return m('div.options-page', [
-      m('header.options-header', [
-        m('img.options-header-logo', {
-          src: 'icons/icon-square.svg',
-          alt: 'YouVersion Suggest'
-        }),
-        m('div.options-header-headings', [
-          m('h1.app-title', 'YouVersion Suggest'),
-          m('h2.options-page-title', 'Preferences')
-        ])
-      ]),
+    return (
+      <div className="options-page">
+        <header className="options-header">
+          <img
+            className="options-header-logo"
+            src="icons/icon-square.svg"
+            alt="YouVersion Suggest"
+          />
+          <div className="options-header-headings">
+            <h1 className="app-title">YouVersion Suggest</h1>
+            <h2 className="options-page-title">Preferences</h2>
+          </div>
+        </header>
 
-      this.languagePicker.languages && this.versionPicker.versions
-        ? m('div.options-fields', [
-            m(LanguagePickerComponent, {
-              languagePicker: this.languagePicker,
-              versionPicker: this.versionPicker
-            }),
-            m(VersionPickerComponent, {
-              versionPicker: this.versionPicker
-            })
-          ])
-        : null,
+        {this.languagePicker.languages && this.versionPicker.versions ? (
+          <div className="options-fields">
+            <LanguagePickerComponent
+              languagePicker={this.languagePicker}
+              versionPicker={this.versionPicker}
+            />
+            <VersionPickerComponent versionPicker={this.versionPicker} />
+          </div>
+        ) : null}
 
-      m('p.options-save-note', 'Preferences are saved automatically')
-    ]);
+        <p className="options-save-note">Preferences are saved automatically</p>
+      </div>
+    );
   }
 }
 

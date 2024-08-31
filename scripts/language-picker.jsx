@@ -21,16 +21,20 @@ class LanguagePickerComponent {
   }
 
   view() {
-    return m(OptionsFieldComponent, {
-      id: this.id,
-      label: 'Language',
-      control: m(OptionsMenuComponent, {
-        id: this.id,
-        options: this.languagePicker.languages,
-        value: this.languagePicker.preferredLanguage,
-        onchange: this.setPreferredLanguage
-      })
-    });
+    return (
+      <OptionsFieldComponent
+        id={this.id}
+        label="Language"
+        control={
+          <OptionsMenuComponent
+            id={this.id}
+            options={this.languagePicker.languages}
+            value={this.languagePicker.preferredLanguage}
+            onchange={this.setPreferredLanguage}
+          />
+        }
+      />
+    );
   }
 }
 LanguagePickerComponent.prototype.id = 'language';

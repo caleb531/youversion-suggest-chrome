@@ -44,17 +44,21 @@ class SearchFieldComponent {
   }
 
   view() {
-    return m('div.search-field-container', [
-      m('input[type=text].search-field', {
-        autofocus: this.autofocus,
-        placeholder: this.placeholder,
-        value: this.searcher.queryStr,
-        onkeydown: this.handleKeyboardNav,
-        oninput: this.triggerSearch,
-        tabindex: 1
-      }),
-      m(SearchIconComponent)
-    ]);
+    return (
+      <div className="search-field-container">
+        <input
+          type="text"
+          className="search-field"
+          autofocus={this.autofocus}
+          placeholder={this.placeholder}
+          value={this.searcher.queryStr}
+          onkeydown={this.handleKeyboardNav}
+          oninput={this.triggerSearch}
+          tabIndex={1}
+        />
+        <SearchIconComponent />
+      </div>
+    );
   }
 }
 

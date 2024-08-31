@@ -7,31 +7,22 @@ class OptionsMenuComponent {
   }
 
   view({ attrs }) {
-    return m('div.options-menu-container', [
-      m(
-        'select',
-        {
-          id: attrs.id,
-          onchange: attrs.onchange
-        },
-        attrs.options.map((option) => {
-          return m(
-            'option',
-            {
-              value: option.id,
-              selected: option.id === attrs.value
-            },
-            option.name
-          );
-        })
-      ),
-      m(
-        'svg[viewBox="0 0 16 16"].options-menu-arrow',
-        m('path', {
-          d: 'M 2,6 L 8,12 L 14,6'
-        })
-      )
-    ]);
+    return (
+      <div className="options-menu-container">
+        <select id={attrs.id} onchange={attrs.onchange}>
+          {attrs.options.map((option) => {
+            return (
+              <option value={option.id} selected={option.id === attrs.value}>
+                {option.name}
+              </option>
+            );
+          })}
+        </select>
+        <svg viewBox="0 0 16 16" className="options-menu-arrow">
+          <path d="M 2,6 L 8,12 L 14,6" />
+        </svg>
+      </div>
+    );
   }
 }
 

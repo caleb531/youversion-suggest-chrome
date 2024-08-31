@@ -15,16 +15,20 @@ class VersionPickerComponent {
   }
 
   view() {
-    return m(OptionsFieldComponent, {
-      id: this.id,
-      label: 'Version',
-      control: m(OptionsMenuComponent, {
-        id: this.id,
-        options: this.versionPicker.versions,
-        value: this.versionPicker.preferredVersion,
-        onchange: this.setPreferredVersion
-      })
-    });
+    return (
+      <OptionsFieldComponent
+        id={this.id}
+        label="Version"
+        control={
+          <OptionsMenuComponent
+            id={this.id}
+            options={this.versionPicker.versions}
+            value={this.versionPicker.preferredVersion}
+            onchange={this.setPreferredVersion}
+          />
+        }
+      />
+    );
   }
 }
 VersionPickerComponent.prototype.id = 'version';

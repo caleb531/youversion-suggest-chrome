@@ -19,6 +19,17 @@ export default [
       'no-unused-vars': 'off'
     }
   },
+  // Enable parsing of JSX syntax
+  {
+    files: ['**/*.jsx'],
+    languageOptions: {
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true
+        }
+      }
+    }
+  },
   {
     ignores: [
       '.DS_Store',

@@ -55,41 +55,47 @@ class PopupComponent {
   }
 
   view() {
-    return m('div.popup', [
-      m('header.popup-header', [
-        m('a[href=options.html][target=_blank]', m(OptionsIconComponent)),
-        m('h1.popup-title', 'YouVersion Suggest'),
-        m(SearchFieldComponent, {
-          searcher: this.searcher,
-          autofocus: true,
-          placeholder: 'Type a book, chapter, verse, or keyword'
-        })
-      ]),
+    return (
+      <div className="popup">
+        <header className="popup-header">
+          <a href="options.html" target="_blank">
+            <OptionsIconComponent />
+          </a>
+          <h1 className="popup-title">YouVersion Suggest</h1>
+          <SearchFieldComponent
+            searcher={this.searcher}
+            autofocus={true}
+            placeholder="Type a book, chapter, verse, or keyword"
+          />
+        </header>
 
-      m('div.popup-content', [
-        this.searcher.isLoadingResults
-          ? m('div.search-loading-icon-container', m(LoadingIconComponent))
-          : this.searcher.queryStr === ''
-            ? m('div.popup-watermark')
-            : this.searcher.results.length === 0
-              ? m('div.popup-status-message', 'No Results')
-              : null,
+        <div className="popup-content">
+          {this.searcher.isLoadingResults ? (
+            <div className="search-loading-icon-container">
+              <LoadingIconComponent />
+            </div>
+          ) : this.searcher.queryStr === '' ? (
+            <div className="popup-watermark" />
+          ) : this.searcher.results.length === 0 ? (
+            <div className="popup-status-message">No Results</div>
+          ) : null}
 
-        m(SearchResultsComponent, {
-          // Required
-          searcher: this.searcher,
-          titleKey: 'name',
-          // Optional
-          subtitleKey: 'content',
-          actions: [
-            {
-              linkText: (ref) => (this.searcher.isCopyingContent ? 'Copying...' : 'Copy'),
-              onclick: this.copyContentByLink
-            }
-          ]
-        })
-      ])
-    ]);
+          <SearchResultsComponent
+            // Required
+            searcher={this.searcher}
+            titleKey="name"
+            // Optional
+            subtitleKey="content"
+            actions={[
+              {
+                linkText: (ref) => (this.searcher.isCopyingContent ? 'Copying...' : 'Copy'),
+                onclick: this.copyContentByLink
+              }
+            ]}
+          />
+        </div>
+      </div>
+    );
   }
 }
 

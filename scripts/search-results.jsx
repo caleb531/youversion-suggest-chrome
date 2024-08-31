@@ -60,49 +60,42 @@ class SearchResultsComponent {
   }
 
   view() {
-    return m(
-      'ol.search-results-list',
-      {
-        // Use event delegation to listen for mouse events on any of the
-        // result list items
-        onmouseover: this.selectByMouse,
-        onclick: this.runDefaultResultActionByMouse
-      },
-      this.searcher.results.map((result, r) => {
-        return m(
-          'li',
-          {
-            // Store the index on each result element for easy referencing
-            // within event callbacks later
-            'data-index': r,
-            class: clsx('search-result', {
-              selected: this.searcher.isSelectedResult(r)
-            }),
-            // Scroll selected result into view as needed
-            onupdate: this.scrollSelectedResultIntoView
-          },
-          [
-            m('div.search-result-title', result[this.titleKey]),
-            this.subtitleKey ? m('div.search-result-subtitle', result[this.subtitleKey]) : null,
+    return (
+      <ol
+        className="search-results-list"
+        onmouseover={this.selectByMouse}
+        onclick={this.runDefaultResultActionByMouse}
+      >
+        {this.searcher.results.map((result, r) => {
+          return (
+            <li
+              data-index={r}
+              className={clsx('search-result', {
+                selected: this.searcher.isSelectedResult(r)
+              })}
+              onupdate={this.scrollSelectedResultIntoView}
+            >
+              <div className="search-result-title">{result[this.titleKey]}</div>
+              {this.subtitleKey ? (
+                <div className="search-result-subtitle">{result[this.subtitleKey]}</div>
+              ) : null}
 
-            // Available actions for the selected result
-            this.actions && this.searcher.isSelectedResult(r)
-              ? m(
-                  'div.search-result-actions',
-                  this.actions.map((action) => {
-                    return m(
-                      'a[href=#].search-result-action',
-                      {
-                        onclick: action.onclick
-                      },
-                      action.linkText(result)
+              {/* Available actions for the selected result */}
+              {this.actions && this.searcher.isSelectedResult(r) ? (
+                <div className="search-result-actions">
+                  {this.actions.map((action) => {
+                    return (
+                      <a href="#" className="search-result-action" onclick={action.onclick}>
+                        {action.linkText(result)}
+                      </a>
                     );
-                  })
-                )
-              : null
-          ]
-        );
-      })
+                  })}
+                </div>
+              ) : null}
+            </li>
+          );
+        })}
+      </ol>
     );
   }
 }
