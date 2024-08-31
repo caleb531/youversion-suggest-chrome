@@ -1,4 +1,5 @@
 // Search field, consisting of input and other field-related elements
+@use 'sass:math';
 
 .search-field-container {
   position: relative;
@@ -21,7 +22,7 @@
   position: absolute;
   top: 50%;
   left: $search-field-icon-padding-left;
-  transform: translateY(-$search-field-icon-size / 2);
+  transform: translateY(math.div(-$search-field-icon-size, 2));
   width: $search-field-icon-size;
   height: $search-field-icon-size;
   fill: $search-field-border-color;

@@ -100,6 +100,6 @@ class Reference {
 // The base URL for Bible references on the YouVersion website
 Reference.baseURL = 'https://www.bible.com/bible';
 // The pattern to match a reference ID anywhere in a string
-Reference.idPattern = /((\d+)\/([1-3a-z]{3})\.(\d+)(?:\.(\d+)(?:\-(\d+))?)?)/;
+Reference.idPattern = /((\d+)\/([1-3a-z]{3})\.(\d+)(?:\.(\d+)(?:-(\d+))?)?)/;
 
 export default Reference;
