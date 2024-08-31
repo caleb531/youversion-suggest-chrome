@@ -1,6 +1,6 @@
 {
   "name": "YouVersion Suggest",
-  "version": "1.0.0",
+  "version": "2.0.0-beta.1",
   "manifest_version": 3,
   "description": "Search the YouVersion Bible, quickly and easily",
   "icons": {
