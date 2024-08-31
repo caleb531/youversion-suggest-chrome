@@ -1,10 +1,9 @@
 import m from 'mithril';
+import BooleanFieldComponent from './boolean-field.jsx';
 import LanguagePickerComponent from './language-picker.jsx';
 import LanguagePicker from './models/language-picker.js';
 import { getPreferences, setPreferences } from './models/preferences.js';
 import VersionPicker from './models/version-picker.js';
-import OptionsField from './options-field.jsx';
-import SwitchComponent from './switch.jsx';
 import VersionPickerComponent from './version-picker.jsx';
 
 class OptionsComponent {
@@ -52,27 +51,17 @@ class OptionsComponent {
               versionPicker={this.versionPicker}
             />
             <VersionPickerComponent versionPicker={this.versionPicker} />
-            <OptionsField
+            <BooleanFieldComponent
               id="versenumbers"
               label="Include Verse Numbers?"
-              control={
-                <SwitchComponent
-                  id="versenumbers"
-                  checked={this.preferences.versenumbers}
-                  onchange={(event) => this.handlePreferenceUpdate(event, 'checked')}
-                />
-              }
+              preferences={this.preferences}
+              onchange={(event) => this.handlePreferenceUpdate(event, 'checked')}
             />
-            <OptionsField
+            <BooleanFieldComponent
               id="linebreaks"
-              label="Preserve Line Breaks?"
-              control={
-                <SwitchComponent
-                  id="linebreaks"
-                  checked={this.preferences.linebreaks}
-                  onchange={(event) => this.handlePreferenceUpdate(event, 'checked')}
-                />
-              }
+              label="Include Line Breaks?"
+              preferences={this.preferences}
+              onchange={(event) => this.handlePreferenceUpdate(event, 'checked')}
             />
           </div>
         ) : null}
