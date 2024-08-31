@@ -1,6 +1,6 @@
 import autoBind from 'auto-bind';
+import clsx from 'clsx';
 import m from 'mithril';
-import classNames from 'classnames';
 
 // The search results list for a SearchFieldComponent
 class SearchResultsComponent {
@@ -70,12 +70,12 @@ class SearchResultsComponent {
       },
       this.searcher.results.map((result, r) => {
         return m(
-          'li.search-result',
+          'li',
           {
             // Store the index on each result element for easy referencing
             // within event callbacks later
             'data-index': r,
-            class: classNames({
+            class: clsx('search-result', {
               selected: this.searcher.isSelectedResult(r)
             }),
             // Scroll selected result into view as needed

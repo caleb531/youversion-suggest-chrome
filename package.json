@@ -7,6 +7,7 @@
   "dependencies": {
     "auto-bind": "^1.1.0",
     "classnames": "^2.2.5",
+    "clsx": "^2.1.1",
     "debounce-promise": "^3.0.1",
     "mithril": "^2.2.2",
     "youversion-suggest": "3.0.0-beta.6"

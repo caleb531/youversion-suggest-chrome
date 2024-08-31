@@ -11,6 +11,9 @@ dependencies:
   classnames:
     specifier: ^2.2.5
     version: 2.2.5
+  clsx:
+    specifier: ^2.1.1
+    version: 2.1.1
   debounce-promise:
     specifier: ^3.0.1
     version: 3.0.1
@@ -657,6 +660,11 @@ packages:
 
   /classnames@2.2.5:
     resolution: {integrity: sha512-DTt3GhOUDKhh4ONwIJW4lmhyotQmV2LjNlGK/J2hkwUcqcbKkCLAdJPtxQnxnlc7SR3f1CEXCyMmc7WLUsWbNA==}
+    dev: false
+
+  /clsx@2.1.1:
+    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
+    engines: {node: '>=6'}
     dev: false
 
   /color-convert@2.0.1:
