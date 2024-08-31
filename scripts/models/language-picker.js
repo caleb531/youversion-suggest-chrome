@@ -1,19 +1,17 @@
-import {getPreferences, setPreferences} from './preferences.js';
-import {getLanguages} from 'youversion-suggest';
+import { getPreferences, setPreferences } from './preferences.js';
+import { getLanguages } from 'youversion-suggest';
 
 class LanguagePicker {
-
   constructor() {
     this.languages = [];
     this.preferredLanguage = null;
   }
 
   loadLanguages() {
-    return getLanguages()
-      .then((languages) => {
-        this.languages = languages;
-        return languages;
-      });
+    return getLanguages().then((languages) => {
+      this.languages = languages;
+      return languages;
+    });
   }
 
   loadPreferredLanguage() {
@@ -25,9 +23,8 @@ class LanguagePicker {
 
   setPreferredLanguage(newLanguage) {
     this.preferredLanguage = newLanguage;
-    return setPreferences({language: newLanguage});
+    return setPreferences({ language: newLanguage });
   }
-
 }
 
 export default LanguagePicker;

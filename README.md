@@ -1,7 +1,7 @@
 # YouVersion Suggest for Chrome
 
-*Copyright 2017 Caleb Evans*  
-*Released under the MIT license*
+_Copyright 2017 Caleb Evans_  
+_Released under the MIT license_
 
 YouVersion Suggest for Chrome is a Chrome extension that lets you search the
 Bible via YouVersion, easily jumping to a particular chapter/verse, or searching
@@ -15,9 +15,9 @@ The project is based on the [Alfred workflow of the same name][yvs].
 
 1. Search by reference (e.g. "without faith")
 2. Search by content (e.g. "1 co 13 4-7")
-3. Copy content to clipboard (via the *Copy* link next to each result)
+3. Copy content to clipboard (via the _Copy_ link next to each result)
 4. Over 20 languages and 200 versions/translations supported
-  (see the Preferences page for a full list)
+   (see the Preferences page for a full list)
 
 ![Searching by reference](screenshot-reference.png)
 ![Searching by content](screenshot-content.png)

@@ -9,7 +9,8 @@
   width: 100%;
   border: solid $app-border-width $search-field-border-color;
   padding: 6px 12px;
-  padding-left: $search-field-icon-size + $search-field-icon-padding-left + $search-field-icon-padding-right;
+  padding-left: $search-field-icon-size + $search-field-icon-padding-left +
+    $search-field-icon-padding-right;
   font-size: 16px;
   &:focus {
     outline-width: 0;

@@ -1,9 +1,8 @@
 import debounce from 'debounce-promise';
-import {getPreferences} from './preferences.js';
+import { getPreferences } from './preferences.js';
 import { getReferencesMatchingPhrase } from 'youversion-suggest';
 
 class ContentSearcher {
-
   // Search for Bible content matching the given query string, returning cached
   // results if possible
   search(queryStr) {
@@ -12,12 +11,11 @@ class ContentSearcher {
         if (items.contentSearchResults && queryStr === items.contentSearchQueryStr) {
           resolve(items.contentSearchResults);
         } else {
-          chrome.storage.local.set({contentSearchQueryStr: queryStr});
+          chrome.storage.local.set({ contentSearchQueryStr: queryStr });
           resolve(this.fetchLatestResults(queryStr));
         }
       });
-    })
-    .catch((error) => {
+    }).catch((error) => {
       console.error(error);
       throw error;
     });
@@ -31,11 +29,11 @@ class ContentSearcher {
         return getReferencesMatchingPhrase(queryStr, {
           language: preferences.language,
           version: preferences.version
-        })
+        });
       })
       .then((results) => {
         console.log('results', results);
-        chrome.storage.local.set({contentSearchResults: results});
+        chrome.storage.local.set({ contentSearchResults: results });
         return results;
       })
       .catch((error) => {
@@ -47,9 +45,11 @@ class ContentSearcher {
   // Only run a content search if the last content search was at least some
   // amount of time ago (specified by searchDelay)
   static debounceContentSearch() {
-    this.prototype.fetchLatestResults = debounce(this.prototype.fetchLatestResults, this.searchDelay);
+    this.prototype.fetchLatestResults = debounce(
+      this.prototype.fetchLatestResults,
+      this.searchDelay
+    );
   }
-
 }
 
 ContentSearcher.baseSearchURL = 'https://www.bible.com/search/bible';

@@ -1,6 +1,6 @@
 // vite.config.js
-import { fileURLToPath } from 'url'
-import { defineConfig } from 'vite'
+import { fileURLToPath } from 'url';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   build: {
@@ -8,7 +8,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         popup: fileURLToPath(new URL('./popup.html', import.meta.url)),
-        options: fileURLToPath(new URL('./options.html', import.meta.url)),
+        options: fileURLToPath(new URL('./options.html', import.meta.url))
       },
       // Generate youversion-suggest chunk separately from rest of project
       output: {
@@ -16,6 +16,6 @@ export default defineConfig({
           youversion_suggest: ['youversion-suggest']
         }
       }
-    },
-  },
-})
+    }
+  }
+});

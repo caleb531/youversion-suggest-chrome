@@ -4,15 +4,13 @@ import SearchIconComponent from './search-icon.js';
 
 // A generic autocomplete-based search field
 class SearchFieldComponent {
-
-  constructor({attrs}) {
+  constructor({ attrs }) {
     Object.assign(this, attrs);
     autoBind(this);
   }
 
   // Handle keyboard shortcuts for navigating results
   handleKeyboardNav(keydownEvent) {
-
     let keyCode = keydownEvent.keyCode;
     // Do not proceed if no results are selected
     if (this.searcher.results.length === 0) {
@@ -37,7 +35,6 @@ class SearchFieldComponent {
     } else {
       keydownEvent.redraw = false;
     }
-
   }
 
   // Run the main search function as soon as the search field contents change
@@ -59,7 +56,6 @@ class SearchFieldComponent {
       m(SearchIconComponent)
     ]);
   }
-
 }
 
 export default SearchFieldComponent;

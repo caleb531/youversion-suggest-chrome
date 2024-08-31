@@ -1,18 +1,17 @@
 import autoBind from 'auto-bind';
 import m from 'mithril';
+import LoadingIconComponent from './loading-icon.js';
 import Searcher from './models/searcher.js';
+import OptionsIconComponent from './options-icon.js';
 import SearchFieldComponent from './search-field.js';
 import SearchResultsComponent from './search-results.js';
-import LoadingIconComponent from './loading-icon.js';
-import OptionsIconComponent from './options-icon.js';
 
 // The extension popup UI
 class PopupComponent {
-
   constructor() {
     // Initialize a new Searcher object, making sure to redraw whenever results
     // are updated
-    this.searcher = new Searcher({onUpdateSearchStatus: () => m.redraw()});
+    this.searcher = new Searcher({ onUpdateSearchStatus: () => m.redraw() });
     autoBind(this);
   }
 
@@ -26,7 +25,8 @@ class PopupComponent {
     if (this.searcher.isCopyingContent) {
       return;
     }
-    this.searcher.copy(selectedRef)
+    this.searcher
+      .copy(selectedRef)
       .then(() => {
         this.postNotification({
           title: 'Copied!',
@@ -45,14 +45,18 @@ class PopupComponent {
 
   // Spawn a browser notification with the given parameters
   postNotification(params) {
-    chrome.notifications.create(Object.assign({
-      type: 'basic',
-      iconUrl: 'icons/icon-square.png'
-    }, params));
+    chrome.notifications.create(
+      Object.assign(
+        {
+          type: 'basic',
+          iconUrl: 'icons/icon-square.png'
+        },
+        params
+      )
+    );
   }
 
   view() {
-
     return m('div.popup', [
       m('header.popup-header', [
         m('a[href=options.html][target=_blank]', m(OptionsIconComponent)),
@@ -65,15 +69,13 @@ class PopupComponent {
       ]),
 
       m('div.popup-content', [
-
-        this.searcher.isLoadingResults ?
-        m('div.search-loading-icon-container', m(LoadingIconComponent)) :
-
-        this.searcher.queryStr === '' ?
-        m('div.popup-watermark') :
-
-        this.searcher.results.length === 0 ?
-        m('div.popup-status-message', 'No Results') : null,
+        this.searcher.isLoadingResults
+          ? m('div.search-loading-icon-container', m(LoadingIconComponent))
+          : this.searcher.queryStr === ''
+            ? m('div.popup-watermark')
+            : this.searcher.results.length === 0
+              ? m('div.popup-status-message', 'No Results')
+              : null,
 
         m(SearchResultsComponent, {
           // Required
@@ -83,17 +85,14 @@ class PopupComponent {
           subtitleKey: 'content',
           actions: [
             {
-              linkText: (ref) => this.searcher.isCopyingContent ? 'Copying...' : 'Copy',
-              onclick: this.copyContentByLink,
+              linkText: (ref) => (this.searcher.isCopyingContent ? 'Copying...' : 'Copy'),
+              onclick: this.copyContentByLink
             }
           ]
         })
-
       ])
     ]);
-
   }
-
 }
 
 m.mount(document.querySelector('main'), PopupComponent);

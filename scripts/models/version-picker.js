@@ -1,19 +1,17 @@
-import {getPreferences, setPreferences} from './preferences.js';
+import { getPreferences, setPreferences } from './preferences.js';
 import { getBibleData } from 'youversion-suggest';
 
 class VersionPicker {
-
   constructor() {
     this.versions = [];
     this.preferredVersion = null;
   }
 
-  loadVersions({language}) {
-    return getBibleData(language)
-      .then((bible) => {
-        this.versions = bible.versions;
-        this.defaultVersion = bible.default_version;
-      });
+  loadVersions({ language }) {
+    return getBibleData(language).then((bible) => {
+      this.versions = bible.versions;
+      this.defaultVersion = bible.default_version;
+    });
   }
 
   loadPreferredVersion() {
@@ -25,9 +23,8 @@ class VersionPicker {
 
   setPreferredVersion(newVersion) {
     this.preferredVersion = newVersion;
-    return setPreferences({version: newVersion});
+    return setPreferences({ version: newVersion });
   }
-
 }
 
 export default VersionPicker;

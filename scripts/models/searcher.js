@@ -1,27 +1,24 @@
 import ContentSearcher from './content-searcher.js';
 import { fetchReferenceContent, getReferencesMatchingName } from 'youversion-suggest';
-import {getPreferences} from './preferences.js';
+import { getPreferences } from './preferences.js';
 
 // A generic class for performing several kinds of Bible searches via
 // YouVersion; every Searcher instance can perform more than one search in its
 // lifetime
 class Searcher {
-
   // Initialize the Searcher with a callback to run whenever the internal search
   // results are updated
-  constructor({onUpdateSearchStatus}) {
+  constructor({ onUpdateSearchStatus }) {
+    this.queryStr = '';
+    this.restoreSavedQueryStr();
 
-      this.queryStr = '';
-      this.restoreSavedQueryStr();
+    this.contentSearcher = new ContentSearcher();
 
-      this.contentSearcher = new ContentSearcher();
-
-      // The last-returned list search results
-      this.results = [];
-      this.selectedResultIndex = 0;
-      this.isLoadingResults = false;
-      this.onUpdateSearchStatus = onUpdateSearchStatus;
-
+    // The last-returned list search results
+    this.results = [];
+    this.selectedResultIndex = 0;
+    this.isLoadingResults = false;
+    this.onUpdateSearchStatus = onUpdateSearchStatus;
   }
 
   // Retrieve the last-searched query from the extension's local data store
@@ -29,9 +26,9 @@ class Searcher {
     chrome.storage.local.get(['queryStr', 'lastSearchTime'], (items) => {
       // Only restore the saved query if the last search was within the last 5
       // minutes
-      if ((Date.now() - items.lastSearchTime) <= this.constructor.queryMaxAge) {
+      if (Date.now() - items.lastSearchTime <= this.constructor.queryMaxAge) {
         this.search(items.queryStr);
-        chrome.storage.local.set({lastSearchTime: Date.now()});
+        chrome.storage.local.set({ lastSearchTime: Date.now() });
       }
     });
   }
@@ -45,7 +42,6 @@ class Searcher {
 
   // Perform a full search using the given query string
   search(queryStr) {
-
     this.queryStr = queryStr;
     this.saveQueryStr();
 
@@ -60,12 +56,10 @@ class Searcher {
     }
 
     return this.searchByRef(queryStr);
-
   }
 
   // Perform a search by reference using the given query string
   searchByRef(queryStr) {
-
     console.log('search by ref', queryStr);
     return getPreferences()
       .then((preferences) => {
@@ -73,7 +67,7 @@ class Searcher {
         return getReferencesMatchingName(queryStr, {
           language: preferences.language,
           fallbackVersion: preferences.version
-        })
+        });
       })
       .then((results) => {
         console.log('results', results);
@@ -93,14 +87,13 @@ class Searcher {
         this.error = error;
         this.onUpdateSearchStatus();
       });
-
   }
 
   // Perform a search by content using the given query string
   searchByContent(queryStr) {
-
     // Perform content search if no reference results turned up
-    return this.contentSearcher.search(queryStr)
+    return this.contentSearcher
+      .search(queryStr)
       .then((results) => {
         // The user may type faster than page fetches can finish, so ensure that
         // only the results from the last fetch (i.e. for the latest query
@@ -116,7 +109,6 @@ class Searcher {
         this.error = error;
         this.onUpdateSearchStatus();
       });
-
   }
 
   // View this reference result on the YouVersion website
@@ -153,7 +145,7 @@ class Searcher {
   // Methods related to the selected search result
 
   isSelectedResult(resultIndex) {
-    return (resultIndex === this.selectedResultIndex);
+    return resultIndex === this.selectedResultIndex;
   }
 
   selectResult(resultIndex) {
@@ -180,7 +172,6 @@ class Searcher {
       this.selectedResultIndex = this.results.length - 1;
     }
   }
-
 }
 
 // The number of milliseconds to wait (since the last search) before clearing

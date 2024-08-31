@@ -15,14 +15,8 @@
 
   "options_page": "options.html",
 
-  "permissions": [
-    "clipboardWrite",
-    "notifications",
-    "storage"
-  ],
-  "host_permissions": [
-    "https://www.bible.com/*"
-  ],
+  "permissions": ["clipboardWrite", "notifications", "storage"],
+  "host_permissions": ["https://www.bible.com/*"],
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
   }

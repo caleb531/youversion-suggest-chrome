@@ -4,8 +4,7 @@ import classNames from 'classnames';
 
 // The search results list for a SearchFieldComponent
 class SearchResultsComponent {
-
-  constructor({attrs}) {
+  constructor({ attrs }) {
     Object.assign(this, attrs);
     autoBind(this);
   }
@@ -25,7 +24,7 @@ class SearchResultsComponent {
       // ensures that the results list does not unintentionally scroll while the
       // user is moving the cursor
       if (this.isScrollIntoViewEnabled) {
-        vnode.dom.scrollIntoView({block: 'nearest'});
+        vnode.dom.scrollIntoView({ block: 'nearest' });
       } else {
         // Reset flag to ensure that the above scrollIntoView logic can still
         // run (e.g. if triggered via keyboard navigation)
@@ -61,42 +60,51 @@ class SearchResultsComponent {
   }
 
   view() {
+    return m(
+      'ol.search-results-list',
+      {
+        // Use event delegation to listen for mouse events on any of the
+        // result list items
+        onmouseover: this.selectByMouse,
+        onclick: this.runDefaultResultActionByMouse
+      },
+      this.searcher.results.map((result, r) => {
+        return m(
+          'li.search-result',
+          {
+            // Store the index on each result element for easy referencing
+            // within event callbacks later
+            'data-index': r,
+            class: classNames({
+              selected: this.searcher.isSelectedResult(r)
+            }),
+            // Scroll selected result into view as needed
+            onupdate: this.scrollSelectedResultIntoView
+          },
+          [
+            m('div.search-result-title', result[this.titleKey]),
+            this.subtitleKey ? m('div.search-result-subtitle', result[this.subtitleKey]) : null,
 
-    return m('ol.search-results-list', {
-      // Use event delegation to listen for mouse events on any of the
-      // result list items
-      onmouseover: this.selectByMouse,
-      onclick: this.runDefaultResultActionByMouse
-    }, this.searcher.results.map((result, r) => {
-
-      return m('li.search-result', {
-        // Store the index on each result element for easy referencing
-        // within event callbacks later
-        'data-index': r,
-        class: classNames({
-          'selected': this.searcher.isSelectedResult(r)
-        }),
-        // Scroll selected result into view as needed
-        onupdate: this.scrollSelectedResultIntoView
-      }, [
-
-        m('div.search-result-title', result[this.titleKey]),
-        this.subtitleKey ?
-        m('div.search-result-subtitle', result[this.subtitleKey]) : null,
-
-        // Available actions for the selected result
-        this.actions && this.searcher.isSelectedResult(r) ?
-        m('div.search-result-actions', this.actions.map((action) => {
-          return m('a[href=#].search-result-action', {
-            onclick: action.onclick
-          }, action.linkText(result));
-        })) : null
-
-      ]);
-
-    }));
+            // Available actions for the selected result
+            this.actions && this.searcher.isSelectedResult(r)
+              ? m(
+                  'div.search-result-actions',
+                  this.actions.map((action) => {
+                    return m(
+                      'a[href=#].search-result-action',
+                      {
+                        onclick: action.onclick
+                      },
+                      action.linkText(result)
+                    );
+                  })
+                )
+              : null
+          ]
+        );
+      })
+    );
   }
-
 }
 
 export default SearchResultsComponent;
