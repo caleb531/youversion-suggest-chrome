@@ -1,6 +1,5 @@
-import RefSearchQuery from './ref-search-query.js';
 import ContentSearcher from './content-searcher.js';
-import { getReferencesMatchingName } from 'youversion-suggest';
+import { fetchReferenceContent, getReferencesMatchingName } from 'youversion-suggest';
 import {getPreferences} from './preferences.js';
 
 // A generic class for performing several kinds of Bible searches via
@@ -49,19 +48,18 @@ class Searcher {
 
     this.queryStr = queryStr;
     this.saveQueryStr();
-    let normalizedQueryStr = RefSearchQuery.normalizeQueryStr(queryStr);
 
     this.results.length = 0;
     // Always select the first result when the search query changes
     this.selectedResultIndex = 0;
 
-    if (normalizedQueryStr === '') {
+    if (queryStr.trim() === '') {
       this.isLoadingResults = false;
       this.onUpdateSearchStatus();
       return;
     }
 
-    return this.searchByRef(normalizedQueryStr);
+    return this.searchByRef(queryStr);
 
   }
 
@@ -119,6 +117,37 @@ class Searcher {
         this.onUpdateSearchStatus();
       });
 
+  }
+
+  // View this reference result on the YouVersion website
+  viewResult(result) {
+    window.open(result.url);
+  }
+
+  // Copy the full contents of this reference to the clipboard
+  copy(reference) {
+    this.isCopyingContent = true;
+    return getPreferences()
+      .then((preferences) => {
+        return fetchReferenceContent(reference.id, {
+          language: preferences.language,
+          version: preferences.version
+        });
+      })
+      .then((reference) => {
+        this.isCopyingContent = false;
+        navigator.clipboard.writeText(`${reference.name}\n\n${reference.content}`);
+      })
+      .catch((error) => {
+        this.isCopyingContent = false;
+        // Pass the error down the chain
+        return Promise.reject(error);
+      });
+  }
+
+  // Define the default action for any reference result
+  runDefaultAction(result) {
+    this.viewResult(result);
   }
 
   // Methods related to the selected search result

@@ -23,10 +23,10 @@ class PopupComponent {
     let selectedRef = this.searcher.getSelectedResult();
     // Do not request the reference content again until the current fetch has
     // finished (e.g. if the user clicks the Copy link multiple times)
-    if (selectedRef.isCopyingContent) {
+    if (this.searcher.isCopyingContent) {
       return;
     }
-    selectedRef.copy()
+    this.searcher.copy(selectedRef)
       .then(() => {
         this.postNotification({
           title: 'Copied!',
@@ -83,7 +83,7 @@ class PopupComponent {
           subtitleKey: 'content',
           actions: [
             {
-              linkText: (ref) => ref.isCopyingContent ? 'Copying...' : 'Copy',
+              linkText: (ref) => this.searcher.isCopyingContent ? 'Copying...' : 'Copy',
               onclick: this.copyContentByLink,
             }
           ]

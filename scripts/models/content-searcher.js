@@ -1,6 +1,5 @@
 import debounce from 'debounce-promise';
 import {getPreferences} from './preferences.js';
-import Reference from './reference.js';
 import { getReferencesMatchingPhrase } from 'youversion-suggest';
 
 class ContentSearcher {
@@ -11,9 +10,7 @@ class ContentSearcher {
     return new Promise((resolve) => {
       chrome.storage.local.get(['contentSearchResults', 'contentSearchQueryStr'], (items) => {
         if (items.contentSearchResults && queryStr === items.contentSearchQueryStr) {
-          resolve(items.contentSearchResults.map((reference) => {
-            return new Reference(reference);
-          }));
+          resolve(items.contentSearchResults);
         } else {
           chrome.storage.local.set({contentSearchQueryStr: queryStr});
           resolve(this.fetchLatestResults(queryStr));

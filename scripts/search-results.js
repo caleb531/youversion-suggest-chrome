@@ -55,7 +55,7 @@ class SearchResultsComponent {
     let resultElem = clickEvent.target.closest('.search-result');
     let resultIndex = this.getResultElemIndex(resultElem);
     if (this.searcher.isSelectedResult(resultIndex)) {
-      this.searcher.getSelectedResult().runDefaultAction();
+      this.searcher.runDefaultAction(this.searcher.getSelectedResult());
       clickEvent.redraw = false;
     }
   }

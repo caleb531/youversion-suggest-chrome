@@ -23,7 +23,7 @@ class SearchFieldComponent {
 
     if (keyCode === 13) {
       // On enter key, action selected result (by default, view the reference)
-      this.searcher.getSelectedResult().runDefaultAction();
+      this.searcher.runDefaultAction(this.searcher.getSelectedResult());
       keydownEvent.preventDefault();
       keydownEvent.redraw = false;
     } else if (keyCode === 40) {
