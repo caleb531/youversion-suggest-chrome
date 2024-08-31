@@ -1,0 +1,12 @@
+{
+  "triggerTaskOnSave.tasks": {
+    "npm: build": [
+      "src/**/*.js",
+      "src/**/*.ts",
+      "src/**/*.jsx",
+      "src/**/*.tsx",
+      "vite.config.ts",
+      "src/**/*.scss"
+    ]
+  }
+}

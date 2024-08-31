@@ -1,8 +1,8 @@
 import debounce from 'debounce-promise';
-import cheerio from 'cheerio';
 import {getHTML} from './fetch.js';
 import {getPreferences} from './preferences.js';
 import Reference from './reference.js';
+import { getReferencesMatchingPhrase } from 'youversion-suggest';
 
 class ContentSearcher {
 
@@ -31,12 +31,11 @@ class ContentSearcher {
   fetchLatestResults(queryStr) {
     let searchURL = `${this.constructor.baseSearchURL}`;
     return getPreferences()
-      .then((preferences) => preferences.version)
-      .then((preferredVersion) => {
-        return getHTML(searchURL, {q: queryStr, version_id: preferredVersion});
-      })
-      .then((html) => {
-        let results = this.parseResults(html);
+      .then((preferences) => {
+        const results = getReferencesMatchingPhrase(queryStr, {
+          language: preferences.language,
+          version: preferences.version
+        });
         chrome.storage.local.set({contentSearchResults: results});
         return results;
       })
@@ -50,26 +49,6 @@ class ContentSearcher {
   // amount of time ago (specified by searchDelay)
   static debounceContentSearch() {
     this.prototype.fetchLatestResults = debounce(this.prototype.fetchLatestResults, this.searchDelay);
-  }
-
-
-  // Parse the content search results from the given HTML string
-  parseResults(html) {
-
-    let $ = cheerio.load(html);
-    let $references = $('li.reference');
-
-    let results = [];
-    $references.each((r, reference) => {
-      let $reference = $(reference);
-      results.push(new Reference({
-        id: Reference.getIDFromURL($reference.find('a').prop('href')),
-        name: $reference.find('h3').text().trim(),
-        content: $reference.find('p').text().trim(),
-      }));
-    });
-    return results;
-
   }
 
 }

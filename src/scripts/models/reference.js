@@ -1,5 +1,6 @@
 import copy from 'copy-to-clipboard';
-import RefContentFetcher from './ref-content-fetcher.js';
+import { fetchReferenceContent } from 'youversion-suggest';
+import {getPreferences} from './preferences.js';
 
 // A search result for a Bible reference search
 class Reference {
@@ -63,9 +64,11 @@ class Reference {
 
   // Copy the full contents of this reference to the clipboard
   copy() {
-    let contentFetcher = new RefContentFetcher(this);
     this.isCopyingContent = true;
-    return contentFetcher.fetchContent()
+    return getPreferences()
+      .then((preferences) => {
+        return fetchReferenceContent();
+      })
       .then((refContent) => {
         this.isCopyingContent = false;
         copy(`${this.name}\n\n${refContent}`);
