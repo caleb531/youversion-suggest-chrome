@@ -10,3 +10,7 @@ node_modules
 pnpm-lock.yaml
 package-lock.json
 yarn.lock
+
+# Temporary directory generated when packaging extension
+youversion-bible-suggest/
+youversion-bible-suggest.zip

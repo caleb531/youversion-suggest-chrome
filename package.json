@@ -10,7 +10,8 @@
     "prepare": "vite build",
     "preview": "vite preview",
     "lint": "prettier --check . && eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "package": "./utilities/package-extension.sh"
   },
   "repository": {
     "type": "git",
