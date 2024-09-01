@@ -1,11 +1,5 @@
-import m from 'mithril';
-
 // An options menu for choosing an option
 class OptionsMenuComponent {
-  constructor({ attrs }) {
-    Object.assign(this, attrs);
-  }
-
   view({ attrs }) {
     return (
       <div className="options-menu-container">

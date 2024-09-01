@@ -3,8 +3,9 @@ import OptionsFieldComponent from './options-field.jsx';
 import OptionsMenuComponent from './options-menu.jsx';
 
 class LanguagePickerComponent {
-  constructor({ attrs }) {
-    Object.assign(this, attrs);
+  oninit({ attrs }) {
+    this.languagePicker = attrs.languagePicker;
+    this.versionPicker = attrs.versionPicker;
   }
 
   async setPreferredLanguage(changeEvent) {
@@ -18,17 +19,17 @@ class LanguagePickerComponent {
     m.redraw();
   }
 
-  view() {
+  view({ attrs }) {
     return (
       <OptionsFieldComponent
-        id={this.id}
+        id={attrs.id}
         label="Language"
         control={
           <OptionsMenuComponent
-            id={this.id}
+            id={attrs.id}
             options={this.languagePicker.languages}
             value={this.languagePicker.preferredLanguage}
-            onchange={(event) => this.setPreferredLanguage(event)}
+            onchange={(event) => attrs.setPreferredLanguage(event)}
           />
         }
       />

@@ -2,8 +2,8 @@ import clsx from 'clsx';
 
 // The search results list for a SearchFieldComponent
 class SearchResultsComponent {
-  constructor({ attrs }) {
-    Object.assign(this, attrs);
+  oninit({ attrs }) {
+    this.searcher = attrs.searcher;
   }
 
   // Get the index of a search result DOM element via its data-index attribute
@@ -13,15 +13,15 @@ class SearchResultsComponent {
 
   // Scroll the search result into view when the search result is outside the
   // visible area (such as when scrolling)
-  scrollSelectedResultIntoView(vnode) {
-    let resultIndex = this.getResultElemIndex(vnode.dom);
+  scrollSelectedResultIntoView({ attrs, dom }) {
+    let resultIndex = this.getResultElemIndex(dom);
     if (this.searcher.isSelectedResult(resultIndex)) {
       // Under some circumstances, the UI should not scroll the selected result
       // into view (i.e. if the user moused over the selected result); this
       // ensures that the results list does not unintentionally scroll while the
       // user is moving the cursor
       if (this.isScrollIntoViewEnabled) {
-        vnode.dom.scrollIntoView({ block: 'nearest' });
+        dom.scrollIntoView({ block: 'nearest' });
       } else {
         // Reset flag to ensure that the above scrollIntoView logic can still
         // run (e.g. if triggered via keyboard navigation)
@@ -56,12 +56,12 @@ class SearchResultsComponent {
     }
   }
 
-  view() {
+  view({ attrs }) {
     return (
       <ol
         className="search-results-list"
-        onmouseover={(event) => this.selectByMouse(event)}
-        onclick={(event) => this.runDefaultResultActionByMouse(event)}
+        onmouseover={(event) => attrs.selectByMouse(event)}
+        onclick={(event) => attrs.runDefaultResultActionByMouse(event)}
       >
         {this.searcher.results.map((result, r) => {
           return (
@@ -70,17 +70,17 @@ class SearchResultsComponent {
               className={clsx('search-result', {
                 selected: this.searcher.isSelectedResult(r)
               })}
-              onupdate={(vnode) => this.scrollSelectedResultIntoView(vnode)}
+              onupdate={(vnode) => attrs.scrollSelectedResultIntoView(vnode)}
             >
-              <div className="search-result-title">{result[this.titleKey]}</div>
-              {this.subtitleKey ? (
-                <div className="search-result-subtitle">{result[this.subtitleKey]}</div>
+              <div className="search-result-title">{result[attrs.titleKey]}</div>
+              {attrs.subtitleKey ? (
+                <div className="search-result-subtitle">{result[attrs.subtitleKey]}</div>
               ) : null}
 
               {/* Available actions for the selected result */}
-              {this.actions && this.searcher.isSelectedResult(r) ? (
+              {attrs.actions && this.searcher.isSelectedResult(r) ? (
                 <div className="search-result-actions">
-                  {this.actions.map((action) => {
+                  {attrs.actions.map((action) => {
                     return (
                       <a href="#" className="search-result-action" onclick={action.onclick}>
                         {action.linkText(result)}

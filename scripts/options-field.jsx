@@ -1,10 +1,4 @@
-import m from 'mithril';
-
 class OptionsFieldComponent {
-  oninit({ attrs }) {
-    Object.assign(this, attrs);
-  }
-
   view({ attrs }) {
     return (
       <div className={`options-field option-container-${attrs.id}`}>

@@ -2,8 +2,8 @@ import SearchIconComponent from './search-icon.jsx';
 
 // A generic autocomplete-based search field
 class SearchFieldComponent {
-  constructor({ attrs }) {
-    Object.assign(this, attrs);
+  oninit({ attrs }) {
+    this.searcher = attrs.searcher;
   }
 
   // Handle keyboard shortcuts for navigating results
@@ -40,14 +40,14 @@ class SearchFieldComponent {
     inputEvent.redraw = false;
   }
 
-  view() {
+  view({ attrs }) {
     return (
       <div className="search-field-container">
         <input
           type="text"
           className="search-field"
-          autofocus={this.autofocus}
-          placeholder={this.placeholder}
+          autofocus={attrs.autofocus}
+          placeholder={attrs.placeholder}
           value={this.searcher.queryStr}
           onkeydown={(event) => this.handleKeyboardNav(event)}
           oninput={(event) => this.triggerSearch(event)}
