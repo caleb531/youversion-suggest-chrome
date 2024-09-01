@@ -7,6 +7,14 @@ YouVersion Bible Suggest for Chrome is a Chrome extension that lets you search
 the Bible via YouVersion, easily jumping to a particular chapter/verse, or
 searching by content keyword.
 
+## Disclaimer
+
+This extension is not compliant with the Terms of Service of YouVersion. Use at
+your own risk.
+
+This project is not affiliated with YouVersion, and all Bible content is
+copyright of the respective publishers.
+
 ## Features
 
 1. Search by name (e.g. "1 co 13 4-7")
@@ -15,8 +23,8 @@ searching by content keyword.
 4. Over 20 languages and 200 versions/translations supported
    (see the Settings page for a full list)
 
-![Searching by name](screenshot-search-by-name.png)
-![Searching by phrase](screenshot-search-by-phrase.png)
+<img src="screenshot-search-by-name.png" alt="Searching by name" width="460" />
+<img src="screenshot-search-by-phrase.png" alt="Searching by phrase" width="460" />
 
 # Installation
 
@@ -29,9 +37,3 @@ searching by content keyword.
 Now, you will see the YouVersion Bible Suggest extension icon under the
 extensions menu, which you can access via the puzzle piece icon in the top-right
 of Chrome.
-
-## Disclaimer
-
-**This library is not compliant with the Terms of Service of YouVersion. Use at your own risk.**
-
-**This project is not affiliated with YouVersion, and all Bible content is copyright of the respective publishers.**
