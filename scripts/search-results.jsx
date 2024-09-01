@@ -80,9 +80,15 @@ class SearchResultsComponent {
               {/* Available actions for the selected result */}
               {attrs.actions && this.searcher.isSelectedResult(r) ? (
                 <div className="search-result-actions">
-                  {attrs.actions.map((action) => {
+                  {attrs.actions.map((action, a) => {
                     return (
-                      <a href="#" className="search-result-action" onclick={action.onclick}>
+                      <a
+                        href="#"
+                        className={clsx('search-result-action', {
+                          'search-result-action-default': a === 0
+                        })}
+                        onclick={action.onclick}
+                      >
                         {action.linkText(result)}
                       </a>
                     );

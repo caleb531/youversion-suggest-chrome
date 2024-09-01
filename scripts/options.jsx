@@ -63,6 +63,12 @@ class OptionsComponent {
               preferences={this.preferences}
               onchange={(event) => this.handlePreferenceUpdate(event, 'checked')}
             />
+            <BooleanFieldComponent
+              id="copybydefault"
+              label="Copy by Default?"
+              preferences={this.preferences}
+              onchange={(event) => this.handlePreferenceUpdate(event, 'checked')}
+            />
           </div>
         ) : null}
 

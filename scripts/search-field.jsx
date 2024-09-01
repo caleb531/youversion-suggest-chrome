@@ -1,3 +1,4 @@
+import m from 'mithril';
 import SearchIconComponent from './search-icon.jsx';
 
 // A generic autocomplete-based search field
@@ -15,12 +16,12 @@ class SearchFieldComponent {
       keydownEvent.redraw = false;
       return;
     }
-
     if (keyCode === 13) {
       // On enter key, action selected result (by default, view the reference)
-      this.searcher.runDefaultAction(this.searcher.getSelectedResult());
+      this.searcher.runDefaultAction(this.searcher.getSelectedResult(), {
+        onupdate: () => m.redraw()
+      });
       keydownEvent.preventDefault();
-      keydownEvent.redraw = false;
     } else if (keyCode === 40) {
       // On down arrow, select next result
       this.searcher.selectNextResult();

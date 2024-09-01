@@ -1,5 +1,6 @@
 import m from 'mithril';
 import LoadingIconComponent from './loading-icon.jsx';
+import { getPreferences } from './models/preferences.js';
 import Searcher from './models/searcher.js';
 import OptionsIconComponent from './options-icon.jsx';
 import SearchFieldComponent from './search-field.jsx';
@@ -7,49 +8,37 @@ import SearchResultsComponent from './search-results.jsx';
 
 // The extension popup UI
 class PopupComponent {
-  constructor() {
+  oninit() {
     // Initialize a new Searcher object, making sure to redraw whenever results
     // are updated
     this.searcher = new Searcher({ onUpdateSearchStatus: () => m.redraw() });
+    this.loadPreferences();
+  }
+
+  async loadPreferences() {
+    this.preferences = await getPreferences();
+  }
+
+  // View the selected result on YouVersion
+  async viewSelectedResult(clickEvent) {
+    clickEvent.preventDefault();
+    clickEvent.stopPropagation();
+    const selectedResult = this.searcher.getSelectedResult();
+    this.searcher.viewResult(selectedResult);
   }
 
   // Copy the content of the selected reference via its action link
-  async copyContentByLink(clickEvent) {
+  async copySelectedResultContent(clickEvent) {
     clickEvent.preventDefault();
     clickEvent.stopPropagation();
-    let selectedRef = this.searcher.getSelectedResult();
+    const selectedResult = this.searcher.getSelectedResult();
     // Do not request the reference content again until the current fetch has
     // finished (e.g. if the user clicks the Copy link multiple times)
     if (this.searcher.isCopyingContent) {
       return;
     }
-    try {
-      await this.searcher.copy(selectedRef);
-      this.postNotification({
-        title: 'Copied!',
-        message: `${selectedRef.name} copied to the clipboard`
-      });
-      m.redraw();
-    } catch (error) {
-      this.postNotification({
-        title: 'Error',
-        message: `Could not copy ${selectedRef.name} to the clipboard`
-      });
-      m.redraw();
-    }
-  }
-
-  // Spawn a browser notification with the given parameters
-  postNotification(params) {
-    chrome.notifications.create(
-      Object.assign(
-        {
-          type: 'basic',
-          iconUrl: 'icons/icon-square.png'
-        },
-        params
-      )
-    );
+    await this.searcher.copyResultContent(selectedResult);
+    m.redraw();
   }
 
   view() {
@@ -85,10 +74,32 @@ class PopupComponent {
             // Optional
             subtitleKey="content"
             actions={[
-              {
-                linkText: (ref) => (this.searcher.isCopyingContent ? 'Copying...' : 'Copy'),
-                onclick: this.copyContentByLink
-              }
+              // The preferences must be loaded asynchronously and therefore may
+              // not exist by the initial render
+              ...(this.preferences?.copybydefault
+                ? [
+                    {
+                      linkText: (ref) => (this.searcher.isCopyingContent ? 'Copying...' : 'Copy'),
+                      onclick: (event) =>
+                        this.copySelectedResultContent(event, {
+                          onupdate: () => m.redraw()
+                        })
+                    },
+                    {
+                      linkText: (ref) => 'View',
+                      onclick: (event) => this.viewSelectedResult(event)
+                    }
+                  ]
+                : [
+                    {
+                      linkText: (ref) => 'View',
+                      onclick: (event) => this.viewSelectedResult(event)
+                    },
+                    {
+                      linkText: (ref) => (this.searcher.isCopyingContent ? 'Copying...' : 'Copy'),
+                      onclick: (event) => this.copySelectedResultContent(event)
+                    }
+                  ])
             ]}
           />
         </div>

@@ -109,7 +109,8 @@ class Searcher {
   }
 
   // Copy the full contents of this reference to the clipboard
-  async copy(reference) {
+  async copyResultContent(reference, options) {
+    options?.onupdate?.();
     this.isCopyingContent = true;
     try {
       const preferences = await getPreferences();
@@ -120,18 +121,46 @@ class Searcher {
         includeVerseNumbers: preferences.versenumbers
       });
       this.isCopyingContent = false;
+      options?.onupdate?.();
       navigator.clipboard.writeText(
         `${referenceWithContent.name}\n\n${referenceWithContent.content}`
       );
+      this.postNotification({
+        title: 'Copied!',
+        message: `${reference.name} copied to the clipboard`
+      });
     } catch (error) {
       this.isCopyingContent = false;
+      options?.onupdate?.();
+      this.postNotification({
+        title: 'Error',
+        message: `Could not copy ${reference.name} to the clipboard`
+      });
       return Promise.reject(error);
     }
   }
 
+  // Spawn a browser notification with the given parameters
+  postNotification(params) {
+    chrome.notifications.create(
+      Object.assign(
+        {
+          type: 'basic',
+          iconUrl: 'icons/icon-square.png'
+        },
+        params
+      )
+    );
+  }
+
   // Define the default action for any reference result
-  runDefaultAction(result) {
-    this.viewResult(result);
+  async runDefaultAction(result, options = {}) {
+    const preferences = await getPreferences();
+    if (preferences.copybydefault) {
+      this.copyResultContent(result, options);
+    } else {
+      this.viewResult(result);
+    }
   }
 
   // Methods related to the selected search result
