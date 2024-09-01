@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/caleb531/youversion-suggest-chrome#readme",
   "dependencies": {
-    "auto-bind": "^1.1.0",
     "classnames": "^2.2.5",
     "clsx": "^2.1.1",
     "debounce-promise": "^3.0.1",

@@ -1,12 +1,9 @@
-import autoBind from 'auto-bind';
-import m from 'mithril';
 import SearchIconComponent from './search-icon.jsx';
 
 // A generic autocomplete-based search field
 class SearchFieldComponent {
   constructor({ attrs }) {
     Object.assign(this, attrs);
-    autoBind(this);
   }
 
   // Handle keyboard shortcuts for navigating results
@@ -52,8 +49,8 @@ class SearchFieldComponent {
           autofocus={this.autofocus}
           placeholder={this.placeholder}
           value={this.searcher.queryStr}
-          onkeydown={this.handleKeyboardNav}
-          oninput={this.triggerSearch}
+          onkeydown={(event) => this.handleKeyboardNav(event)}
+          oninput={(event) => this.triggerSearch(event)}
           tabIndex={1}
         />
         <SearchIconComponent />

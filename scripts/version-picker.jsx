@@ -1,12 +1,9 @@
-import autoBind from 'auto-bind';
-import m from 'mithril';
 import OptionsFieldComponent from './options-field.jsx';
 import OptionsMenuComponent from './options-menu.jsx';
 
 class VersionPickerComponent {
   constructor({ attrs }) {
     Object.assign(this, attrs);
-    autoBind(this);
   }
 
   setPreferredVersion(changeEvent) {
@@ -24,7 +21,7 @@ class VersionPickerComponent {
             id={this.id}
             options={this.versionPicker.versions}
             value={this.versionPicker.preferredVersion}
-            onchange={this.setPreferredVersion}
+            onchange={(event) => this.setPreferredVersion(event)}
           />
         }
       />

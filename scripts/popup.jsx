@@ -1,4 +1,3 @@
-import autoBind from 'auto-bind';
 import m from 'mithril';
 import LoadingIconComponent from './loading-icon.jsx';
 import Searcher from './models/searcher.js';
@@ -12,7 +11,6 @@ class PopupComponent {
     // Initialize a new Searcher object, making sure to redraw whenever results
     // are updated
     this.searcher = new Searcher({ onUpdateSearchStatus: () => m.redraw() });
-    autoBind(this);
   }
 
   // Copy the content of the selected reference via its action link

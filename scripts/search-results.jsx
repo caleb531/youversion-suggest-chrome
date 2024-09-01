@@ -1,12 +1,9 @@
-import autoBind from 'auto-bind';
 import clsx from 'clsx';
-import m from 'mithril';
 
 // The search results list for a SearchFieldComponent
 class SearchResultsComponent {
   constructor({ attrs }) {
     Object.assign(this, attrs);
-    autoBind(this);
   }
 
   // Get the index of a search result DOM element via its data-index attribute
@@ -63,8 +60,8 @@ class SearchResultsComponent {
     return (
       <ol
         className="search-results-list"
-        onmouseover={this.selectByMouse}
-        onclick={this.runDefaultResultActionByMouse}
+        onmouseover={(event) => this.selectByMouse(event)}
+        onclick={(event) => this.runDefaultResultActionByMouse(event)}
       >
         {this.searcher.results.map((result, r) => {
           return (
@@ -73,7 +70,7 @@ class SearchResultsComponent {
               className={clsx('search-result', {
                 selected: this.searcher.isSelectedResult(r)
               })}
-              onupdate={this.scrollSelectedResultIntoView}
+              onupdate={(vnode) => this.scrollSelectedResultIntoView(vnode)}
             >
               <div className="search-result-title">{result[this.titleKey]}</div>
               {this.subtitleKey ? (

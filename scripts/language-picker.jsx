@@ -1,4 +1,3 @@
-import autoBind from 'auto-bind';
 import m from 'mithril';
 import OptionsFieldComponent from './options-field.jsx';
 import OptionsMenuComponent from './options-menu.jsx';
@@ -6,7 +5,6 @@ import OptionsMenuComponent from './options-menu.jsx';
 class LanguagePickerComponent {
   constructor({ attrs }) {
     Object.assign(this, attrs);
-    autoBind(this);
   }
 
   async setPreferredLanguage(changeEvent) {
@@ -30,7 +28,7 @@ class LanguagePickerComponent {
             id={this.id}
             options={this.languagePicker.languages}
             value={this.languagePicker.preferredLanguage}
-            onchange={this.setPreferredLanguage}
+            onchange={(event) => this.setPreferredLanguage(event)}
           />
         }
       />
