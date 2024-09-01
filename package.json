@@ -30,8 +30,8 @@
     "build": "vite build",
     "prepare": "vite build",
     "preview": "vite preview",
-    "lint": "eslint",
-    "format": "prettier -w ."
+    "lint": "prettier --check . && eslint .",
+    "format": "prettier --write ."
   },
   "repository": {
     "type": "git",
