@@ -70,7 +70,7 @@ class SearchResultsComponent {
               className={clsx('search-result', {
                 selected: this.searcher.isSelectedResult(r)
               })}
-              onupdate={(vnode) => attrs.scrollSelectedResultIntoView(vnode)}
+              onupdate={(vnode) => this.scrollSelectedResultIntoView(vnode)}
             >
               <div className="search-result-title">{result[attrs.titleKey]}</div>
               {attrs.subtitleKey ? (
