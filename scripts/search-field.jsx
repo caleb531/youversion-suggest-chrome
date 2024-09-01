@@ -46,7 +46,7 @@ class SearchFieldComponent {
         <input
           type="text"
           className="search-field"
-          autofocus={attrs.autofocus}
+          autoFocus={attrs.autofocus}
           placeholder={attrs.placeholder}
           value={this.searcher.queryStr}
           onkeydown={(event) => this.handleKeyboardNav(event)}
