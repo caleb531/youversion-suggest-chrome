@@ -8,6 +8,9 @@
   padding-top: 15px;
   border-bottom: solid $app-border-width $search-result-border-color;
   background-color: #f3f3f3;
+  &:has(+ .popup-content .search-result.selected:first-of-type) {
+    border-bottom-color: $search-result-selected-border-color;
+  }
 }
 .popup-title {
   margin: 0;
