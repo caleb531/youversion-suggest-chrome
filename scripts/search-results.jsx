@@ -60,8 +60,8 @@ class SearchResultsComponent {
     return (
       <ol
         className="search-results-list"
-        onmouseover={(event) => attrs.selectByMouse(event)}
-        onclick={(event) => attrs.runDefaultResultActionByMouse(event)}
+        onmouseover={(event) => this.selectByMouse(event)}
+        onclick={(event) => this.runDefaultResultActionByMouse(event)}
       >
         {this.searcher.results.map((result, r) => {
           return (
