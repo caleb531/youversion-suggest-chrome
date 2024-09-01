@@ -70,9 +70,6 @@ class PopupComponent {
           <SearchResultsComponent
             // Required
             searcher={this.searcher}
-            titleKey="name"
-            // Optional
-            subtitleKey="content"
             actions={[
               // The preferences must be loaded asynchronously and therefore may
               // not exist by the initial render

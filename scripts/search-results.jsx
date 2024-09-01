@@ -72,9 +72,11 @@ class SearchResultsComponent {
               })}
               onupdate={(vnode) => this.scrollSelectedResultIntoView(vnode)}
             >
-              <div className="search-result-title">{result[attrs.titleKey]}</div>
-              {attrs.subtitleKey ? (
-                <div className="search-result-subtitle">{result[attrs.subtitleKey]}</div>
+              <div className="search-result-title">
+                {result.name} ({result.version.name})
+              </div>
+              {result.content ? (
+                <div className="search-result-subtitle">{result.content}</div>
               ) : null}
 
               {/* Available actions for the selected result */}

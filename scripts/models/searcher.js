@@ -123,7 +123,7 @@ class Searcher {
       this.isCopyingContent = false;
       options?.onupdate?.();
       navigator.clipboard.writeText(
-        `${referenceWithContent.name}\n\n${referenceWithContent.content}`
+        `${referenceWithContent.name} (${referenceWithContent.version.name})\n\n${referenceWithContent.content}`
       );
       this.postNotification({
         title: 'Copied!',
@@ -134,7 +134,7 @@ class Searcher {
       options?.onupdate?.();
       this.postNotification({
         title: 'Error',
-        message: `Could not copy ${reference.name} to the clipboard`
+        message: `Could not copy ${reference.name} (${reference.version.name}) to the clipboard`
       });
       return Promise.reject(error);
     }
