@@ -193,6 +193,14 @@ class Searcher {
       this.selectedResultIndex = this.results.length - 1;
     }
   }
+
+  clearSearch() {
+    this.queryStr = '';
+    this.results.length = 0;
+    this.selectedResultIndex = 0;
+    this.isLoadingResults = false;
+    this.saveQueryStr();
+  }
 }
 
 // The number of milliseconds to wait (since the last search) before clearing

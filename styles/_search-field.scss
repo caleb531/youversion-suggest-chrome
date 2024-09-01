@@ -9,8 +9,10 @@
   width: 100%;
   border: solid $app-border-width $search-field-border-color;
   padding: 6px 12px;
-  padding-left: $search-field-icon-size + $search-field-icon-padding-left +
-    $search-field-icon-padding-right;
+  padding-left: $search-field-icon-size + $search-field-icon-margin-left +
+    $search-field-icon-margin-right;
+  padding-right: $search-field-clear-button-icon-size + $search-field-clear-button-margin-left +
+    $search-field-clear-button-margin-right;
   font-size: 16px;
   &:focus {
     outline-width: 0;
@@ -22,7 +24,7 @@
 .search-icon {
   position: absolute;
   top: 50%;
-  left: $search-field-icon-padding-left;
+  left: $search-field-icon-margin-left;
   transform: translateY(math.div(-$search-field-icon-size, 2));
   width: $search-field-icon-size;
   height: $search-field-icon-size;
@@ -30,4 +32,30 @@
   .search-field:focus + & {
     fill: $search-field-focus-color;
   }
+}
+
+.search-clear-button {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: $search-field-clear-button-margin-right;
+  transform: translateY(-50%);
+  border-width: 0;
+  border-radius: 2px;
+  padding: 0;
+  background: none;
+  font-size: 0;
+  .search-field:focus + .search-icon + & {
+    display: block;
+  }
+  &:hover {
+    background-color: #ddd;
+  }
+  &:hover:active {
+    background-color: #ccc;
+  }
+}
+.search-clear-button-icon {
+  width: $search-field-clear-button-icon-size;
+  height: $search-field-clear-button-icon-size;
 }

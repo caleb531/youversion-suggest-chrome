@@ -1,4 +1,5 @@
 import m from 'mithril';
+import SearchClearButtonComponent from './search-clear-button.jsx';
 import SearchIconComponent from './search-icon.jsx';
 
 // A generic autocomplete-based search field
@@ -41,6 +42,10 @@ class SearchFieldComponent {
     inputEvent.redraw = false;
   }
 
+  clearSearch(mouseEvent) {
+    this.searcher.clearSearch();
+  }
+
   view({ attrs }) {
     return (
       <div className="search-field-container">
@@ -55,6 +60,9 @@ class SearchFieldComponent {
           tabIndex={1}
         />
         <SearchIconComponent />
+        {this.searcher.queryStr ? (
+          <SearchClearButtonComponent onclear={(mouseEvent) => this.clearSearch(mouseEvent)} />
+        ) : null}
       </div>
     );
   }
