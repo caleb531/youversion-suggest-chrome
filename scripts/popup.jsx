@@ -45,7 +45,7 @@ class PopupComponent {
     return (
       <div className="popup">
         <header className="popup-header">
-          <a href="options.html" target="_blank" rel="noreferrer" title="Settings">
+          <a href="options.html" target="yvs_options" title="Settings">
             <OptionsIconComponent />
           </a>
           <h1 className="popup-title">YouVersion Bible Suggest</h1>
