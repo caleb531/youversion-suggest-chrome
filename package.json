@@ -2,8 +2,8 @@
   "name": "youversion-suggest-chrome",
   "version": "2.0.0-beta.1",
   "type": "module",
+  "private": true,
   "description": "Search the YouVersion Bible, quickly and easily",
-  "main": "dist/scripts/main.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
