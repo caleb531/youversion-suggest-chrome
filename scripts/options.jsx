@@ -36,10 +36,10 @@ class OptionsComponent {
           <img
             className="options-header-logo"
             src="icons/icon-square.svg"
-            alt="YouVersion Suggest"
+            alt="YouVersion Bible Suggest"
           />
           <div className="options-header-headings">
-            <h1 className="app-title">YouVersion Suggest</h1>
+            <h1 className="app-title">YouVersion Bible Suggest</h1>
             <h2 className="options-page-title">Settings</h2>
           </div>
         </header>

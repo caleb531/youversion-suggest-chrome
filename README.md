@@ -1,9 +1,9 @@
-# YouVersion Suggest for Chrome
+# YouVersion Bible Suggest for Chrome
 
 _Copyright 2017 Caleb Evans_  
 _Released under the MIT license_
 
-YouVersion Suggest for Chrome is a Chrome extension that lets you search the
+YouVersion Bible Suggest for Chrome is a Chrome extension that lets you search the
 Bible via YouVersion, easily jumping to a particular chapter/verse, or searching
 by content keyword.
 

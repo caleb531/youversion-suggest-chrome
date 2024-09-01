@@ -1,5 +1,5 @@
 {
-  "name": "YouVersion Suggest",
+  "name": "YouVersion Bible Suggest",
   "version": "2.0.0-beta.1",
   "manifest_version": 3,
   "description": "Search the YouVersion Bible, quickly and easily",
@@ -9,7 +9,7 @@
 
   "action": {
     "default_icon": "icons/icon-square.png",
-    "default_title": "YouVersion Suggest",
+    "default_title": "YouVersion Bible Suggest",
     "default_popup": "popup.html"
   },
 

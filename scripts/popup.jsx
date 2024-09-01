@@ -48,7 +48,7 @@ class PopupComponent {
           <a href="options.html" target="_blank" rel="noreferrer" title="Settings">
             <OptionsIconComponent />
           </a>
-          <h1 className="popup-title">YouVersion Suggest</h1>
+          <h1 className="popup-title">YouVersion Bible Suggest</h1>
           <SearchFieldComponent
             searcher={this.searcher}
             autofocus={true}
