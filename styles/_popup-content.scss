@@ -42,10 +42,10 @@
   width: 100%;
   height: 100%;
   .loading-icon {
-    $icon-size: 100px;
-    width: $icon-size;
-    height: $icon-size;
-    stroke: $search-result-selected-color;
+    --icon-size: 100px;
+    width: var(--icon-size);
+    height: var(--icon-size);
+    stroke: var(--search-result-selected-color);
     stroke-width: 10;
   }
 }

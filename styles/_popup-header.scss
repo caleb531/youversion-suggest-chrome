@@ -4,12 +4,12 @@
 
 .popup-header {
   position: relative;
-  padding: $app-base-padding;
+  padding: var(--app-base-padding);
   padding-top: 15px;
-  border-bottom: solid $app-border-width $search-result-border-color;
+  border-bottom: solid var(--app-border-width) var(--search-result-border-color);
   background-color: #f3f3f3;
   &:has(+ .popup-content .search-result.selected:first-of-type) {
-    border-bottom-color: $search-result-selected-border-color;
+    border-bottom-color: var(--search-result-selected-border-color);
   }
 }
 .popup-title {
@@ -23,8 +23,8 @@
   position: absolute;
   top: 5px;
   right: 5px;
-  $icon-size: 18px;
-  width: $icon-size;
-  height: $icon-size;
+  --icon-size: 18px;
+  width: var(--icon-size);
+  height: var(--icon-size);
   fill: rgba(#000, math.div(1, 3));
 }

@@ -10,14 +10,14 @@
 
 .search-result {
   position: relative;
-  padding: math.div($app-base-padding, 2) $app-base-padding;
-  border-top: solid $app-border-width $search-result-border-color;
+  padding: calc(var(--app-base-padding) / 2) var(--app-base-padding);
+  border-top: solid var(--app-border-width) var(--search-result-border-color);
   &.selected {
-    background-color: $search-result-selected-color;
+    background-color: var(--search-result-selected-color);
     color: #fff;
     &,
     & + .search-result {
-      border-top-color: $search-result-selected-border-color;
+      border-top-color: var(--search-result-selected-border-color);
     }
   }
   &:first-of-type {
