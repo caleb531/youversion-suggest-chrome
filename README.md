@@ -9,11 +9,12 @@ searching by content keyword.
 
 ## Disclaimer
 
-This extension is not compliant with the Terms of Service of YouVersion. Use at
-your own risk.
-
 This project is not affiliated with YouVersion, and all Bible content is
 copyright of the respective publishers.
+
+This tool also retrieves Bible content directly from YouVersion for personal
+use. However, please be aware that this functionality does not fully comply with
+YouVersion's Terms of Use.
 
 ## Features
 
