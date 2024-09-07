@@ -19,6 +19,34 @@ class PopupComponent {
     this.preferences = await getPreferences();
   }
 
+  // Handle keyboard shortcuts for navigating results
+  handleKeyboardNav(keydownEvent) {
+    let keyCode = keydownEvent.keyCode;
+    // Do not proceed if no results are selected
+    if (this.searcher.results.length === 0) {
+      // Prevent Mithril from redrawing for irrelevant keydown events
+      keydownEvent.redraw = false;
+      return;
+    }
+    if (keyCode === 13) {
+      // On enter key, action selected result (by default, view the reference)
+      this.searcher.runDefaultAction(this.searcher.getSelectedResult(), {
+        onupdate: () => m.redraw()
+      });
+      keydownEvent.preventDefault();
+    } else if (keyCode === 40) {
+      // On down arrow, select next result
+      this.searcher.selectNextResult();
+      keydownEvent.preventDefault();
+    } else if (keyCode === 38) {
+      // On up arrow, select previous result
+      this.searcher.selectPrevResult();
+      keydownEvent.preventDefault();
+    } else {
+      keydownEvent.redraw = false;
+    }
+  }
+
   // View the selected result on YouVersion
   async viewSelectedResult(clickEvent) {
     clickEvent.preventDefault();
@@ -43,7 +71,7 @@ class PopupComponent {
 
   view() {
     return (
-      <div className="popup">
+      <div className="popup" tabindex={1} onkeydown={(event) => this.handleKeyboardNav(event)}>
         <header className="popup-header">
           <a href="options.html" target="yvs_options" title="Settings">
             <OptionsIconComponent />
