@@ -21,27 +21,22 @@ class PopupComponent {
 
   // Handle keyboard shortcuts for navigating results
   handleKeyboardNav(keydownEvent) {
-    let keyCode = keydownEvent.keyCode;
+    const { key, metaKey, ctrlKey, altKey } = keydownEvent;
     // Do not proceed if no results are selected
     if (this.searcher.results.length === 0) {
       // Prevent Mithril from redrawing for irrelevant keydown events
       keydownEvent.redraw = false;
       return;
     }
-    if (keyCode === 13) {
-      // On enter key, action selected result (by default, view the reference)
-      this.searcher.runDefaultAction(this.searcher.getSelectedResult(), {
-        onupdate: () => m.redraw()
-      });
+    if (
+      this.keyboardShortcuts[key] &&
+      (!this.keyboardShortcuts[key].metaKey ||
+        (metaKey && this.keyboardShortcuts[key].metaKey) ||
+        (ctrlKey && this.keyboardShortcuts[key].metaKey)) &&
+      (!this.keyboardShortcuts[key].altKey || (altKey && this.keyboardShortcuts[key].altKey))
+    ) {
       keydownEvent.preventDefault();
-    } else if (keyCode === 40) {
-      // On down arrow, select next result
-      this.searcher.selectNextResult();
-      keydownEvent.preventDefault();
-    } else if (keyCode === 38) {
-      // On up arrow, select previous result
-      this.searcher.selectPrevResult();
-      keydownEvent.preventDefault();
+      this.keyboardShortcuts[key].callback.call(this);
     } else {
       keydownEvent.redraw = false;
     }
@@ -132,5 +127,30 @@ class PopupComponent {
     );
   }
 }
+PopupComponent.prototype.keyboardShortcuts = {
+  Enter: {
+    id: 'action-result',
+    callback: function () {
+      // On enter key, action selected result (by default, view the reference)
+      this.searcher.runDefaultAction(this.searcher.getSelectedResult(), {
+        onupdate: () => m.redraw()
+      });
+    }
+  },
+  ArrowDown: {
+    id: 'select-next-result',
+    callback: function () {
+      // On down arrow, select next result
+      this.searcher.selectNextResult();
+    }
+  },
+  ArrowUp: {
+    id: 'select-previous-result',
+    callback: function () {
+      // On up arrow, select previous result
+      this.searcher.selectPrevResult();
+    }
+  }
+};
 
 m.mount(document.querySelector('main'), PopupComponent);
