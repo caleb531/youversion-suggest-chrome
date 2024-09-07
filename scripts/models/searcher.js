@@ -153,10 +153,19 @@ class Searcher {
     );
   }
 
+  setDefaultAction(actionType) {
+    const isPrimary = actionType === 'primary';
+  }
+
   // Define the default action for any reference result
   async runDefaultAction(result, options = {}) {
     const preferences = await getPreferences();
-    if (preferences.copybydefault) {
+    // The correct default action to run can be represented by
+    // isPrimaryActionDefault XOR copyByDefault
+    if (
+      (this.isPrimaryActionDefault || preferences.copybydefault) &&
+      (!this.isPrimaryActionDefault || !preferences.copybydefault)
+    ) {
       this.copyResultContent(result, options);
     } else {
       this.viewResult(result);

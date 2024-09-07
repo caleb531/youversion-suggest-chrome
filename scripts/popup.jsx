@@ -20,7 +20,7 @@ class PopupComponent {
   }
 
   // Handle keyboard shortcuts for navigating results
-  handleKeyboardNav(keydownEvent) {
+  handleKeydown(keydownEvent) {
     const { key, metaKey, ctrlKey, altKey } = keydownEvent;
     // Do not proceed if no results are selected
     if (this.searcher.results.length === 0) {
@@ -28,17 +28,26 @@ class PopupComponent {
       keydownEvent.redraw = false;
       return;
     }
-    if (
-      this.keyboardShortcuts[key] &&
-      (!this.keyboardShortcuts[key].metaKey ||
-        (metaKey && this.keyboardShortcuts[key].metaKey) ||
-        (ctrlKey && this.keyboardShortcuts[key].metaKey)) &&
-      (!this.keyboardShortcuts[key].altKey || (altKey && this.keyboardShortcuts[key].altKey))
-    ) {
+    if (metaKey) {
+      this.searcher.isPrimaryActionDefault = true;
+    }
+    const associatedHandler = this.keyboardShortcuts.find((entry) => {
+      return (
+        entry.key === key &&
+        (!entry.metaKey || (metaKey && entry.metaKey) || (ctrlKey && entry.metaKey)) &&
+        (!entry.altKey || (altKey && entry.altKey))
+      );
+    });
+    if (associatedHandler) {
       keydownEvent.preventDefault();
-      this.keyboardShortcuts[key].callback.call(this);
-    } else {
-      keydownEvent.redraw = false;
+      associatedHandler.callback.call(this, keydownEvent);
+    }
+  }
+
+  handleKeyup(keyupEvent) {
+    const { key, metaKey, ctrlKey, altKey } = keyupEvent;
+    if (!metaKey) {
+      this.searcher.isPrimaryActionDefault = false;
     }
   }
 
@@ -66,7 +75,12 @@ class PopupComponent {
 
   view() {
     return (
-      <div className="popup" tabindex={1} onkeydown={(event) => this.handleKeyboardNav(event)}>
+      <div
+        className="popup"
+        tabindex={1}
+        onkeydown={(event) => this.handleKeydown(event)}
+        onkeyup={(event) => this.handleKeyup(event)}
+      >
         <header className="popup-header">
           <a href="options.html" target="yvs_options" title="Settings">
             <OptionsIconComponent />
@@ -96,7 +110,8 @@ class PopupComponent {
             actions={[
               // The preferences must be loaded asynchronously and therefore may
               // not exist by the initial render
-              ...(this.preferences?.copybydefault
+              ...((this.searcher.isPrimaryActionDefault || this.preferences?.copybydefault) &&
+              (!this.searcher.isPrimaryActionDefault || !this.preferences?.copybydefault)
                 ? [
                     {
                       linkText: (ref) => (this.searcher.isCopyingContent ? 'Copying...' : 'Copy'),
@@ -127,9 +142,11 @@ class PopupComponent {
     );
   }
 }
-PopupComponent.prototype.keyboardShortcuts = {
-  Enter: {
-    id: 'action-result',
+// All keyboard shortcuts supported by the
+PopupComponent.prototype.keyboardShortcuts = [
+  {
+    id: 'action-result:primary-action',
+    key: 'Enter',
     callback: function () {
       // On enter key, action selected result (by default, view the reference)
       this.searcher.runDefaultAction(this.searcher.getSelectedResult(), {
@@ -137,20 +154,22 @@ PopupComponent.prototype.keyboardShortcuts = {
       });
     }
   },
-  ArrowDown: {
+  {
     id: 'select-next-result',
+    key: 'ArrowDown',
     callback: function () {
       // On down arrow, select next result
       this.searcher.selectNextResult();
     }
   },
-  ArrowUp: {
+  {
     id: 'select-previous-result',
+    key: 'ArrowUp',
     callback: function () {
       // On up arrow, select previous result
       this.searcher.selectPrevResult();
     }
   }
-};
+];
 
 m.mount(document.querySelector('main'), PopupComponent);
