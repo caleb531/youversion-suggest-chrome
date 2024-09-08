@@ -29,14 +29,17 @@ YouVersion's Terms of Use.
 
 # Installation
 
-1. Download [the latest ZIP file][zip] from GitHub; unzip it after downloading
-2. Click the three-dot icon to the right of Chrome, and choose **Extensions** from the menu
+1. Download the ZIP file from [the latest GitHub release][release]; unzip it
+   after downloading
+2. Click the three-dot icon to the right of Chrome, and choose **Extensions**
+   from the menu
 3. Check the **Developer Mode** checkbox at the top-right of the page that opens
-4. Click the **Load unpacked extension...** button that appears in the top-left corner
+4. Click the **Load unpacked extension...** button that appears in the top-left
+   corner
 5. Navigate to the unzipped folder you downloaded and choose it
 
 Now, you will see the YouVersion Bible Suggest extension icon under the
 extensions menu, which you can access via the puzzle piece icon in the top-right
 of Chrome.
 
-[zip]: https://github.com/caleb531/youversion-suggest-chrome/releases/download/v2.0.0-beta.2/youversion-bible-suggest.zip
+[release]: https://github.com/caleb531/youversion-suggest-chrome/releases/latest
