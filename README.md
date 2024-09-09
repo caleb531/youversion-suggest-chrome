@@ -29,7 +29,7 @@ YouVersion's Terms of Use.
 
 # Installation
 
-1. Download the ZIP file from [the latest GitHub release][release]; unzip it
+1. Download the **youversion-bible-suggest.zip** file from [the latest GitHub release][release]; unzip it
    after downloading
 2. Click the three-dot icon to the right of Chrome, and choose **Extensions**
    from the menu
