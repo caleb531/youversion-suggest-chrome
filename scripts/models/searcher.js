@@ -44,7 +44,6 @@ class Searcher {
     this.queryStr = queryStr;
     this.saveQueryStr();
 
-    this.results.length = 0;
     // Always select the first result when the search query changes
     this.selectedResultIndex = 0;
 
@@ -65,6 +64,7 @@ class Searcher {
         language: preferences.language,
         fallbackVersion: preferences.version
       });
+      this.results.length = 0;
       if (results.length > 0) {
         this.results.push(...results);
         this.isLoadingResults = false;
