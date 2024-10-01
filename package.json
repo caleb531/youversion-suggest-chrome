@@ -1,6 +1,6 @@
 {
   "name": "youversion-suggest-chrome",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "type": "module",
   "private": true,
   "description": "Search the YouVersion Bible, quickly and easily",
