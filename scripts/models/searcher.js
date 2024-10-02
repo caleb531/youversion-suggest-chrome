@@ -49,6 +49,7 @@ class Searcher {
 
     if (queryStr.trim() === '') {
       this.isLoadingResults = false;
+      this.results.length = 0;
       this.onUpdateSearchStatus();
       return;
     }
