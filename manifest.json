@@ -8,7 +8,9 @@
   },
 
   "action": {
-    "default_icon": "icons/icon-square.png",
+    "default_icon": {
+      "256": "icons/icon-square.png"
+    },
     "default_title": "YouVersion Bible Suggest",
     "default_popup": "popup.html"
   },

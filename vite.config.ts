@@ -1,30 +1,20 @@
-// vite.config.js
-import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';
+import webExtension from 'vite-plugin-web-extension';
 
+// Build the popup and options pages declared in the extension manifest
 export default defineConfig({
-  // Enable JSX processing
-  esbuild: {
+  plugins: [webExtension({ disableAutoLaunch: true })],
+  // Compile JSX with Mithril's element and fragment factories
+  oxc: {
     // We need to use _m as the imported name so that it doesn't collide with
     // explicitly importing _m, while still allowing us to have organizeImports
     // strip out "unused" mithril imports
     jsxInject: "import _m from 'mithril'",
-    jsxFactory: '_m',
-    jsxFragment: '_m.Fragment'
+    jsx: { runtime: 'classic', pragma: '_m', pragmaFrag: '_m.Fragment' }
   },
   build: {
-    chunkSizeWarningLimit: 1000,
-    rollupOptions: {
-      input: {
-        popup: fileURLToPath(new URL('./popup.html', import.meta.url)),
-        options: fileURLToPath(new URL('./options.html', import.meta.url))
-      },
-      // Generate youversion-suggest chunk separately from rest of project
-      output: {
-        manualChunks: {
-          youversion_suggest: ['youversion-suggest']
-        }
-      }
-    }
+    // Clear old chunks before the plugin builds the extension's pages
+    emptyOutDir: true,
+    chunkSizeWarningLimit: 1000
   }
 });

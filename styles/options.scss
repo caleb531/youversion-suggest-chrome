@@ -1,28 +1,5 @@
-@import 'variables';
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  text-align: center;
-}
-
-body {
-  display: inline-block;
-  margin: 0;
-  padding: 20px;
-  font-size: 0;
-  text-align: center;
-}
-
-.options-save-note {
-  font-size: 14px;
-  font-style: italic;
-  text-align: left;
-  color: #999;
-}
-
-@import 'options-header';
-@import 'options-fields';
-@import 'switch';
+@use 'variables';
+@use 'options-base';
+@use 'options-header';
+@use 'options-fields';
+@use 'switch';

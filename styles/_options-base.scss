@@ -1,0 +1,23 @@
+// Page-wide styles for the options page
+* {
+  box-sizing: border-box;
+}
+
+html {
+  text-align: center;
+}
+
+body {
+  display: inline-block;
+  margin: 0;
+  padding: 20px;
+  font-size: 0;
+  text-align: center;
+}
+
+.options-save-note {
+  font-size: 14px;
+  font-style: italic;
+  text-align: left;
+  color: #999;
+}

@@ -1,20 +1,5 @@
 // Main stylesheet
-@import 'variables';
-
-// Styles
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  width: 390px;
-  margin: 0;
-  padding: 0;
-  font-size: 0;
-  cursor: default;
-  user-select: none;
-}
-
-@import 'popup-header';
-@import 'popup-content';
+@use 'variables';
+@use 'popup-base';
+@use 'popup-header';
+@use 'popup-content';
